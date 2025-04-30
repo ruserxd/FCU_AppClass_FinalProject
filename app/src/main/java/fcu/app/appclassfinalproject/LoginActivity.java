@@ -1,6 +1,7 @@
 package fcu.app.appclassfinalproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private SqlDataBaseHelper sqlDataBaseHelper;
     private SQLiteDatabase db;
 
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         // 找尋對應 id
         et_login_account = findViewById(R.id.et_login_account);
         et_login_password = findViewById(R.id.et_login_password);
@@ -55,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                 intentTo(RegisterActivity.class);
             }
         });
-
 
         sqlDataBaseHelper = new SqlDataBaseHelper(this.getBaseContext(), DATABASENAME, null, DATABASEVERSION, TABLENAME);
         db = sqlDataBaseHelper.getWritableDatabase();
@@ -76,6 +79,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 // 判斷是否登入成功
                 if (isLogin) {
+                    // 存入登入狀態
+                    prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("isLogin", true);
+                    editor.apply();
+
+                    // 切換至主頁面
                     intentTo(HomeActivity.class);
                     Toast.makeText(getApplicationContext(), "登入成功", Toast.LENGTH_SHORT).show();
                 } else {
@@ -87,6 +97,18 @@ public class LoginActivity extends AppCompatActivity {
                 et_login_password.setText("");
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+        // 若已登入過不重複登入
+        boolean isLogin = prefs.getBoolean("isLogin", false);
+        if (isLogin) {
+            // 切換至主頁面
+            intentTo(HomeActivity.class);
+        }
     }
 
     // 切換至 "指定" 頁面

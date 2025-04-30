@@ -1,6 +1,9 @@
 package fcu.app.appclassfinalproject.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,9 +87,15 @@ public class SettingsFragment extends Fragment {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 刪除 isLogin 的資料
+                SharedPreferences prefs = requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.apply();
+
+                // 回到 Login 頁面
                 intentTo(LoginActivity.class);
 
-                // TODO:登錄資料的資料刪除
                 // 登出成功回應
                 Toast.makeText(requireContext(), "登出成功", Toast.LENGTH_SHORT).show();
             }

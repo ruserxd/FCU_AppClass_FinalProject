@@ -18,7 +18,6 @@ import fcu.app.appclassfinalproject.fragments.AddFragment;
 import fcu.app.appclassfinalproject.fragments.HomeFragment;
 import fcu.app.appclassfinalproject.fragments.SettingsFragment;
 
-// TODO:檢測是否有無登入
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -42,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.menu_Home) {
+                if (item.getItemId() == R.id.menu_Home) {
                     setCurrentFragment(homeFrag);
                 } else if (item.getItemId() == R.id.menu_Add) {
                     setCurrentFragment(addFrag);

@@ -15,13 +15,13 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLENAME = "Users";
 
-    public SqlDataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version,String TableName) {
+    public SqlDataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, String TableName) {
         super(context, DataBaseName, null, DataBaseVersion);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String SqlTable = "CREATE TABLE IF NOT EXISTS " +  TABLENAME +" (" +
+        String SqlTable = "CREATE TABLE IF NOT EXISTS " + TABLENAME + " (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "account TEXT not null," +
                 "password TEXT not null," +

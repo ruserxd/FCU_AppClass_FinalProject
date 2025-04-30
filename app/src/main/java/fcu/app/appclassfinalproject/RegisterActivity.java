@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -53,8 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         sqlDataBaseHelper = new SqlDataBaseHelper(this.getBaseContext(), DATABASENAME, null, DATABASEVERSION, TABLENAME);
         db = sqlDataBaseHelper.getWritableDatabase();
 
-
-        // TODO: 登入資料的儲存
         // 登入按鈕
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
