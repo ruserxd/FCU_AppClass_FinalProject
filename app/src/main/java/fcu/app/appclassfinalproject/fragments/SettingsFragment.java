@@ -1,14 +1,24 @@
 package fcu.app.appclassfinalproject.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.Objects;
+
+import fcu.app.appclassfinalproject.HomeActivity;
+import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
+import fcu.app.appclassfinalproject.RegisterActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +31,8 @@ public class SettingsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private Button btn_logout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,5 +74,29 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btn_logout = view.findViewById(R.id.btn_logout);
+        // 登出按鈕
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intentTo(LoginActivity.class);
+
+                // TODO:登錄資料的資料刪除
+                // 登出成功回應
+                Toast.makeText(requireContext(), "登出成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // 切換至 "指定" 頁面
+    private void intentTo(Class<?> page) {
+        Intent intent = new Intent();
+        intent.setClass(requireActivity(), page);
+        startActivity(intent);
     }
 }

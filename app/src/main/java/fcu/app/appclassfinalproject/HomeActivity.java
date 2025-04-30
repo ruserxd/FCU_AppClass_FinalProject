@@ -18,6 +18,7 @@ import fcu.app.appclassfinalproject.fragments.AddFragment;
 import fcu.app.appclassfinalproject.fragments.HomeFragment;
 import fcu.app.appclassfinalproject.fragments.SettingsFragment;
 
+// TODO:檢測是否有無登入
 public class HomeActivity extends AppCompatActivity {
 
     @Override
