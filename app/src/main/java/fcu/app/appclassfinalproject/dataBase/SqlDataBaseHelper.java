@@ -2,6 +2,7 @@ package fcu.app.appclassfinalproject.dataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,9 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
     private static final String DataBaseName = "FCU_FinalProjectDataBase";
-    private static final int DataBaseVersion = 1;
+    private static final int DataBaseVersion = 2;
 
     private static final String TABLENAME = "Users";
 
@@ -21,18 +25,68 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String SqlTable = "CREATE TABLE IF NOT EXISTS " + TABLENAME + " (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "account TEXT not null," +
-                "password TEXT not null," +
-                "email TEXT not null" +
+        String createUsersTable = "CREATE TABLE IF NOT EXISTS Users (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "account TEXT NOT NULL UNIQUE," +
+                "password TEXT NOT NULL," +
+                "email TEXT NOT NULL UNIQUE" +
                 ")";
-        sqLiteDatabase.execSQL(SqlTable);
+        sqLiteDatabase.execSQL(createUsersTable);
+
+        // Projects 表
+        String createProjectsTable = "CREATE TABLE IF NOT EXISTS Projects (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name TEXT NOT NULL," +
+                "summary TEXT NOT NULL," +
+                "manager_id INTEGER NOT NULL," +
+                "FOREIGN KEY(manager_id) REFERENCES Users(id) ON DELETE CASCADE" +
+                ")";
+        sqLiteDatabase.execSQL(createProjectsTable);
+
+        // Issues 表
+        String createIssuesTable = "CREATE TABLE IF NOT EXISTS Issues (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name TEXT NOT NULL," +
+                "summary TEXT NOT NULL," +
+                "start_time TEXT NOT NULL," +
+                "end_time TEXT NOT NULL," +
+                "project_id INTEGER NOT NULL," +
+                "FOREIGN KEY(project_id) REFERENCES Projects(id) ON DELETE CASCADE" +
+                ")";
+        sqLiteDatabase.execSQL(createIssuesTable);
+
+        // UserProject 表（多對多）
+        String createUserProjectTable = "CREATE TABLE IF NOT EXISTS UserProject (" +
+                "user_id INTEGER NOT NULL," +
+                "project_id INTEGER NOT NULL," +
+                "PRIMARY KEY(user_id, project_id)," +
+                "FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE," +
+                "FOREIGN KEY(project_id) REFERENCES Projects(id) ON DELETE CASCADE" +
+                ")";
+        sqLiteDatabase.execSQL(createUserProjectTable);
+
+        // UserIssue 表（多對多）
+        String createUserIssueTable = "CREATE TABLE IF NOT EXISTS UserIssue (" +
+                "user_id INTEGER NOT NULL," +
+                "issue_id INTEGER NOT NULL," +
+                "PRIMARY KEY(user_id, issue_id)," +
+                "FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE," +
+                "FOREIGN KEY(issue_id) REFERENCES Issues(id) ON DELETE CASCADE" +
+                ")";
+        sqLiteDatabase.execSQL(createUserIssueTable);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        final String SQL = "DROP TABLE Users";
-        sqLiteDatabase.execSQL(SQL);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserIssue");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserProject");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Issues");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Projects");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Users");
+        onCreate(sqLiteDatabase);
     }
+
+
+
 }

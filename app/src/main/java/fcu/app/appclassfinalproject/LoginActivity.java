@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                     // 存入登入狀態
                     prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("account", account);
                     editor.putBoolean("isLogin", true);
                     editor.apply();
 

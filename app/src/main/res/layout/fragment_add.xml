@@ -1,14 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AddFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Ad" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="NEW PROJECT"
+            android:textSize="48sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project Name"
+            app:layout_constraintBottom_toTopOf="@+id/et_ProjectName"
+            app:layout_constraintStart_toStartOf="@+id/et_ProjectName" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project Summary"
+            app:layout_constraintBottom_toTopOf="@+id/et_ProjectSummary"
+            app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project Manager"
+            app:layout_constraintBottom_toTopOf="@+id/actv_PM"
+            app:layout_constraintStart_toStartOf="@+id/actv_PM" />
+
+        <EditText
+            android:id="@+id/et_ProjectName"
+            android:layout_width="331dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="36dp"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <EditText
+            android:id="@+id/et_ProjectSummary"
+            android:layout_width="331dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="36dp"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_ProjectName" />
+
+        <AutoCompleteTextView
+            android:id="@+id/actv_PM"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            app:layout_constraintEnd_toEndOf="@+id/et_ProjectSummary"
+            app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary"
+            app:layout_constraintTop_toBottomOf="@+id/et_ProjectSummary" />
+
+        <Button
+            android:id="@+id/btn_addProject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="ADD"
+            app:layout_constraintEnd_toEndOf="@+id/actv_PM"
+            app:layout_constraintStart_toStartOf="@+id/actv_PM"
+            app:layout_constraintTop_toBottomOf="@+id/actv_PM" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
