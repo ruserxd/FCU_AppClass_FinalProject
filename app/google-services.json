@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114199354777",
+    "project_id": "fcu-app-final-7efdb",
+    "storage_bucket": "fcu-app-final-7efdb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114199354777:android:7baf12c7c23fa0269a8708",
+        "android_client_info": {
+          "package_name": "fcu.app.appclassfinalproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Yxx_uiNzymiQwG0NTEU8C9zbBqgQ0gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

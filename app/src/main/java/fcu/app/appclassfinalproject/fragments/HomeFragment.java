@@ -6,6 +6,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,15 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.adapter.ProjectAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
@@ -99,17 +97,17 @@ public class HomeFragment extends Fragment {
         String account = prefs.getString("account", "使用者");
         tvName.setText(account);
         dbHelper = new SqlDataBaseHelper(
-            requireContext(),
+                requireContext(),
                 "FCU_FinalProjectDataBase",
-                        null,
-                        2,
-                        "Projects"
-                        );
+                null,
+                2,
+                "Projects"
+        );
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         projectList = new ArrayList<>();
 
         Cursor cursor = db.rawQuery("SELECT * FROM Projects", null);
-            if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));

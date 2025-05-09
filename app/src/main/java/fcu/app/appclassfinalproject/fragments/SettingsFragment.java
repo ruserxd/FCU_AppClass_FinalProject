@@ -5,23 +5,21 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.Objects;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-import fcu.app.appclassfinalproject.HomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
-import fcu.app.appclassfinalproject.RegisterActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,13 +27,14 @@ import fcu.app.appclassfinalproject.RegisterActivity;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private Button btn_logout;
+    private static final String TAG = "SettingsFragment";
+
+    private FirebaseAuth mAuth;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -70,6 +69,9 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // 初始化 Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -83,21 +85,27 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn_logout = view.findViewById(R.id.btn_logout);
+
         // 登出按鈕
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 刪除 isLogin 的資料
+                // Firebase 登出
+                mAuth.signOut();
+
+                // 刪除 SharedPreferences 中的登入狀態
                 SharedPreferences prefs = requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.clear();
                 editor.apply();
 
-                // 回到 Login 頁面
-                intentTo(LoginActivity.class);
+                Log.d(TAG, "用戶已登出");
 
-                // 登出成功回應
+                // 顯示登出成功提示
                 Toast.makeText(requireContext(), "登出成功", Toast.LENGTH_SHORT).show();
+
+                // 回到登入頁面
+                intentTo(LoginActivity.class);
             }
         });
     }
@@ -106,6 +114,8 @@ public class SettingsFragment extends Fragment {
     private void intentTo(Class<?> page) {
         Intent intent = new Intent();
         intent.setClass(requireActivity(), page);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 清除返回堆疊
         startActivity(intent);
+        requireActivity().finish();
     }
 }

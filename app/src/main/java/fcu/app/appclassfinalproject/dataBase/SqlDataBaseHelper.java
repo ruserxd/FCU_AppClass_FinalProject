@@ -1,17 +1,10 @@
 package fcu.app.appclassfinalproject.dataBase;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
     private static final String DataBaseName = "FCU_FinalProjectDataBase";
@@ -86,7 +79,6 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Users");
         onCreate(sqLiteDatabase);
     }
-
 
 
 }

@@ -1,9 +1,8 @@
 package fcu.app.appclassfinalproject;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,12 +10,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     // 元件
@@ -26,13 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btn_register;
     private TextView tv_to_login;
 
+    private FirebaseAuth mAuth;
 
-    // SQL
-    private static final String DATABASENAME = "FCU_FinalProjectDataBase";
-    private static final int DATABASEVERSION = 1;
-    private static final String TABLENAME = "Users";
-    private SqlDataBaseHelper sqlDataBaseHelper;
-    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
         tv_to_login = findViewById(R.id.tv_to_register);
 
-        sqlDataBaseHelper = new SqlDataBaseHelper(this.getBaseContext(), DATABASENAME, null, DATABASEVERSION, TABLENAME);
-        db = sqlDataBaseHelper.getWritableDatabase();
+        FirebaseApp.initializeApp(this);
+        mAuth = FirebaseAuth.getInstance();
 
         // 登入按鈕
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -62,21 +69,57 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = et_password.getText().toString();
                 String email = et_email.getText().toString();
 
-                ContentValues values = new ContentValues();
-                values.put("account", account);
-                values.put("password", password);
-                values.put("email", email);
-                db.insert(TABLENAME, null, values);
+                // 與 firebase 進行註冊
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
 
-                et_account.setText("");
-                et_password.setText("");
-                et_email.setText("");
+                                    // 獲取用戶的 UID
+                                    String uid = user.getUid();
 
-                // 切換至 Login 頁面
-                intentTo(LoginActivity.class);
+                                    // 創建用戶資料映射
+                                    Map<String, Object> userData = new HashMap<>();
+                                    userData.put("account", account);
+                                    userData.put("email", email);
+                                    userData.put("createdAt", new Date());
 
-                // 註冊成功的回應
-                Toast.makeText(getApplicationContext(), "註冊成功", Toast.LENGTH_SHORT).show();
+                                    // 將用戶資料儲存到 Firestore
+                                    FirebaseFirestore.getInstance().collection("users").document(uid)
+                                            .set(userData)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(RegisterActivity.this, "註冊成功：" + user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                                                    // 註冊成功後跳轉到登入頁面
+                                                    intentTo(LoginActivity.class);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(RegisterActivity.this, "用戶資料儲存失敗：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "註冊失敗：" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // 捕獲任何可能發生的異常
+                                String errorMessage = "註冊過程發生錯誤: " + e.getMessage();
+                                Log.e("FIREBASE_AUTH", errorMessage, e);
+                                Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                ;
+
             }
         });
 
@@ -95,5 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(RegisterActivity.this, page);
         startActivity(intent);
+        finish();
     }
 }

@@ -1,7 +1,5 @@
 package fcu.app.appclassfinalproject;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,21 +10,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fcu.app.appclassfinalproject.adapter.ProjectAdapter;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.fragments.AddFragment;
 import fcu.app.appclassfinalproject.fragments.HomeFragment;
 import fcu.app.appclassfinalproject.fragments.SettingsFragment;
-import fcu.app.appclassfinalproject.model.Project;
 
 public class HomeActivity extends AppCompatActivity {
     @Override
@@ -44,7 +34,6 @@ public class HomeActivity extends AppCompatActivity {
         Fragment homeFrag = HomeFragment.newInstance("", "");
         Fragment addFrag = AddFragment.newInstance("", "");
         Fragment settingsFrag = SettingsFragment.newInstance("", "");
-
 
 
         setCurrentFragment(homeFrag);
