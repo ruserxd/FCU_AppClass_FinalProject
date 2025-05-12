@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateIssueActivity extends AppCompatActivity {
-    private EditText etPurpose;
-    private EditText etOverview;
+    private EditText etName;
+    private EditText etSummary;
     private EditText etStartTime;
     private EditText etEndTime;
     private EditText etStatus;
@@ -34,6 +34,7 @@ public class CreateIssueActivity extends AppCompatActivity {
     private ImageButton btnHome;
     private ImageButton btnSave;
 
+    //TODO:確認使用Fire base/ SQLite
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -52,17 +53,17 @@ public class CreateIssueActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //找對應id
-        etPurpose = findViewById(R.id.et_purpose);
-        etOverview = findViewById(R.id.et_overview);
+        etName = findViewById(R.id.et_name);
+        etSummary = findViewById(R.id.et_summary);
         etStartTime = findViewById(R.id.et_start_time);
         etEndTime = findViewById(R.id.et_endtime);
         etStatus = findViewById(R.id.et_status);
         etDesignee = findViewById(R.id.et_designee);
 
-        btnHome = findViewById(R.id.btn_home);
-        btnSave = findViewById(R.id.btn_save);
+        btnHome = findViewById(R.id.cr_btn_back);
+        btnSave = findViewById(R.id.cr_btn_save);
 
-//
+//      TODO:補preferences
 //        SharedPreferences prefs = getSharedPreferences("", MODE_PRIVATE);
 //        String projectId = prefs.getString("projectId",null);
 
@@ -80,15 +81,17 @@ public class CreateIssueActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String name = etPurpose.getText().toString().trim();
-                String summary = etOverview.getText().toString().trim();
+                String name = etName.getText().toString().trim();
+                String summary = etSummary.getText().toString().trim();
                 String start_time = etStartTime.getText().toString().trim();
                 String end_time = etEndTime.getText().toString().trim();
+//               TODO:確認有無狀態及被指派者
 //                String status = etStatus.getText().toString().trim();
 //                String designee = etDesignee.getText().toString().trim();
 
 
                 Map<String, Object> issue = new HashMap<>();
+//                TODO:新增issue id
 //                issue.put("id",id);
                 issue.put("name", name);
                 issue.put("summary", summary);
@@ -116,8 +119,8 @@ public class CreateIssueActivity extends AppCompatActivity {
     }
 
     private void clearFields() {
-        etPurpose.setText("");
-        etOverview.setText("");
+        etName.setText("");
+        etSummary.setText("");
         etStartTime.setText("");
         etEndTime.setText("");
     }
