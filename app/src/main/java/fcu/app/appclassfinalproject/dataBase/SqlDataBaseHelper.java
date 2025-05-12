@@ -10,9 +10,7 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
     private static final String DataBaseName = "FCU_FinalProjectDataBase";
     private static final int DataBaseVersion = 2;
 
-    private static final String TABLENAME = "Users";
-
-    public SqlDataBaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, String TableName) {
+    public SqlDataBaseHelper(@Nullable Context context) {
         super(context, DataBaseName, null, DataBaseVersion);
     }
 

@@ -98,11 +98,7 @@ public class HomeFragment extends Fragment {
         String account = prefs.getString("account", "使用者");
         tvName.setText(account);
         dbHelper = new SqlDataBaseHelper(
-                requireContext(),
-                "FCU_FinalProjectDataBase",
-                null,
-                2,
-                "Projects"
+                requireContext()
         );
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         projectList = new ArrayList<>();
@@ -115,6 +111,7 @@ public class HomeFragment extends Fragment {
         } else {
             Log.e("HomeFragment", "找不到帳號對應的 user_id: " + account);
         }
+<<<<<<< Updated upstream
         userCursor.close();
 
         if (userId != -1) {
@@ -137,6 +134,9 @@ public class HomeFragment extends Fragment {
             cursor.close();
         }
 
+=======
+        cursor.close();
+>>>>>>> Stashed changes
         adapter = new ProjectAdapter(projectList);
         recyclerView.setAdapter(adapter);
     }

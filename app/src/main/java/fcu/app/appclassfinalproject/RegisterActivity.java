@@ -1,6 +1,8 @@
 package fcu.app.appclassfinalproject;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+
 public class RegisterActivity extends AppCompatActivity {
     // 元件
     private EditText et_account;
@@ -38,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btn_register;
     private TextView tv_to_login;
 
+    private SqlDataBaseHelper sqlDataBaseHelper;
+    private SQLiteDatabase db;
     private FirebaseAuth mAuth;
 
 
@@ -68,6 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String account = et_account.getText().toString();
                 String password = et_password.getText().toString();
                 String email = et_email.getText().toString();
+                sqlDataBaseHelper = new SqlDataBaseHelper(getBaseContext());
+                db = sqlDataBaseHelper.getWritableDatabase();
 
                 // 與 firebase 進行註冊
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -92,6 +100,13 @@ public class RegisterActivity extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
+                                                    //放入到 SQLite 中
+                                                    ContentValues values = new ContentValues();
+                                                    values.put("account", account);
+                                                    values.put("password", password);
+                                                    values.put("email", email);
+                                                    db.insert("Users", null, values);
+
                                                     Toast.makeText(RegisterActivity.this, "註冊成功：" + user.getEmail(), Toast.LENGTH_SHORT).show();
 
                                                     // 註冊成功後跳轉到登入頁面

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import fcu.app.appclassfinalproject.main_fragments.HomeFragment;
 import fcu.app.appclassfinalproject.main_fragments.SettingsFragment;
 
 public class ProjectActivity extends AppCompatActivity {
@@ -31,15 +32,15 @@ public class ProjectActivity extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_project);
+        Fragment homeFragment = HomeFragment.newInstance("", "");
         Fragment settingsFragment = SettingsFragment.newInstance("", "");
 
-//        setCurrentFragment(Fragment);
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menu_projct_back) {
-
+                    setCurrentFragment(homeFragment);
                 } else if (item.getItemId() == R.id.menu_project_add) {
 
                 } else if (item.getItemId() == R.id.menu_project_setting) {

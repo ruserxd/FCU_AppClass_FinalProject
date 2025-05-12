@@ -92,7 +92,7 @@ public class AddFragment extends Fragment {
         actvPM = view.findViewById(R.id.actv_PM);
         btnADD = view.findViewById(R.id.btn_addProject);
 
-        sqlDataBaseHelper = new SqlDataBaseHelper(this.getContext(), "FCU_FinalProjectDataBase", null, 1, "Users");
+        sqlDataBaseHelper = new SqlDataBaseHelper(this.getContext());
         db = sqlDataBaseHelper.getWritableDatabase();
         accountList = getAccountList();
         adapter = new ArrayAdapter<String>(this.requireContext(), android.R.layout.simple_dropdown_item_1line, accountList);
