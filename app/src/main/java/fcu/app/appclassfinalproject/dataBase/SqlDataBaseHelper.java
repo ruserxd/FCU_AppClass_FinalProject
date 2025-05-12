@@ -67,7 +67,6 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(issue_id) REFERENCES Issues(id) ON DELETE CASCADE" +
                 ")";
         sqLiteDatabase.execSQL(createUserIssueTable);
-
     }
 
     @Override

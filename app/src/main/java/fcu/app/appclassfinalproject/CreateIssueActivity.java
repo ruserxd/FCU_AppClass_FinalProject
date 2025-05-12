@@ -35,5 +35,6 @@ public class CreateIssueActivity extends AppCompatActivity {
         etEndTime = findViewById(R.id.et_endtime);
         etStatus = findViewById(R.id.et_status);
         etDesignee = findViewById(R.id.et_designee);
+
     }
 }

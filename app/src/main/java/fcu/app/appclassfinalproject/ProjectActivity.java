@@ -14,43 +14,39 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import fcu.app.appclassfinalproject.main_fragments.AddFragment;
-import fcu.app.appclassfinalproject.main_fragments.HomeFragment;
 import fcu.app.appclassfinalproject.main_fragments.SettingsFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class ProjectActivity extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_project);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        Fragment homeFrag = HomeFragment.newInstance("", "");
-        Fragment addFrag = AddFragment.newInstance("", "");
-        Fragment settingsFrag = SettingsFragment.newInstance("", "");
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_project);
+        Fragment settingsFragment = SettingsFragment.newInstance("", "");
 
-        setCurrentFragment(homeFrag);
+//        setCurrentFragment(Fragment);
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.menu_Home) {
-                    setCurrentFragment(homeFrag);
-                } else if (item.getItemId() == R.id.menu_Add) {
-                    setCurrentFragment(addFrag);
-                } else {
-                    setCurrentFragment(settingsFrag);
+                if (item.getItemId() == R.id.menu_projct_back) {
+
+                } else if (item.getItemId() == R.id.menu_project_add) {
+
+                } else if (item.getItemId() == R.id.menu_project_setting) {
+                    setCurrentFragment(settingsFragment);
                 }
                 return true;
             }
-
-
         });
 
     }
@@ -58,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setCurrentFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_main, fragment)
+                .replace(R.id.fragment_main_project, fragment)
                 .commit();
     }
 }

@@ -1,4 +1,4 @@
-package fcu.app.appclassfinalproject.fragments;
+package fcu.app.appclassfinalproject.main_fragments;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -105,6 +105,7 @@ public class AddFragment extends Fragment {
                 String summary = etPSummary.getText().toString();
                 String pm = actvPM.getText().toString();
 
+                // 先檢查 manager 是否有該使用者
                 Cursor cursor = db.rawQuery("SELECT id FROM Users WHERE account = ?", new String[]{pm});
                 if (cursor.moveToFirst()) {
                     int managerId = cursor.getInt(0);
@@ -120,7 +121,6 @@ public class AddFragment extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "新增失敗", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Toast.makeText(getContext(), "找不到該帳號", Toast.LENGTH_SHORT).show();
                     Log.d("AddFragment", "NO account！");
@@ -150,4 +150,3 @@ public class AddFragment extends Fragment {
         return accountList.toArray(new String[0]);
     }
 }
-

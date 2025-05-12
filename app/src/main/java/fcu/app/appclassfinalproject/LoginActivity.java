@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     // 元件
-    private EditText et_login_account;
+    private EditText et_login_email;
     private EditText et_login_password;
     private Button btn_login;
     private TextView tv_to_register;
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // 找尋對應 id
-        et_login_account = findViewById(R.id.et_login_account);
+        et_login_email = findViewById(R.id.et_login_email);
         et_login_password = findViewById(R.id.et_login_password);
         btn_login = findViewById(R.id.btn_login);
         tv_to_register = findViewById(R.id.tv_to_register);
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = et_login_account.getText().toString().trim();
+                String email = et_login_email.getText().toString().trim();
                 String password = et_login_password.getText().toString();
 
                 // 檢查輸入是否為空
