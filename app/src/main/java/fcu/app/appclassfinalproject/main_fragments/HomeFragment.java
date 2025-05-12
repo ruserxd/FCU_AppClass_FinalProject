@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,20 +106,37 @@ public class HomeFragment extends Fragment {
         );
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         projectList = new ArrayList<>();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM Projects", null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                String summary = cursor.getString(cursor.getColumnIndexOrThrow("summary"));
-                int managerId = cursor.getInt(cursor.getColumnIndexOrThrow("manager_id"));
-
-                projectList.add(new Project(id, name, summary, managerId));
-            } while (cursor.moveToNext());
+        // 查詢使用者 ID
+        Cursor userCursor = db.rawQuery("SELECT id FROM Users WHERE email = ?", new String[]{account});
+        int userId = -1;
+        if (userCursor.moveToFirst()) {
+            userId = userCursor.getInt(0);
+            Log.d("HomeFragment", "查到 user_id: " + userId + " for account: " + account);
+        } else {
+            Log.e("HomeFragment", "找不到帳號對應的 user_id: " + account);
         }
-        cursor.close();
-        db.close();
+        userCursor.close();
+
+        if (userId != -1) {
+            // 查詢與該 user_id 有關聯的 project
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM Projects JOIN UserProject ON Projects.id = UserProject.project_id WHERE UserProject.user_id = ?",
+                    new String[]{String.valueOf(userId)}
+            );
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    String summary = cursor.getString(cursor.getColumnIndexOrThrow("summary"));
+                    int managerId = cursor.getInt(cursor.getColumnIndexOrThrow("manager_id"));
+
+                    projectList.add(new Project(id, name, summary, managerId));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
         adapter = new ProjectAdapter(projectList);
         recyclerView.setAdapter(adapter);
     }

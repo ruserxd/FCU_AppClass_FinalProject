@@ -115,9 +115,15 @@ public class AddFragment extends Fragment {
                     values.put("summary", summary);
                     values.put("manager_id", managerId);  // 修正欄位名稱
 
+
                     long result = db.insert("Projects", null, values);
                     if (result != -1) {
                         Toast.makeText(getContext(), "新增成功", Toast.LENGTH_SHORT).show();
+                        ContentValues userProjectValues = new ContentValues();
+                        userProjectValues.put("user_id", managerId);
+                        userProjectValues.put("project_id", (int) result);  // result 是 Projects 表的 id
+
+                        long linkResult = db.insert("UserProject", null, userProjectValues);
                     } else {
                         Toast.makeText(getContext(), "新增失敗", Toast.LENGTH_SHORT).show();
                     }
