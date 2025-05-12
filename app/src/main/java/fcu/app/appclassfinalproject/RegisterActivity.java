@@ -20,17 +20,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
@@ -74,6 +68,14 @@ public class RegisterActivity extends AppCompatActivity {
                 String account = et_account.getText().toString();
                 String password = et_password.getText().toString();
                 String email = et_email.getText().toString();
+
+                // 檢查輸入不為空
+                if (account.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "所有欄位不能為空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // 初始化資料庫
                 sqlDataBaseHelper = new SqlDataBaseHelper(getBaseContext());
                 db = sqlDataBaseHelper.getWritableDatabase();
 
@@ -85,42 +87,28 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
 
-                                    // 獲取用戶的 UID
-                                    String uid = user.getUid();
+                                    try {
+                                        //放入到 SQLite 中
+                                        ContentValues values = new ContentValues();
+                                        values.put("account", account);
+                                        values.put("password", password);
+                                        values.put("email", email);
 
-                                    // 創建用戶資料映射
-                                    Map<String, Object> userData = new HashMap<>();
-                                    userData.put("account", account);
-                                    userData.put("email", email);
-                                    userData.put("createdAt", new Date());
+                                        long newRowId = db.insert("Users", null, values);
 
-                                    // 將用戶資料儲存到 Firestore
-                                    FirebaseFirestore.getInstance().collection("users").document(uid)
-                                            .set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    //放入到 SQLite 中
-                                                    ContentValues values = new ContentValues();
-                                                    values.put("account", account);
-                                                    values.put("password", password);
-                                                    values.put("email", email);
-                                                    db.insert("Users", null, values);
+                                        if (newRowId == -1) {
+                                            Log.e("DATABASE", "插入 Users 表失敗，返回 -1");
+                                            Toast.makeText(RegisterActivity.this, "資料庫插入失敗", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Log.d("DATABASE", "成功插入 Users 表，新行 ID: " + newRowId);
+                                            Toast.makeText(RegisterActivity.this, "註冊成功：" + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                                                    Toast.makeText(RegisterActivity.this, "註冊成功：" + user.getEmail(), Toast.LENGTH_SHORT).show();
-
-                                                    // 註冊成功後跳轉到登入頁面
-                                                    intentTo(LoginActivity.class);
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(RegisterActivity.this, "用戶資料儲存失敗：" + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(RegisterActivity.this, "註冊失敗：" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                            intentTo(LoginActivity.class);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e("DATABASE", "資料庫操作異常: " + e.getMessage(), e);
+                                        Toast.makeText(RegisterActivity.this, "資料庫操作錯誤: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         })
@@ -133,8 +121,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                             }
                         });
-                ;
-
             }
         });
 

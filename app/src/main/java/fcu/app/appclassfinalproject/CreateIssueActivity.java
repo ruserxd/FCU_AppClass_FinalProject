@@ -1,10 +1,8 @@
 package fcu.app.appclassfinalproject;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -92,10 +90,10 @@ public class CreateIssueActivity extends AppCompatActivity {
 
                 Map<String, Object> issue = new HashMap<>();
 //                issue.put("id",id);
-                issue.put("name",name);
-                issue.put("summary",summary);
-                issue.put("start_time",start_time);
-                issue.put("end_time",end_time);
+                issue.put("name", name);
+                issue.put("summary", summary);
+                issue.put("start_time", start_time);
+                issue.put("end_time", end_time);
 //                issue.put("project_id",projectId);
 //                issue.put("status",status);
 //                issue.put("designee",designee);
@@ -116,6 +114,7 @@ public class CreateIssueActivity extends AppCompatActivity {
             }
         });
     }
+
     private void clearFields() {
         etPurpose.setText("");
         etOverview.setText("");

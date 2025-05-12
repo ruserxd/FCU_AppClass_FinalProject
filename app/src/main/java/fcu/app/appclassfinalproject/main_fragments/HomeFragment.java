@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment {
             cursor.close();
         }
 
-        adapter = new ProjectAdapter(projectList);
+        adapter = new ProjectAdapter(getContext(), projectList);
         recyclerView.setAdapter(adapter);
     }
 
