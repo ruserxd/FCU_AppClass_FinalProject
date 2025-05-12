@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_projct_back"
+        android:icon="@drawable/back"
+        android:title="back" />
+    <item
+        android:id="@+id/menu_project_add"
+        android:icon="@drawable/add"
+        android:title="add" />
+    <item
+        android:id="@+id/menu_project_setting"
+        android:icon="@drawable/settings"
+        android:title="setting" />
+</menu>

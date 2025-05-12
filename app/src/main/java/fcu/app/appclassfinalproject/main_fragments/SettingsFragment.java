@@ -1,4 +1,4 @@
-package fcu.app.appclassfinalproject.fragments;
+package fcu.app.appclassfinalproject.main_fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
