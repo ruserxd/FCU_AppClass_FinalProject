@@ -95,24 +95,25 @@ public class HomeFragment extends Fragment {
         projectList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         SharedPreferences prefs = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
-        String account = prefs.getString("account", "使用者");
-        tvName.setText(account);
+        String email = prefs.getString("email", "使用者");
+        tvName.setText(email);
         dbHelper = new SqlDataBaseHelper(
                 requireContext()
         );
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         projectList = new ArrayList<>();
         // 查詢使用者 ID
-        Cursor userCursor = db.rawQuery("SELECT id FROM Users WHERE email = ?", new String[]{account});
+        Cursor userCursor = db.rawQuery("SELECT id FROM Users WHERE email = ?", new String[]{email});
         int userId = -1;
         if (userCursor.moveToFirst()) {
             userId = userCursor.getInt(0);
-            Log.d("HomeFragment", "查到 user_id: " + userId + " for account: " + account);
+            Log.d("HomeFragment", "查到 user_id: " + userId + " for email: " + email);
         } else {
-            Log.e("HomeFragment", "找不到帳號對應的 user_id: " + account);
+            Log.e("HomeFragment", "找不到對應的 email user_id: " + email);
         }
         userCursor.close();
 
+        Log.i("userId", String.valueOf(userId));
         if (userId != -1) {
             // 查詢與該 user_id 有關聯的 project
             Cursor cursor = db.rawQuery(

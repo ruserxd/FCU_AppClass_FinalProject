@@ -36,7 +36,7 @@ public class ProjectActivity extends AppCompatActivity {
         Fragment homeFragment = HomeFragment.newInstance("", "");
         Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
         Fragment settingsFragment = SettingsFragment.newInstance("", "");
-        Fragment addIssueFragment = AddIssueFragment.newInstance("","");
+        Fragment addIssueFragment = AddIssueFragment.newInstance("", "");
         setCurrentFragment(projectInfoFragment);
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
