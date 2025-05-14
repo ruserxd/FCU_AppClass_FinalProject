@@ -14,9 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fcu.app.appclassfinalproject.R;
+import fcu.app.appclassfinalproject.adapter.IssueAdapter;
+import fcu.app.appclassfinalproject.adapter.ProjectAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.model.Issue;
+import fcu.app.appclassfinalproject.model.Project;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +42,10 @@ public class ProjectInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private IssueAdapter issueAdapter;
+    private List<Issue> issueList;
 
     public ProjectInfoFragment() {
         // Required empty public constructor
@@ -72,10 +85,15 @@ public class ProjectInfoFragment extends Fragment {
         TextView tv_projectName = view.findViewById(R.id.tv_project_name);
         SharedPreferences prefs = view.getContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
 
+        recyclerView = view.findViewById(R.id.rcy_view_issues);
+        issueList = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // 獲取 DataBase 相關訊息
         SqlDataBaseHelper sqlDataBaseHelper = new SqlDataBaseHelper(requireContext());
         SQLiteDatabase db = sqlDataBaseHelper.getReadableDatabase();
-        Cursor cursor;
+        Cursor cursor = null;
+        Cursor issueCursor = null;
 
         int project_id = prefs.getInt("project_id", 0);
 
@@ -83,18 +101,47 @@ public class ProjectInfoFragment extends Fragment {
             cursor = db.rawQuery("SELECT * FROM Projects WHERE id = ?", new String[]{String.valueOf(project_id)});
 
             // 檢查是否有結果
-            if (cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 String projectName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 tv_projectName.setText(projectName);
             } else {
                 tv_projectName.setText("找不到項目");
                 Log.e("ProjectInfoFragment", "找不到 ID 為 " + project_id + " 的項目");
             }
+
+            // 查找該專案下的所有問題
+            issueCursor = db.rawQuery("SELECT * FROM Issues WHERE project_id = ?", new String[]{String.valueOf(project_id)});
+            if (issueCursor != null && issueCursor.moveToFirst()) {
+                do {
+                    String name = issueCursor.getString(issueCursor.getColumnIndexOrThrow("name"));
+                    String summary = issueCursor.getString(issueCursor.getColumnIndexOrThrow("summary"));
+                    String start_time = issueCursor.getString(issueCursor.getColumnIndexOrThrow("start_time"));
+                    String end_time = issueCursor.getString(issueCursor.getColumnIndexOrThrow("end_time"));
+                    String status = issueCursor.getString(issueCursor.getColumnIndexOrThrow("status"));
+
+                    issueList.add(new Issue(name, summary, start_time, end_time, status, String.valueOf(project_id)));
+                } while (issueCursor.moveToNext());
+            } else {
+                Toast.makeText(requireContext(), "此專案沒有任何問題", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             tv_projectName.setText("加載時發生錯誤");
             Log.e("ProjectInfoFragment", "加載時發生錯誤: " + e.getMessage(), e);
             Toast.makeText(requireContext(), "加載時發生錯誤: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (issueCursor != null) {
+                issueCursor.close();
+            }
         }
+
+        // 設置 RecyclerView 的 Adapter
+        issueAdapter = new IssueAdapter(getContext(), issueList);
+        recyclerView.setAdapter(issueAdapter);
+
         return view;
     }
+
 }

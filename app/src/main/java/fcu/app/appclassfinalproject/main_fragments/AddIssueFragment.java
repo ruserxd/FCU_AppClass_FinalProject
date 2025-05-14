@@ -1,6 +1,12 @@
 package fcu.app.appclassfinalproject.main_fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,21 +15,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import fcu.app.appclassfinalproject.CreateIssueActivity;
+import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
 import fcu.app.appclassfinalproject.ProjectActivity;
 import fcu.app.appclassfinalproject.R;
 
@@ -46,13 +54,16 @@ public class AddIssueFragment extends Fragment {
     private EditText etOverview;
     private EditText etStartTime;
     private EditText etEndTime;
-    private EditText etStatus;
-    private EditText etDesignee;
+    private Spinner spiStatus;
+    private AutoCompleteTextView actvDesignee;
 
     private ImageButton btnSave;
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    String[] items = {"未開始", "進行中", "已完成"};
+    private static String[] accountList = new String[]{};
+    private SqlDataBaseHelper sqlDataBaseHelper;
+    private SQLiteDatabase db;
+
 
     public AddIssueFragment() {
         // Required empty public constructor
@@ -91,19 +102,30 @@ public class AddIssueFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_issue, container, false);
 
-        FirebaseApp.initializeApp(getContext());
-        mAuth = FirebaseAuth.getInstance();
+        sqlDataBaseHelper = new SqlDataBaseHelper(this.getContext());
+        db = sqlDataBaseHelper.getWritableDatabase();
 
         //找對應id
         etPurpose = view.findViewById(R.id.et_purpose);
         etOverview = view.findViewById(R.id.et_overview);
         etStartTime = view.findViewById(R.id.et_start_time);
         etEndTime = view.findViewById(R.id.et_endtime);
-        etStatus = view.findViewById(R.id.et_status);
-        etDesignee = view.findViewById(R.id.et_designee);
-
+        actvDesignee = view.findViewById(R.id.actv_designee);
+        spiStatus = view.findViewById(R.id.spin_status);
         btnSave = view.findViewById(R.id.btn_save);
 
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(), // 或 requireContext()
+                android.R.layout.simple_spinner_item,
+                items // String[] 陣列或 List<String>
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spiStatus.setAdapter(adapter);
+
+        accountList = getAccountList();
+        ArrayAdapter<String> useradapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, accountList);
+        actvDesignee.setAdapter(useradapter);
 
         // 假設 sharedPreference 有　"projectId"
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -114,33 +136,27 @@ public class AddIssueFragment extends Fragment {
                 String summary = etOverview.getText().toString().trim();
                 String start_time = etStartTime.getText().toString().trim();
                 String end_time = etEndTime.getText().toString().trim();
-//                String status = etStatus.getText().toString().trim();
-//                String designee = etDesignee.getText().toString().trim();
+                String status = spiStatus.getSelectedItem().toString().trim();
+                String designee = actvDesignee.getText().toString().trim();
+                SharedPreferences prefs = view.getContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                int project_id = prefs.getInt("project_id", 0);
+                Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
 
 
-                Map<String, Object> issue = new HashMap<>();
-//                issue.put("id",id);
-                issue.put("name", name);
-                issue.put("summary", summary);
-                issue.put("start_time", start_time);
-                issue.put("end_time", end_time);
-//                issue.put("project_id",projectId);
-//                issue.put("status",status);
-//                issue.put("designee",designee);
-                db.collection("issues").add(issue).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getContext(), "建立成功，ID:", Toast.LENGTH_LONG).show();
-                        clearFields();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "建立失敗，請檢查輸入是否正確", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-
+                ContentValues values = new ContentValues();
+                values.put("name", name);
+                values.put("summary", summary);
+                values.put("start_time", start_time);
+                values.put("end_time", end_time);
+                values.put("status", status);
+                values.put("project_id", project_id);
+                long rowId = db.insert("Issues", null, values);
+                if (rowId != -1) {
+                    Toast.makeText(getContext(), "資料插入成功", Toast.LENGTH_SHORT).show();
+                    setCurrentFragment(projectInfoFragment);
+                } else {
+                    Toast.makeText(getContext(), "資料插入失敗", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -153,4 +169,29 @@ public class AddIssueFragment extends Fragment {
         etStartTime.setText("");
         etEndTime.setText("");
     }
+
+    public String[] getAccountList() {
+        List<String> accountList = new ArrayList<>();
+        final String SQL = "SELECT account FROM Users";
+
+        SQLiteDatabase db = sqlDataBaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL, null);
+
+        while (cursor.moveToNext()) {
+            String account = cursor.getString(0); // 只有一欄 account，index 是 0
+            accountList.add(account);
+        }
+
+        cursor.close();
+
+        return accountList.toArray(new String[0]);
+    }
+    private void setCurrentFragment(Fragment fragment) {
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_main_project, fragment)
+                .commit();
+    }
+
+
 }

@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
     private static final String DataBaseName = "FCU_FinalProjectDataBase";
-    private static final int DataBaseVersion = 3;
+    private static final int DataBaseVersion = 4;
 
     public SqlDataBaseHelper(@Nullable Context context) {
         super(context, DataBaseName, null, DataBaseVersion);
@@ -41,6 +41,8 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
                 "summary TEXT NOT NULL," +
                 "start_time TEXT NOT NULL," +
                 "end_time TEXT NOT NULL," +
+                "status TEXT NOT NULL," +
+                "designee TEXT NOT NULL,"+
                 "project_id INTEGER NOT NULL," +
                 "FOREIGN KEY(project_id) REFERENCES Projects(id) ON DELETE CASCADE" +
                 ")";
