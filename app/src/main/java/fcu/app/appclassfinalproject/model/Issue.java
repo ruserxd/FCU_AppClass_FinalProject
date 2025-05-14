@@ -16,8 +16,20 @@ public class Issue {
         this.status = status;
         this.designee = designee;
     }
-    public String getName() {return name;}
-    public String getSummary() {return summary;}
-    public String getStatus() {return status;}
-    public String getDesignee() {return designee;}
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDesignee() {
+        return designee;
+    }
 }

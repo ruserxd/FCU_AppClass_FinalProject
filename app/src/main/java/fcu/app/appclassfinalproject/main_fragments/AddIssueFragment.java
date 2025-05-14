@@ -2,38 +2,31 @@ package fcu.app.appclassfinalproject.main_fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
-
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
-import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
-import fcu.app.appclassfinalproject.ProjectActivity;
 import fcu.app.appclassfinalproject.R;
+import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,6 +89,29 @@ public class AddIssueFragment extends Fragment {
         }
     }
 
+    private void showDatePickerDialog(final EditText editText) {
+        // 獲取當前日期
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // 創建DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // 格式化日期為 yyyy-MM-dd
+                        String selectedDate = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                        editText.setText(selectedDate);
+                    }
+                },
+                year, month, day);
+
+        datePickerDialog.show();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,6 +130,19 @@ public class AddIssueFragment extends Fragment {
         spiStatus = view.findViewById(R.id.spin_status);
         btnSave = view.findViewById(R.id.btn_save);
 
+        etStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(etStartTime);
+            }
+        });
+
+        etEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(etEndTime);
+            }
+        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(), // 或 requireContext()
@@ -149,6 +178,7 @@ public class AddIssueFragment extends Fragment {
                 values.put("start_time", start_time);
                 values.put("end_time", end_time);
                 values.put("status", status);
+                values.put("designee", designee);
                 values.put("project_id", project_id);
                 long rowId = db.insert("Issues", null, values);
                 if (rowId != -1) {
@@ -163,6 +193,7 @@ public class AddIssueFragment extends Fragment {
 
         return view;
     }
+
     private void clearFields() {
         etPurpose.setText("");
         etOverview.setText("");
@@ -186,6 +217,7 @@ public class AddIssueFragment extends Fragment {
 
         return accountList.toArray(new String[0]);
     }
+
     private void setCurrentFragment(Fragment fragment) {
         getParentFragmentManager()
                 .beginTransaction()

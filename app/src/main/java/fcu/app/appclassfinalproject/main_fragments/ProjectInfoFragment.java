@@ -22,10 +22,8 @@ import java.util.List;
 
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.adapter.IssueAdapter;
-import fcu.app.appclassfinalproject.adapter.ProjectAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.Issue;
-import fcu.app.appclassfinalproject.model.Project;
 
 /**
  * A simple {@link Fragment} subclass.

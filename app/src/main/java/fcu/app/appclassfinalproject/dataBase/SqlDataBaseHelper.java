@@ -42,7 +42,7 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
                 "start_time TEXT NOT NULL," +
                 "end_time TEXT NOT NULL," +
                 "status TEXT NOT NULL," +
-                "designee TEXT NOT NULL,"+
+                "designee TEXT NOT NULL," +
                 "project_id INTEGER NOT NULL," +
                 "FOREIGN KEY(project_id) REFERENCES Projects(id) ON DELETE CASCADE" +
                 ")";
