@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import fcu.app.appclassfinalproject.main_fragments.AddIssueFragment;
 import fcu.app.appclassfinalproject.main_fragments.HomeFragment;
 import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
 import fcu.app.appclassfinalproject.main_fragments.SettingsFragment;
@@ -34,20 +35,20 @@ public class ProjectActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_project);
         Fragment homeFragment = HomeFragment.newInstance("", "");
         Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
-        // TODO: 這邊要新增 addIssues
         Fragment settingsFragment = SettingsFragment.newInstance("", "");
-
+        Fragment addIssueFragment = AddIssueFragment.newInstance("","");
         setCurrentFragment(projectInfoFragment);
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.menu_projct_back) {
+                if (item.getItemId() == R.id.menu_project_issues) {
+                    setCurrentFragment(projectInfoFragment);
+                } else if (item.getItemId() == R.id.menu_projct_back) {
                     setCurrentFragment(homeFragment);
                     finish();
                 } else if (item.getItemId() == R.id.menu_project_add) {
-                    // TODO: 這邊要改成 addIssues
-                    setCurrentFragment(projectInfoFragment);
+                    setCurrentFragment(addIssueFragment);
                 } else if (item.getItemId() == R.id.menu_project_setting) {
                     setCurrentFragment(settingsFragment);
                 }

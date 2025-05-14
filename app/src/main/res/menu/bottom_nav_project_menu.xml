@@ -6,6 +6,10 @@
         android:icon="@drawable/back"
         android:title="back" />
     <item
+        android:id="@+id/menu_project_issues"
+        android:icon="@drawable/list"
+        android:title="issues" />
+    <item
         android:id="@+id/menu_project_add"
         android:icon="@drawable/add"
         android:title="add" />
