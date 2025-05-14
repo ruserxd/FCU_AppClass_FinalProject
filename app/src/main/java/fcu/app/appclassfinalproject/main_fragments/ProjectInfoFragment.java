@@ -78,7 +78,7 @@ public class ProjectInfoFragment extends Fragment {
         Cursor cursor;
 
         int project_id = prefs.getInt("project_id", 0);
-
+        Log.i("project_id", String.valueOf(project_id));
         try {
             cursor = db.rawQuery("SELECT * FROM Projects WHERE id = ?", new String[]{String.valueOf(project_id)});
 

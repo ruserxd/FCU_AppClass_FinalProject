@@ -1,17 +1,15 @@
 package fcu.app.appclassfinalproject.main_fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,8 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-import fcu.app.appclassfinalproject.CreateIssueActivity;
-import fcu.app.appclassfinalproject.ProjectActivity;
 import fcu.app.appclassfinalproject.R;
 
 /**
@@ -147,6 +143,7 @@ public class AddIssueFragment extends Fragment {
 
         return view;
     }
+
     private void clearFields() {
         etPurpose.setText("");
         etOverview.setText("");

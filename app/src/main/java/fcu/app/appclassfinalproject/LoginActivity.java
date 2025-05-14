@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // 存入登入狀態
                                     prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString("account", email);
+                                    editor.putString("email", email);
                                     editor.putString("uid", user.getUid());
                                     editor.apply();
 
@@ -108,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     // 登入失敗
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     String errorMessage = "登入失敗";
-
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     if (task.getException() != null) {
+
                                         String error = task.getException().getMessage();
                                         if (error != null) {
                                             if (error.contains("password is invalid")) {
