@@ -178,7 +178,7 @@ public class AddIssueFragment extends Fragment {
                 values.put("start_time", start_time);
                 values.put("end_time", end_time);
                 values.put("status", status);
-                //values.put("designee", designee);
+                values.put("designee", designee);
                 values.put("project_id", project_id);
                 long rowId = db.insert("Issues", null, values);
                 if (rowId != -1) {

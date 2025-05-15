@@ -1,5 +1,6 @@
 package fcu.app.appclassfinalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -45,8 +46,7 @@ public class ProjectActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.menu_project_issues) {
                     setCurrentFragment(projectInfoFragment);
                 } else if (item.getItemId() == R.id.menu_projct_back) {
-                    setCurrentFragment(homeFragment);
-                    finish();
+                    intentTo(HomeActivity.class);
                 } else if (item.getItemId() == R.id.menu_project_add) {
                     setCurrentFragment(addIssueFragment);
                 } else if (item.getItemId() == R.id.menu_project_setting) {
@@ -63,5 +63,10 @@ public class ProjectActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragment_main_project, fragment)
                 .commit();
+    }
+    private void intentTo(Class<?> page) {
+        Intent intent = new Intent();
+        intent.setClass(ProjectActivity.this, page);
+        startActivity(intent);
     }
 }
