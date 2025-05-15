@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
             // 用戶已登入，直接進入主頁面
             prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("account", currentUser.getEmail());
+            editor.putString("email", currentUser.getEmail());
             editor.putString("uid", currentUser.getUid());
             editor.apply();
 

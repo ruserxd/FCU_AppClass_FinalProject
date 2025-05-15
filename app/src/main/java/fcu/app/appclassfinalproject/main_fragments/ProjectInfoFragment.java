@@ -2,6 +2,7 @@ package fcu.app.appclassfinalproject.main_fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,9 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationBarView;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import fcu.app.appclassfinalproject.GanttActivity;
+import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.adapter.IssueAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
@@ -139,7 +144,18 @@ public class ProjectInfoFragment extends Fragment {
         issueAdapter = new IssueAdapter(getContext(), issueList);
         recyclerView.setAdapter(issueAdapter);
 
+        tv_projectName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentTo(GanttActivity.class);
+            }
+        });
         return view;
+    }
+    private void intentTo(Class<?> page) {
+        Intent intent = new Intent();
+        intent.setClass(getContext(), page);
+        startActivity(intent);
     }
 
 }
