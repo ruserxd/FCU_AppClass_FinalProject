@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="99dp"
+            android:layout_height="70dp"
             android:orientation="horizontal">
 
             <TextView
@@ -22,14 +22,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Project名稱"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcy_view_issues"
             android:layout_width="match_parent"
-            android:layout_height="606dp">
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

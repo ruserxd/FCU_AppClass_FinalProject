@@ -18,73 +18,85 @@
                 android:id="@+id/v_month1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month10"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month11"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
 
             <View
                 android:id="@+id/v_month12"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/borderline"/>
         </LinearLayout>
     </HorizontalScrollView>
 </LinearLayout>

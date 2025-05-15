@@ -42,7 +42,7 @@ public class IssueMonthAdapter extends RecyclerView.Adapter<IssueMonthAdapter.Vi
         for(int i=start-1;i<end;i++) {
             View monthView = holder.vMonth.get(i);
             if (monthView != null) {
-                monthView.setBackgroundColor(Color.LTGRAY); // 你可以改成你要的顏色
+                monthView.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.border)); // 你可以改成你要的顏色
             }
         }
     }

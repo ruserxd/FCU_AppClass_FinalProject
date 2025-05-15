@@ -1,6 +1,9 @@
 package fcu.app.appclassfinalproject.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Properties;
 
+import fcu.app.appclassfinalproject.ProjectActivity;
 import fcu.app.appclassfinalproject.R;
+import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.Issue;
 
 public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> {
@@ -36,7 +42,18 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
         holder.tvName.setText(issue.getName());
         holder.tvSummary.setText(issue.getSummary());
         holder.tvStatus.setText(issue.getStatus());
-        holder.tvDesignee.setText(issue.getDesignee());
+        SqlDataBaseHelper sqlDataBaseHelper = new SqlDataBaseHelper(holder.itemView.getContext());
+        SQLiteDatabase db = sqlDataBaseHelper.getReadableDatabase();
+        Cursor cursor = null;
+        cursor = db.rawQuery("SELECT * FROM Users WHERE id = ?", new String[]{String.valueOf(issue.getDesignee())});
+        // 檢查是否有結果
+        if (cursor != null && cursor.moveToFirst()) {
+            String desingeeName = cursor.getString(cursor.getColumnIndexOrThrow("account"));
+            holder.tvDesignee.setText("負責人: "+desingeeName);
+        } else {
+            holder.tvDesignee.setText("負責人: noOne");
+            Log.e("ProjectInfoFragment", "找不到 ID 為 " + issue.getDesignee() + " 的項目");
+        }
     }
 
     @Override

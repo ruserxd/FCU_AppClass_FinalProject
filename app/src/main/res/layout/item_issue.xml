@@ -27,7 +27,8 @@ app:cardBackgroundColor="#F8C5C5">
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_status"
