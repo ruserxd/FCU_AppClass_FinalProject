@@ -1,13 +1,13 @@
 package fcu.app.appclassfinalproject.model;
 
-public class issueMonth {
+public class IssueMonth {
 
   private String start_time;
   private String end_time;
   private String status;
 
 
-  public issueMonth(String start_time, String end_time, String status) {
+  public IssueMonth(String start_time, String end_time, String status) {
     this.start_time = start_time;
     this.end_time = end_time;
     this.status = status;

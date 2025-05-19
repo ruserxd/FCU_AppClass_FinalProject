@@ -8,15 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import fcu.app.appclassfinalproject.R;
-import fcu.app.appclassfinalproject.model.issueMonth;
+import fcu.app.appclassfinalproject.model.IssueMonth;
 import java.util.Arrays;
 import java.util.List;
 
 public class IssueMonthAdapter extends RecyclerView.Adapter<IssueMonthAdapter.ViewHolder> {
 
-  private List<issueMonth> issueList;
+  private List<IssueMonth> issueList;
 
-  public IssueMonthAdapter(Context context, List<issueMonth> list) {
+  public IssueMonthAdapter(Context context, List<IssueMonth> list) {
     this.issueList = list;
   }
 
@@ -30,7 +30,7 @@ public class IssueMonthAdapter extends RecyclerView.Adapter<IssueMonthAdapter.Vi
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    issueMonth issue = issueList.get(position);
+    IssueMonth issue = issueList.get(position);
     int start = Integer.parseInt(issue.getStart_time().substring(5, 7)); // e.g., "2024-05-01"
     int end = Integer.parseInt(issue.getEnd_time().substring(5, 7));
     for (int i = start - 1; i < end; i++) {

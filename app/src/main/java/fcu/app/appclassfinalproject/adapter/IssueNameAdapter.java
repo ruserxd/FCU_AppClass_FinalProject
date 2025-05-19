@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import fcu.app.appclassfinalproject.R;
-import fcu.app.appclassfinalproject.model.issueName;
+import fcu.app.appclassfinalproject.model.IssueName;
 import java.util.List;
 
 public class IssueNameAdapter extends RecyclerView.Adapter<IssueNameAdapter.ViewHolder> {
 
-  private List<issueName> issueList;
+  private List<IssueName> issueList;
 
-  public IssueNameAdapter(Context context, List<issueName> list) {
+  public IssueNameAdapter(Context context, List<IssueName> list) {
     this.issueList = list;
   }
 
@@ -30,7 +30,7 @@ public class IssueNameAdapter extends RecyclerView.Adapter<IssueNameAdapter.View
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    issueName issue = issueList.get(position);
+    IssueName issue = issueList.get(position);
     holder.tvissueName.setText(issue.getName());
   }
 

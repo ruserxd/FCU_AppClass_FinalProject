@@ -1,10 +1,10 @@
 package fcu.app.appclassfinalproject.model;
 
-public class issueName {
+public class IssueName {
 
   private String name;
 
-  public issueName(String name) {
+  public IssueName(String name) {
     this.name = name;
   }
 
