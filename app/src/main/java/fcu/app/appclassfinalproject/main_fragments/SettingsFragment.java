@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
+
 
 /**
  * A simple {@link Fragment} subclass. Use the {@link SettingsFragment#newInstance} factory method
@@ -28,7 +30,8 @@ public class SettingsFragment extends Fragment {
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
-  private Button btn_logout;
+  private Button btn_logout, btn_userfriend;
+
   private static final String TAG = "SettingsFragment";
 
   private FirebaseAuth mAuth;
@@ -82,6 +85,7 @@ public class SettingsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     btn_logout = view.findViewById(R.id.btn_logout);
+    btn_userfriend = view.findViewById(R.id.btn_userFriends);
 
     // 登出按鈕
     btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +107,17 @@ public class SettingsFragment extends Fragment {
 
         // 回到登入頁面
         intentTo(LoginActivity.class);
+      }
+    });
+
+    btn_userfriend.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        friendFragment fragment = new friendFragment();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_main, fragment)
+            .addToBackStack(null)
+            .commit();
       }
     });
   }
