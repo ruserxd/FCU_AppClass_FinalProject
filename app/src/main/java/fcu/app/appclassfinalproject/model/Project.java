@@ -1,33 +1,34 @@
 package fcu.app.appclassfinalproject.model;
 
 public class Project {
-    private int ID;
-    private String name;
-    private String summary;
-    private int managerId;
 
-    public Project(int ID, String name, String summary, int managerId) {
-        this.ID = ID;
-        this.name = name;
-        this.summary = summary;
-        this.managerId = managerId;
-    }
+  private int ID;
+  private String name;
+  private String summary;
+  private int managerId;
 
-    public int getId() {
-        return ID;
-    }
+  public Project(int ID, String name, String summary, int managerId) {
+    this.ID = ID;
+    this.name = name;
+    this.summary = summary;
+    this.managerId = managerId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public int getId() {
+    return ID;
+  }
 
-    public String getSummary() {
-        return summary;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public int getManagerId() {
-        return managerId;
-    }
+  public String getSummary() {
+    return summary;
+  }
+
+  public int getManagerId() {
+    return managerId;
+  }
 
 
 }
