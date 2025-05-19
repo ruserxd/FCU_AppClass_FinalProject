@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
   private static final String DataBaseName = "FCU_FinalProjectDataBase";
-  private static final int DataBaseVersion = 6;
+  private static final int DataBaseVersion = 7;
 
   public SqlDataBaseHelper(@Nullable Context context) {
     super(context, DataBaseName, null, DataBaseVersion);
@@ -67,6 +67,15 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
         "FOREIGN KEY(issue_id) REFERENCES Issues(id) ON DELETE CASCADE" +
         ")";
     sqLiteDatabase.execSQL(createUserIssueTable);
+
+    // UserFriends
+    String createFriends = "CREATE TABLE IF NOT EXISTS Friends (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+        "user_id INTEGER NOT NULL," +
+        "friend_id INTEGER NOT NULL," +
+        "UNIQUE(user_id, friend_id)" +
+        ")";
+    sqLiteDatabase.execSQL(createFriends);
   }
 
   @Override
@@ -76,6 +85,7 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
     sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Issues");
     sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Projects");
     sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Users");
+    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Friends");
     onCreate(sqLiteDatabase);
   }
 
