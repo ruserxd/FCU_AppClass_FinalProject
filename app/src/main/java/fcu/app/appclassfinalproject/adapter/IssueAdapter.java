@@ -1,6 +1,10 @@
 package fcu.app.appclassfinalproject.adapter;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -8,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Properties;
 
+import fcu.app.appclassfinalproject.EditIssueActivity;
 import fcu.app.appclassfinalproject.ProjectActivity;
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
@@ -23,8 +29,10 @@ import fcu.app.appclassfinalproject.model.Issue;
 public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> {
 
     private List<Issue> issueList;
+    private Context context;
 
     public IssueAdapter(Context context, List<Issue> list) {
+        this.context=context;
         this.issueList = list;
     }
 
@@ -38,6 +46,7 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Integer id=-1;
         Issue issue = issueList.get(position);
         holder.tvName.setText(issue.getName());
         holder.tvSummary.setText(issue.getSummary());
@@ -54,6 +63,26 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
             holder.tvDesignee.setText("負責人: noOne");
             Log.e("ProjectInfoFragment", "找不到 ID 為 " + issue.getDesignee() + " 的項目");
         }
+        cursor = db.rawQuery("SELECT id FROM Issues WHERE name = ?", new String[]{issue.getName()});
+        if (cursor != null && cursor.moveToFirst()) {
+            id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        } else {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        }
+
+        Integer finalId = id;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditIssueActivity.class);
+                // SharedPreferences 存入 Project 的 ID
+                SharedPreferences prefs = context.getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("issue_Id", finalId);
+                editor.apply();
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

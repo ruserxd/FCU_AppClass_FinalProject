@@ -116,7 +116,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
-        android:background="#8BFF91"
+        android:background="@drawable/btn_save_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

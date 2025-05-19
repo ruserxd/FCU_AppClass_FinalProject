@@ -131,18 +131,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_end_time" />
 
-    <EditText
-        android:id="@+id/ed_status"
+    <Spinner
+        android:id="@+id/spin_EditStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/ed_end_time"
+        app:layout_constraintStart_toStartOf="@+id/ed_end_time"
         app:layout_constraintTop_toBottomOf="@+id/edit_status" />
 
     <TextView
@@ -154,7 +149,7 @@
         android:text="被指派者"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_status" />
+        app:layout_constraintTop_toBottomOf="@+id/spin_EditStatus" />
 
     <EditText
         android:id="@+id/ed_designee"
