@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import fcu.app.appclassfinalproject.adapter.IssueMonthAdapter;
 import fcu.app.appclassfinalproject.adapter.IssueNameAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
-import fcu.app.appclassfinalproject.model.issueMonth;
-import fcu.app.appclassfinalproject.model.issueName;
+import fcu.app.appclassfinalproject.model.IssueMonth;
+import fcu.app.appclassfinalproject.model.IssueName;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +34,8 @@ public class GanttActivity extends AppCompatActivity {
   private RecyclerView monthRecyclerView;
   private IssueNameAdapter issueNameAdapter;
   private IssueMonthAdapter issueMonthAdapter;
-  private List<issueName> issueNameList;
-  private List<issueMonth> issueMonthList;
+  private List<IssueName> issueNameList;
+  private List<IssueMonth> issueMonthList;
   private ImageButton btnBackToIssueList;
   private TextView tvIssueName;
   private TextView tvToday;
@@ -89,8 +89,8 @@ public class GanttActivity extends AppCompatActivity {
         String end_time = issueCursor.getString(issueCursor.getColumnIndexOrThrow("end_time"));
         String status = issueCursor.getString(issueCursor.getColumnIndexOrThrow("status"));
 
-        issueNameList.add(new issueName(name));
-        issueMonthList.add(new issueMonth(start_time, end_time, status));
+        issueNameList.add(new IssueName(name));
+        issueMonthList.add(new IssueMonth(start_time, end_time, status));
       } while (issueCursor.moveToNext());
     } else {
       Toast.makeText(GanttActivity.this, "此專案沒有任何問題", Toast.LENGTH_SHORT).show();

@@ -87,7 +87,6 @@ public class SettingsFragment extends Fragment {
     btn_logout = view.findViewById(R.id.btn_logout);
     btn_userfriend = view.findViewById(R.id.btn_userFriends);
 
-
     // 登出按鈕
     btn_logout.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -114,7 +113,7 @@ public class SettingsFragment extends Fragment {
     btn_userfriend.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-        friendFragment fragment = new friendFragment();
+        FriendFragment fragment = new FriendFragment();
         requireActivity().getSupportFragmentManager().beginTransaction()
             .replace(R.id.fragment_main, fragment)
             .addToBackStack(null)
