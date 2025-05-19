@@ -18,7 +18,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import com.google.firebase.firestore.FirebaseFirestore;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
 
@@ -30,14 +29,11 @@ public class EditIssueActivity extends AppCompatActivity {
   private EditText edEndTime;
   private Spinner spin_Status;
   private EditText edDesignee;
-  private ImageButton btnHome;
   private ImageButton btnSave;
   private ImageButton btnCancel;
   int id;
   String[] items = {"未開始", "進行中", "已完成"};
 
-
-  private FirebaseFirestore db;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +62,6 @@ public class EditIssueActivity extends AppCompatActivity {
 
     edDesignee = findViewById(R.id.ed_designee);
 
-    btnHome = findViewById(R.id.ed_btn_back);
     btnSave = findViewById(R.id.ed_btn_save);
     btnCancel = findViewById(R.id.ed_btn_cancel);
 
@@ -109,27 +104,6 @@ public class EditIssueActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
     }
-
-////        初始化編輯議題內容
-//        db.collection("issue").whereEqualTo("id",id).get().addOnCompleteListener(task -> {
-//            if(task.isSuccessful()){
-//                for (QueryDocumentSnapshot doc : task.getResult()) {
-//                    String name = doc.getString("name");
-//                    String summary= doc.getString("summary");
-//                    String startTime= doc.getString("start_time");
-//                    String endTime= doc.getString("end_time");
-//
-////                    TODO:不確定有沒有
-////                    String status= doc.getString("status");
-////                    String designee= doc.getString("designee");
-//                    edName.setText(name);
-//                    edSummary.setText(summary);
-//                    edStartTime.setText(startTime);
-//                    edEndTime.setText(endTime);
-//                }
-//            }
-
-//        });
 //      TODO:補preferences
 //        SharedPreferences prefs = getSharedPreferences("", MODE_PRIVATE);
 //        String projectId = prefs.getString("projectId",null);
