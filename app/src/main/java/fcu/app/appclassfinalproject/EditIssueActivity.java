@@ -14,25 +14,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
-import fcu.app.appclassfinalproject.model.Issue;
 
 public class EditIssueActivity extends AppCompatActivity {
     private EditText edName;
@@ -41,14 +30,12 @@ public class EditIssueActivity extends AppCompatActivity {
     private EditText edEndTime;
     private Spinner spin_Status;
     private EditText edDesignee;
-    private ImageButton btnHome;
     private ImageButton btnSave;
     private ImageButton btnCancel;
     int id;
     String[] items = {"未開始", "進行中", "已完成"};
 
 
-    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +65,6 @@ public class EditIssueActivity extends AppCompatActivity {
 
         edDesignee = findViewById(R.id.ed_designee);
 
-        btnHome = findViewById(R.id.ed_btn_back);
         btnSave = findViewById(R.id.ed_btn_save);
         btnCancel = findViewById(R.id.ed_btn_cancel);
 
