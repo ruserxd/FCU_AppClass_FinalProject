@@ -10,14 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-
 import fcu.app.appclassfinalproject.main_fragments.FriendFragment;
 import fcu.app.appclassfinalproject.model.User;
+import java.util.List;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
 
@@ -75,7 +72,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     tvFriendEmail.setTextColor(Color.GRAY);
     tvFriendEmail.setText("friend@example.com");
 
-    // 添加到用戶信息容器
+    // 添加用戶訊息
     userInfoLayout.addView(tvFriendName);
     userInfoLayout.addView(tvFriendEmail);
 
@@ -83,7 +80,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     Button btnDelete = new Button(context);
     btnDelete.setId(View.generateViewId());
     btnDelete.setText("刪除好友");
-    btnDelete.setBackgroundColor(Color.parseColor("#F44336")); // 紅色按鈕
+    btnDelete.setBackgroundColor(Color.parseColor("#F44336"));
     btnDelete.setTextColor(Color.WHITE);
     btnDelete.setTextSize(14);
     LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
@@ -147,6 +144,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
+
     TextView tvFriendName;
     TextView tvFriendEmail;
     Button btnDelete;

@@ -34,7 +34,7 @@ public class AddfriendAdapter extends RecyclerView.Adapter<AddfriendAdapter.View
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(context).inflate(R.layout.item_addfriend, parent, false);
-    Log.d("AddfriendAdapter", "創建 ViewHolder");
+    Log.d("AddFriendAdapter", "創建 ViewHolder");
     return new ViewHolder(view);
   }
 
@@ -42,7 +42,7 @@ public class AddfriendAdapter extends RecyclerView.Adapter<AddfriendAdapter.View
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     User user = userList.get(position);
 
-    Log.d("AddfriendAdapter", "綁定數據 - 位置: " + position + ", 用戶: " + user.getAccount());
+    Log.d("AddFriendAdapter", "綁定數據 - 位置: " + position + ", 用戶: " + user.getAccount());
 
     holder.tvUserAccount.setText(user.getAccount());
     holder.tvUserEmail.setText(user.getEmail());
@@ -51,11 +51,11 @@ public class AddfriendAdapter extends RecyclerView.Adapter<AddfriendAdapter.View
     holder.btnAddFriend.setVisibility(View.VISIBLE);
     holder.btnAddFriend.setEnabled(true);
 
-    Log.d("AddfriendAdapter", "按鈕狀態 - 可見性: " + holder.btnAddFriend.getVisibility() +
+    Log.d("AddFriendAdapter", "按鈕狀態 - 可見性: " + holder.btnAddFriend.getVisibility() +
         ", 是否啟用: " + holder.btnAddFriend.isEnabled());
 
     holder.btnAddFriend.setOnClickListener(v -> {
-      Log.d("AddfriendAdapter", "按鈕被點擊: " + user.getAccount());
+      Log.d("AddFriendAdapter", "按鈕被點擊: " + user.getAccount());
       addFriend(user.getID(), position);
     });
   }

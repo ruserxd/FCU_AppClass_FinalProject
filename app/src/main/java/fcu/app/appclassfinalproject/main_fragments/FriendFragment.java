@@ -119,7 +119,7 @@ public class FriendFragment extends Fragment {
           new String[]{currentUserUid});
 
       int currentUserId = -1;
-      if (userCursor != null && userCursor.moveToFirst()) {
+      if (userCursor.moveToFirst()) {
         currentUserId = userCursor.getInt(0);
         userCursor.close();
         Log.d(TAG, "找到當前用戶 ID: " + currentUserId);
@@ -127,7 +127,7 @@ public class FriendFragment extends Fragment {
         Log.e(TAG, "找不到當前用戶的數據庫記錄");
         Toast.makeText(requireContext(), "用戶資料同步錯誤", Toast.LENGTH_SHORT).show();
         loadTestData();
-        if (userCursor != null) userCursor.close();
+        userCursor.close();
         return;
       }
 

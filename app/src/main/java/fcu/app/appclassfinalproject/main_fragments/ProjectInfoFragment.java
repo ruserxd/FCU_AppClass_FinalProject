@@ -98,7 +98,7 @@ public class ProjectInfoFragment extends Fragment {
           new String[]{String.valueOf(project_id)});
 
       // 檢查是否有結果
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         String projectName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         tv_projectName.setText(projectName);
       } else {
@@ -109,7 +109,7 @@ public class ProjectInfoFragment extends Fragment {
       // 查找該專案下的所有問題
       issueCursor = db.rawQuery("SELECT * FROM Issues WHERE project_id = ?",
           new String[]{String.valueOf(project_id)});
-      if (issueCursor != null && issueCursor.moveToFirst()) {
+      if (issueCursor.moveToFirst()) {
         do {
           String name = issueCursor.getString(issueCursor.getColumnIndexOrThrow("name"));
           String summary = issueCursor.getString(issueCursor.getColumnIndexOrThrow("summary"));
@@ -118,8 +118,9 @@ public class ProjectInfoFragment extends Fragment {
           String end_time = issueCursor.getString(issueCursor.getColumnIndexOrThrow("end_time"));
           String status = issueCursor.getString(issueCursor.getColumnIndexOrThrow("status"));
 
-          issueList.add(
-              new Issue(name, summary, start_time, end_time, status, String.valueOf(project_id)));
+          String designee = issueCursor.getString(issueCursor.getColumnIndexOrThrow("designee"));
+          issueList.add(new Issue(name, summary, start_time, end_time, status, designee));
+
         } while (issueCursor.moveToNext());
       } else {
         Toast.makeText(requireContext(), "此專案沒有任何問題", Toast.LENGTH_SHORT).show();
