@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.poi.ss.usermodel.*;
@@ -22,7 +21,6 @@ import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.Project;
 import fcu.app.appclassfinalproject.model.Issue;
 public class ExportExcel {
-    private static final String TAG = "ExcelExporter";
     private Context context;
     private SQLiteDatabase db;
     private SqlDataBaseHelper dbHelper;
