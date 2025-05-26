@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
+
+import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
 
@@ -30,10 +33,10 @@ public class SettingsFragment extends Fragment {
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
-  private Button btn_logout, btn_userfriend, btn_add_friend;
+  private Button btn_logout, btn_userfriend, btn_add_friend, btn_export_excel;
 
   private static final String TAG = "SettingsFragment";
-
+  private SQLiteDatabase db;
   private FirebaseAuth mAuth;
 
   // TODO: Rename and change types of parameters
@@ -87,6 +90,7 @@ public class SettingsFragment extends Fragment {
     btn_logout = view.findViewById(R.id.btn_logout);
     btn_userfriend = view.findViewById(R.id.btn_userFriends);
     btn_add_friend = view.findViewById(R.id.btn_add_friend);
+    btn_export_excel = view.findViewById(R.id.btn_excel);
 
     // 登出按鈕
     btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +134,13 @@ public class SettingsFragment extends Fragment {
             .replace(R.id.fragment_main, fragment)
             .addToBackStack(null)
             .commit();
+      }
+    });
+
+    btn_export_excel.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        new ExportExcel(getContext(),db).exportToExcel("Project.xlsx");
       }
     });
   }

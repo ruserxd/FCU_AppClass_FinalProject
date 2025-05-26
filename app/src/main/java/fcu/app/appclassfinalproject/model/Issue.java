@@ -8,7 +8,6 @@ public class Issue {
   private String end_time;
   private String status;
   private String designee;
-
   public Issue(String name, String summary, String start_time, String end_time, String status,
       String designee) {
     this.name = name;
@@ -33,5 +32,12 @@ public class Issue {
 
   public String getDesignee() {
     return designee;
+  }
+
+  public String getEnd_time() {
+    return end_time;
+  }
+  public String getStart_time() {
+    return start_time;
   }
 }
