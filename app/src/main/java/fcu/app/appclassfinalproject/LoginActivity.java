@@ -93,11 +93,20 @@ public class LoginActivity extends AppCompatActivity {
                   Log.d(TAG, "signInWithEmail:success");
                   FirebaseUser user = mAuth.getCurrentUser();
 
+                  // 同步 Firebase 用戶與本地數據庫
+                  int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
+                      LoginActivity.this,
+                      user.getUid(),
+                      user.getEmail(),
+                      null
+                  );
+
                   // 存入登入狀態
                   prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
                   SharedPreferences.Editor editor = prefs.edit();
                   editor.putString("email", email);
                   editor.putString("uid", user.getUid());
+                  editor.putInt("user_id", localUserId);
                   editor.apply();
 
                   Toast.makeText(LoginActivity.this, "登入成功", Toast.LENGTH_SHORT).show();

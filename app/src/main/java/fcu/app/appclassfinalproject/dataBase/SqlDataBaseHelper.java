@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
   private static final String DataBaseName = "FCU_FinalProjectDataBase";
-  private static final int DataBaseVersion = 7;
+  private static final int DataBaseVersion = 8;
 
   public SqlDataBaseHelper(@Nullable Context context) {
     super(context, DataBaseName, null, DataBaseVersion);
@@ -20,7 +20,8 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
         "account TEXT NOT NULL UNIQUE," +
         "password TEXT NOT NULL," +
-        "email TEXT NOT NULL UNIQUE" +
+        "email TEXT NOT NULL UNIQUE," +
+        "firebase_uid TEXT UNIQUE" +
         ")";
     sqLiteDatabase.execSQL(createUsersTable);
 
@@ -79,14 +80,20 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
   }
 
   @Override
-  public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserIssue");
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserProject");
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Issues");
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Projects");
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Users");
-    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Friends");
-    onCreate(sqLiteDatabase);
+  public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+    if (oldVersion < 8) {
+      try {
+        sqLiteDatabase.execSQL("ALTER TABLE Users ADD COLUMN firebase_uid TEXT UNIQUE");
+      } catch (Exception e) {
+        // 如果欄位已存在或其他錯誤，重建表
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserIssue");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserProject");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Issues");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Projects");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Users");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Friends");
+        onCreate(sqLiteDatabase);
+      }
+    }
   }
-
 }

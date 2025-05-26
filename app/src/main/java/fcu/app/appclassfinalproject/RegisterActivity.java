@@ -1,7 +1,7 @@
 package fcu.app.appclassfinalproject;
 
-import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
   private SqlDataBaseHelper sqlDataBaseHelper;
   private SQLiteDatabase db;
   private FirebaseAuth mAuth;
-
+  private static final String TAG = "RegisterActivity";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
       v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
       return insets;
     });
+
     // 找尋對應 id
     et_account = findViewById(R.id.et_register_account);
     et_password = findViewById(R.id.et_register_password);
@@ -59,13 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseApp.initializeApp(this);
     mAuth = FirebaseAuth.getInstance();
 
-    // 登入按鈕
+    // 註冊按鈕
     btn_register.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        String account = et_account.getText().toString();
+        String account = et_account.getText().toString().trim();
         String password = et_password.getText().toString();
-        String email = et_email.getText().toString();
+        String email = et_email.getText().toString().trim();
 
         // 檢查輸入不為空
         if (account.isEmpty() || password.isEmpty() || email.isEmpty()) {
@@ -73,43 +74,75 @@ public class RegisterActivity extends AppCompatActivity {
           return;
         }
 
-        // 初始化資料庫
-        sqlDataBaseHelper = new SqlDataBaseHelper(getBaseContext());
-        db = sqlDataBaseHelper.getWritableDatabase();
+        // 基本的密碼強度檢查
+        if (password.length() < 6) {
+          Toast.makeText(RegisterActivity.this, "密碼至少需要6個字元", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-        // 與 firebase 進行註冊
+        // 與 Firebase 進行註冊
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
               @Override
               public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                  // Firebase 註冊成功
                   FirebaseUser user = mAuth.getCurrentUser();
+                  Log.d(TAG, "Firebase 註冊成功: " + user.getEmail());
 
-                  try {
-                    //放入到 SQLite 中
-                    ContentValues values = new ContentValues();
-                    values.put("account", account);
-                    values.put("password", password);
-                    values.put("email", email);
+                  // 同步到本地數據庫
+                  int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
+                      RegisterActivity.this,
+                      user.getUid(),
+                      user.getEmail(),
+                      account
+                  );
 
-                    long newRowId = db.insert("Users", null, values);
+                  if (localUserId != -1) {
+                    // 註冊成功，保存登入狀態
+                    SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("email", email);
+                    editor.putString("uid", user.getUid());
+                    editor.putInt("user_id", localUserId);
+                    editor.apply();
 
-                    if (newRowId == -1) {
-                      Log.e("DATABASE", "插入 Users 表失敗，返回 -1");
-                      Toast.makeText(RegisterActivity.this, "資料庫插入失敗", Toast.LENGTH_SHORT)
-                          .show();
-                    } else {
-                      Log.d("DATABASE", "成功插入 Users 表，新行 ID: " + newRowId);
-                      Toast.makeText(RegisterActivity.this, "註冊成功：" + user.getEmail(),
-                          Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "本地數據庫同步成功，用戶 ID: " + localUserId);
+                    Toast.makeText(RegisterActivity.this, "註冊成功！", Toast.LENGTH_SHORT).show();
 
-                      intentTo(LoginActivity.class);
-                    }
-                  } catch (Exception e) {
-                    Log.e("DATABASE", "資料庫操作異常: " + e.getMessage(), e);
-                    Toast.makeText(RegisterActivity.this, "資料庫操作錯誤: " + e.getMessage(),
+                    // 直接進入主頁面，不需要再次登入
+                    intentTo(HomeActivity.class);
+                  } else {
+                    // 本地數據庫同步失敗
+                    Log.e(TAG, "本地數據庫同步失敗");
+                    Toast.makeText(RegisterActivity.this, "註冊成功，但資料同步失敗，請重新登入",
                         Toast.LENGTH_LONG).show();
+
+                    // 登出 Firebase 用戶，讓用戶重新登入
+                    mAuth.signOut();
+                    intentTo(LoginActivity.class);
                   }
+                } else {
+                  // Firebase 註冊失敗
+                  String errorMessage = "註冊失敗";
+                  Log.w(TAG, "Firebase 註冊失敗", task.getException());
+
+                  if (task.getException() != null) {
+                    String error = task.getException().getMessage();
+                    if (error != null) {
+                      if (error.contains("email address is already in use")) {
+                        errorMessage = "此電子郵件已被註冊";
+                      } else if (error.contains("badly formatted")) {
+                        errorMessage = "電子郵件格式不正確";
+                      } else if (error.contains("weak password")) {
+                        errorMessage = "密碼強度不足";
+                      } else if (error.contains("network error")) {
+                        errorMessage = "網路連接錯誤";
+                      }
+                    }
+                  }
+
+                  Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
               }
             })
@@ -118,14 +151,14 @@ public class RegisterActivity extends AppCompatActivity {
               public void onFailure(@NonNull Exception e) {
                 // 捕獲任何可能發生的異常
                 String errorMessage = "註冊過程發生錯誤: " + e.getMessage();
-                Log.e("FIREBASE_AUTH", errorMessage, e);
+                Log.e(TAG, errorMessage, e);
                 Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
               }
             });
       }
     });
 
-    // 切換至 註冊 頁面
+    // 切換至登入頁面
     tv_to_login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
