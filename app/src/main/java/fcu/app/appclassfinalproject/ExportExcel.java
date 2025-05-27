@@ -1,6 +1,7 @@
 package fcu.app.appclassfinalproject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
@@ -30,12 +31,16 @@ public class ExportExcel {
   private Context context;
   private SQLiteDatabase db;
   private SqlDataBaseHelper dbHelper;
+  private int currentUserId;
 
   public ExportExcel(Context context, SQLiteDatabase database) {
     this.context = context;
     this.db = database;
     dbHelper = new SqlDataBaseHelper(context);
     db = dbHelper.getReadableDatabase();
+
+    SharedPreferences prefs = context.getSharedPreferences("FCUPrefs", Context.MODE_PRIVATE);
+    currentUserId = prefs.getInt("user_id", -1);
   }
 
   // 從資料庫獲取所有專案
@@ -43,7 +48,8 @@ public class ExportExcel {
     List<Project> projects = new ArrayList<>();
 
     Cursor cursor = db.rawQuery(
-        "SELECT * FROM Projects ORDER BY id", null);
+        "SELECT * FROM Projects WHERE manager_id = ? ORDER BY id",
+        new String[]{String.valueOf(currentUserId)});
 
     if (cursor.moveToFirst()) {
       do {

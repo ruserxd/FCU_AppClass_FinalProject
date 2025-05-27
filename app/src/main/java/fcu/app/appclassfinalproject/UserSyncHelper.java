@@ -23,29 +23,26 @@ public class UserSyncHelper {
   public static int syncFirebaseUserWithLocalDB(Context context, String firebaseUid, String email,
       String account) {
     SqlDataBaseHelper sqlDataBaseHelper = new SqlDataBaseHelper(context);
-    SQLiteDatabase db = sqlDataBaseHelper.getWritableDatabase();
 
-    try {
+    try (SQLiteDatabase db = sqlDataBaseHelper.getWritableDatabase()) {
       // 首先檢查是否已經存在這個 firebase_uid 的用戶
       Cursor cursor = db.rawQuery("SELECT id FROM Users WHERE firebase_uid = ?",
           new String[]{firebaseUid});
 
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         int userId = cursor.getInt(0);
         cursor.close();
         Log.i(TAG, "找到現有用戶，ID: " + userId);
         return userId;
       }
 
-      if (cursor != null) {
-        cursor.close();
-      }
+      cursor.close();
 
       // 檢查是否有相同 email 的用戶（可能是舊數據）
       cursor = db.rawQuery("SELECT id FROM Users WHERE email = ?",
           new String[]{email});
 
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         // 更新現有用戶的 firebase_uid
         int userId = cursor.getInt(0);
         cursor.close();
@@ -62,9 +59,7 @@ public class UserSyncHelper {
         }
       }
 
-      if (cursor != null) {
-        cursor.close();
-      }
+      cursor.close();
 
       // 創建新用戶
       ContentValues values = new ContentValues();
@@ -86,8 +81,6 @@ public class UserSyncHelper {
     } catch (Exception e) {
       Log.e(TAG, "同步用戶時發生錯誤: " + e.getMessage(), e);
       return -1;
-    } finally {
-      db.close();
     }
   }
 }
