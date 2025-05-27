@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
-
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
@@ -140,7 +139,7 @@ public class SettingsFragment extends Fragment {
     btn_export_excel.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        new ExportExcel(getContext(),db).exportToExcel("Project.xlsx");
+        new ExportExcel(getContext(), db).exportToExcel("Project.xlsx");
       }
     });
   }
