@@ -43,7 +43,7 @@ dependencies {
     implementation libs.firebase.auth
     implementation libs.firebase.firestore
     implementation libs.firebase.storage
-    implementation 'org.apache.poi:poi:5.4.0'
-    implementation 'org.apache.poi:poi-ooxml:5.4.0'
+    implementation libs.poi
+    implementation libs.poi.ooxml
 
 }

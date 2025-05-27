@@ -139,7 +139,7 @@ public class ExportExcel {
 
     // 建立專案議題工作表
     private void createIssueSheet(Workbook workbook, Project project, List<Issue> issues) {
-        String sheetName = project.getName() + "_議題";
+        String sheetName = project.getName() + "_專案";
         // Excel工作表名稱不能超過31個字元
         if (sheetName.length() > 31) {
             sheetName = sheetName.substring(0, 28) + "...";
