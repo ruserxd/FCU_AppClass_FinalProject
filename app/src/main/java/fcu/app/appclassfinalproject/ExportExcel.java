@@ -112,7 +112,7 @@ public class ExportExcel {
     CellStyle headerStyle = workbook.createCellStyle();
     Font headerFont = workbook.createFont();
     headerFont.setBold(true);
-    headerFont.setFontHeightInPoints((short) 12);
+    headerFont.setFontHeightInPoints((short) 16);
     headerStyle.setFont(headerFont);
     headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
     headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -152,19 +152,18 @@ public class ExportExcel {
 
   // 建立專案議題工作表
   private void createIssueSheet(Workbook workbook, Project project, List<Issue> issues) {
-    String sheetName = project.getName() + "_專案";
-    // Excel工作表名稱不能超過31個字元
+    String sheetName = project.getName() + "專案的議題";
     if (sheetName.length() > 31) {
       sheetName = sheetName.substring(0, 28) + "...";
     }
 
     Sheet sheet = workbook.createSheet(sheetName);
 
-    // 建立標題樣式
+    // 標題樣式
     CellStyle headerStyle = workbook.createCellStyle();
     Font headerFont = workbook.createFont();
     headerFont.setBold(true);
-    headerFont.setFontHeightInPoints((short) 12);
+    headerFont.setFontHeightInPoints((short) 16);
     headerStyle.setFont(headerFont);
     headerStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
     headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -183,34 +182,58 @@ public class ExportExcel {
     // 空白行
     sheet.createRow(1);
 
-    // 建立標題行
+    // 標題行
     Row headerRow = sheet.createRow(2);
     String[] headers = {"議題ID", "主旨", "概述", "開始時間", "結束時間", "狀態", "被指派者"};
-
     for (int i = 0; i < headers.length; i++) {
       Cell cell = headerRow.createCell(i);
       cell.setCellValue(headers[i]);
       cell.setCellStyle(headerStyle);
     }
 
+    // 內容樣式
+    CellStyle contentStyle = workbook.createCellStyle();
+    Font contentFont = workbook.createFont();
+    contentFont.setFontHeightInPoints((short) 14);
+    contentStyle.setFont(contentFont);
+
     // 填入議題資料
     for (int i = 0; i < issues.size(); i++) {
       Row row = sheet.createRow(i + 3);
       Issue issue = issues.get(i);
 
-      row.createCell(0).setCellValue(i + 1);
-      row.createCell(1).setCellValue(issue.getName());
-      row.createCell(2).setCellValue(issue.getSummary());
-      row.createCell(3).setCellValue(issue.getStart_time());
-      row.createCell(4).setCellValue(issue.getEnd_time());
-      row.createCell(5).setCellValue(issue.getStatus());
-      row.createCell(6).setCellValue(issue.getDesignee());
+      Cell cell0 = row.createCell(0);
+      cell0.setCellValue(i + 1);
+      cell0.setCellStyle(contentStyle);
+
+      Cell cell1 = row.createCell(1);
+      cell1.setCellValue(issue.getName());
+      cell1.setCellStyle(contentStyle);
+
+      Cell cell2 = row.createCell(2);
+      cell2.setCellValue(issue.getSummary());
+      cell2.setCellStyle(contentStyle);
+
+      Cell cell3 = row.createCell(3);
+      cell3.setCellValue(issue.getStart_time());
+      cell3.setCellStyle(contentStyle);
+
+      Cell cell4 = row.createCell(4);
+      cell4.setCellValue(issue.getEnd_time());
+      cell4.setCellStyle(contentStyle);
+
+      Cell cell5 = row.createCell(5);
+      cell5.setCellValue(issue.getStatus());
+      cell5.setCellStyle(contentStyle);
+
+      Cell cell6 = row.createCell(6);
+      cell6.setCellValue(issue.getDesignee());
+      cell6.setCellStyle(contentStyle);
     }
 
     // 手動調整欄寬
     for (int i = 0; i < headers.length; i++) {
-      sheet.setColumnWidth(i, 20 * 256); // 這樣設定欄寬為 20 個字符
-
+      sheet.setColumnWidth(i, 20 * 256);
     }
   }
 
