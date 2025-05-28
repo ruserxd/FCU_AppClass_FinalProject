@@ -75,9 +75,8 @@ public class AddfriendAdapter extends RecyclerView.Adapter<AddfriendAdapter.View
     }
 
     SqlDataBaseHelper sqlDataBaseHelper = new SqlDataBaseHelper(context);
-    SQLiteDatabase db = sqlDataBaseHelper.getWritableDatabase();
 
-    try {
+    try (SQLiteDatabase db = sqlDataBaseHelper.getWritableDatabase()) {
       // 添加雙向好友關係
       ContentValues values1 = new ContentValues();
       values1.put("user_id", currentUserId);
@@ -106,8 +105,6 @@ public class AddfriendAdapter extends RecyclerView.Adapter<AddfriendAdapter.View
 
     } catch (Exception e) {
       Toast.makeText(context, "添加好友時發生錯誤: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-    } finally {
-      db.close();
     }
   }
 

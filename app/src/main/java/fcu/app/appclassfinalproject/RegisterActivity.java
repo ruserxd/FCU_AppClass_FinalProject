@@ -2,7 +2,6 @@ package fcu.app.appclassfinalproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,9 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
   private Button btn_register;
   private TextView tv_to_login;
 
-  private SqlDataBaseHelper sqlDataBaseHelper;
-  private SQLiteDatabase db;
-  private FirebaseAuth mAuth;
+  FirebaseAuth mAuth;
   private static final String TAG = "RegisterActivity";
 
   @Override

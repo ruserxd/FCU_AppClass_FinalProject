@@ -37,7 +37,7 @@ public class IssueMonthAdapter extends RecyclerView.Adapter<IssueMonthAdapter.Vi
       View monthView = holder.vMonth.get(i);
       if (monthView != null) {
         monthView.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(),
-            R.drawable.border)); // 你可以改成你要的顏色
+            R.drawable.border));
       }
     }
   }

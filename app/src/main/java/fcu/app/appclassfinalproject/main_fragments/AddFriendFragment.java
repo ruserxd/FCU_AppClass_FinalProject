@@ -92,16 +92,14 @@ public class AddFriendFragment extends Fragment {
           new String[]{currentUserUid});
 
       int currentUserId = -1;
-      if (userCursor != null && userCursor.moveToFirst()) {
+      if (userCursor.moveToFirst()) {
         currentUserId = userCursor.getInt(0);
         userCursor.close();
         Log.d("AddFriendFragment", "找到當前用戶 ID: " + currentUserId);
       } else {
         Log.e("AddFriendFragment", "找不到當前用戶的數據庫記錄");
         Toast.makeText(requireContext(), "用戶資料同步錯誤，請重新登入", Toast.LENGTH_SHORT).show();
-        if (userCursor != null) {
-          userCursor.close();
-        }
+        userCursor.close();
         return;
       }
 
@@ -123,7 +121,7 @@ public class AddFriendFragment extends Fragment {
 
       availableUsersList.clear();
 
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         do {
           int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
           String account = cursor.getString(cursor.getColumnIndexOrThrow("account"));

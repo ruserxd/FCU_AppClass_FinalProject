@@ -155,7 +155,7 @@ public class ProjectInfoFragment extends Fragment {
 
   private void intentTo(Class<?> page) {
     Intent intent = new Intent();
-    intent.setClass(getContext(), page);
+    intent.setClass(requireContext(), page);
     startActivity(intent);
   }
 

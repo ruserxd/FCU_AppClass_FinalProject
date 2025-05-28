@@ -17,9 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
-import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
 
 public class EditIssueActivity extends AppCompatActivity {
 
@@ -69,15 +67,13 @@ public class EditIssueActivity extends AppCompatActivity {
     SqlDataBaseHelper sqlDataBaseHelper = new SqlDataBaseHelper(this);
     SQLiteDatabase db = sqlDataBaseHelper.getReadableDatabase();
 
-//  TODO:須補issue id相關程式碼
-//      假設有issue ID
     SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
     id = prefs.getInt("issue_Id", 0);
 
     Cursor cursor = null;
     cursor = db.rawQuery("SELECT * FROM Issues WHERE id = ?", new String[]{String.valueOf(id)});
 
-    if (cursor != null && cursor.moveToFirst()) {
+    if (cursor.moveToFirst()) {
       do {
         String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         String summary = cursor.getString(cursor.getColumnIndexOrThrow("summary"));
@@ -105,9 +101,6 @@ public class EditIssueActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
     }
-//      TODO:補preferences
-//        SharedPreferences prefs = getSharedPreferences("", MODE_PRIVATE);
-//        String projectId = prefs.getString("projectId",null);
 
     btnSave.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -121,7 +114,6 @@ public class EditIssueActivity extends AppCompatActivity {
         String designee = edDesignee.getText().toString().trim();
         SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
         int project_id = prefs.getInt("project_id", 0);
-        Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
 
         ContentValues values = new ContentValues();
         values.put("name", name);

@@ -71,7 +71,7 @@ public class GanttActivity extends AppCompatActivity {
 
     cursor = db.rawQuery("SELECT * FROM Projects WHERE id = ?",
         new String[]{String.valueOf(project_id)});
-    if (cursor != null && cursor.moveToFirst()) {
+    if (cursor.moveToFirst()) {
       String projectName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
       tvIssueName.setText(projectName);
     } else {
@@ -81,7 +81,7 @@ public class GanttActivity extends AppCompatActivity {
 
     issueCursor = db.rawQuery("SELECT * FROM Issues WHERE project_id = ?",
         new String[]{String.valueOf(project_id)});
-    if (issueCursor != null && issueCursor.moveToFirst()) {
+    if (issueCursor.moveToFirst()) {
       do {
         String name = issueCursor.getString(issueCursor.getColumnIndexOrThrow("name"));
         String summary = issueCursor.getString(issueCursor.getColumnIndexOrThrow("summary"));

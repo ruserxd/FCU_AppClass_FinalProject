@@ -48,11 +48,9 @@ public class HomeActivity extends AppCompatActivity {
         return true;
       }
 
-
     });
 
   }
-
 
   private void setCurrentFragment(Fragment fragment) {
     getSupportFragmentManager()

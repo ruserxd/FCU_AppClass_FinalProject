@@ -31,7 +31,7 @@ public class IssueNameAdapter extends RecyclerView.Adapter<IssueNameAdapter.View
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     IssueName issue = issueList.get(position);
-    holder.tvissueName.setText(issue.getName());
+    holder.tvIssueName.setText(issue.getName());
   }
 
   @Override
@@ -41,11 +41,11 @@ public class IssueNameAdapter extends RecyclerView.Adapter<IssueNameAdapter.View
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView tvissueName;
+    TextView tvIssueName;
 
     public ViewHolder(@NonNull View itemView) {
       super(itemView);
-      tvissueName = itemView.findViewById(R.id.tv_issue_name);
+      tvIssueName = itemView.findViewById(R.id.tv_issue_name);
     }
   }
 }

@@ -143,7 +143,7 @@ public class AddIssueFragment extends Fragment {
     });
 
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
-        getContext(), // 或 requireContext()
+        requireContext(), // 或 requireContext()
         android.R.layout.simple_spinner_item,
         getCurrentLanguage().equals("en") ? items : itemsEN // String[] 陣列或 List<String>
     );
@@ -151,9 +151,9 @@ public class AddIssueFragment extends Fragment {
     spiStatus.setAdapter(adapter);
 
     accountList = getAccountList();
-    ArrayAdapter<String> useradapter = new ArrayAdapter<>(getContext(),
+    ArrayAdapter<String> userAdapter = new ArrayAdapter<>(requireContext(),
         android.R.layout.simple_dropdown_item_1line, accountList);
-    actvDesignee.setAdapter(useradapter);
+    actvDesignee.setAdapter(userAdapter);
 
     // 假設 sharedPreference 有　"projectId"
     btnSave.setOnClickListener(new View.OnClickListener() {

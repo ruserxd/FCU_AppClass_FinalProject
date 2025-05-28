@@ -141,7 +141,7 @@ public class FriendFragment extends Fragment {
 
       friendList.clear();
 
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         Log.d(TAG, "找到 " + cursor.getCount() + " 個朋友");
 
         do {
@@ -218,7 +218,7 @@ public class FriendFragment extends Fragment {
           new String[]{currentUserUid});
 
       int currentUserId = -1;
-      if (cursor != null && cursor.moveToFirst()) {
+      if (cursor.moveToFirst()) {
         currentUserId = cursor.getInt(0);
         cursor.close();
         cursor = null;
