@@ -123,10 +123,11 @@ public class SettingsFragment extends Fragment {
 
   private void changeLanguageSetting() {
     String currentLang = getCurrentLanguage();
+    Log.d(TAG, "當前語言: " + currentLang);
     String newLang = currentLang.equals("zh") ? "en" : "zh";
+    Log.d(TAG, "切換語言: " + newLang);
 
     saveLanguage(newLang);
-
     Toast.makeText(requireContext(), R.string.changeLanguage_success, Toast.LENGTH_SHORT).show();
     updateLanguageAndReload(newLang);
   }
@@ -154,13 +155,12 @@ public class SettingsFragment extends Fragment {
     requireActivity().getResources().updateConfiguration(config,
         requireActivity().getResources().getDisplayMetrics());
 
-    // 延遲重新載入 Fragment
+    // 整個 activity 重來，延遲避免未更新就跳轉頁面
     new android.os.Handler().postDelayed(() -> {
-      SettingsFragment newFragment = new SettingsFragment();
-      requireActivity().getSupportFragmentManager()
-          .beginTransaction()
-          .replace(R.id.fragment_main, newFragment)
-          .commit();
-    }, 100);
+      Intent intent = new Intent(requireActivity(), requireActivity().getClass());
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+      startActivity(intent);
+      requireActivity().finish();
+    }, 1000);
   }
 }

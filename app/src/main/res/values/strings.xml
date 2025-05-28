@@ -10,7 +10,15 @@
   <string name="setting_deleteAccount">Delete Account</string>
   <string name="setting_logOut">Log Out</string>
   <string name="logout_success">Log Out Success!!</string>
+  <string name="AddProject_Title">NEW PROJECT</string>
+  <string name="AddProject_Name">Project Name</string>
+  <string name="AddProject_Summary">Project Summary</string>
+  <string name="AddProject_Manager">Project Manager</string>
+  <string name="AddProject_btn">ADD</string>
   <string name="item_project_title">ProjectName: %1$s</string>
   <string name="item_project_summary">Summary: %1$s</string>
   <string name="changeLanguage_success">語言已切換至中文</string>
+  <string name="menu_home">Home</string>
+  <string name="menu_Add">Add</string>
+  <string name="menu_settings">Settings</string>
 </resources>

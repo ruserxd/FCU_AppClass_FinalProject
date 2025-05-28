@@ -10,8 +10,16 @@
   <string name="setting_deleteAccount">刪除帳號</string>
   <string name="setting_logOut">登出</string>
   <string name="logout_success">登出成功</string>
+  <string name="AddProject_Manager">專案管理者</string>
+  <string name="AddProject_btn">新增</string>
   <string name="item_project_title">專案名稱: %1$s</string>
   <string name="item_project_summary">簡述: %1$s</string>
   <!--這邊要相反-->
   <string name="changeLanguage_success">Language switched to English</string>
+  <string name="AddProject_Title">新增專案</string>
+  <string name="AddProject_Name">專案名稱</string>
+  <string name="AddProject_Summary">專案簡述</string>
+  <string name="menu_home">主頁</string>
+  <string name="menu_Add">新增</string>
+  <string name="menu_settings">設定</string>
 </resources>

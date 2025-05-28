@@ -17,7 +17,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="24dp"
-      android:text="NEW PROJECT"
+      android:text="@string/AddProject_Title"
       android:textSize="48sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
       android:id="@+id/textView2"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Project Name"
+      android:text="@string/AddProject_Name"
       app:layout_constraintBottom_toTopOf="@+id/et_ProjectName"
       app:layout_constraintStart_toStartOf="@+id/et_ProjectName" />
 
@@ -35,7 +35,7 @@
       android:id="@+id/textView3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Project Summary"
+      android:text="@string/AddProject_Summary"
       app:layout_constraintBottom_toTopOf="@+id/et_ProjectSummary"
       app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary" />
 
@@ -43,7 +43,7 @@
       android:id="@+id/textView4"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Project Manager"
+      android:text="@string/AddProject_Manager"
       app:layout_constraintBottom_toTopOf="@+id/actv_PM"
       app:layout_constraintStart_toStartOf="@+id/actv_PM" />
 
@@ -83,7 +83,7 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="24dp"
-      android:text="ADD"
+      android:text="@string/AddProject_btn"
       app:layout_constraintEnd_toEndOf="@+id/actv_PM"
       app:layout_constraintStart_toStartOf="@+id/actv_PM"
       app:layout_constraintTop_toBottomOf="@+id/actv_PM" />
