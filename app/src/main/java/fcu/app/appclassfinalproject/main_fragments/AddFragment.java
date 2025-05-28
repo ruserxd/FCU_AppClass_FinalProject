@@ -114,17 +114,17 @@ public class AddFragment extends Fragment {
 
           long result = db.insert("Projects", null, values);
           if (result != -1) {
-            Toast.makeText(getContext(), "新增成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.AddProject_success, Toast.LENGTH_SHORT).show();
             ContentValues userProjectValues = new ContentValues();
             userProjectValues.put("user_id", managerId);
             userProjectValues.put("project_id", (int) result);  // result 是 Projects 表的 id
 
             long linkResult = db.insert("UserProject", null, userProjectValues);
           } else {
-            Toast.makeText(getContext(), "新增失敗", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.AddProject_fail, Toast.LENGTH_SHORT).show();
           }
         } else {
-          Toast.makeText(getContext(), "找不到該帳號", Toast.LENGTH_SHORT).show();
+          Toast.makeText(getContext(), R.string.AddProject_NoAccount, Toast.LENGTH_SHORT).show();
           Log.d("AddFragment", "NO account！");
         }
 

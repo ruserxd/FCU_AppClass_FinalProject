@@ -123,12 +123,12 @@ public class ProjectInfoFragment extends Fragment {
 
         } while (issueCursor.moveToNext());
       } else {
-        Toast.makeText(requireContext(), "此專案沒有任何問題", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), R.string.IssueList_Noti, Toast.LENGTH_SHORT).show();
       }
     } catch (Exception e) {
       tv_projectName.setText("加載時發生錯誤");
       Log.e("ProjectInfoFragment", "加載時發生錯誤: " + e.getMessage(), e);
-      Toast.makeText(requireContext(), "加載時發生錯誤: " + e.getMessage(), Toast.LENGTH_SHORT)
+      Toast.makeText(requireContext(), R.string.IssueList_Error + e.getMessage(), Toast.LENGTH_SHORT)
           .show();
     } finally {
       if (cursor != null) {

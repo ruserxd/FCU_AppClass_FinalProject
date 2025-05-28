@@ -24,69 +24,79 @@
       app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-      android:id="@+id/textView2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/AddProject_Name"
-      app:layout_constraintBottom_toTopOf="@+id/et_ProjectName"
-      app:layout_constraintStart_toStartOf="@+id/et_ProjectName" />
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/AddProject_Name"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/et_ProjectName"
+        app:layout_constraintStart_toStartOf="@+id/et_ProjectName" />
 
     <TextView
-      android:id="@+id/textView3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/AddProject_Summary"
-      app:layout_constraintBottom_toTopOf="@+id/et_ProjectSummary"
-      app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary" />
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/AddProject_Summary"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/et_ProjectSummary"
+        app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary" />
 
     <TextView
-      android:id="@+id/textView4"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/AddProject_Manager"
-      app:layout_constraintBottom_toTopOf="@+id/actv_PM"
-      app:layout_constraintStart_toStartOf="@+id/actv_PM" />
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/AddProject_Manager"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/actv_PM"
+        app:layout_constraintStart_toStartOf="@+id/actv_PM" />
 
     <EditText
-      android:id="@+id/et_ProjectName"
-      android:layout_width="331dp"
-      android:layout_height="50dp"
-      android:layout_marginTop="36dp"
-      android:ems="10"
-      android:inputType="text"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:id="@+id/et_ProjectName"
+        android:layout_width="331dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-      android:id="@+id/et_ProjectSummary"
-      android:layout_width="331dp"
-      android:layout_height="50dp"
-      android:layout_marginTop="36dp"
-      android:ems="10"
-      android:inputType="text"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_ProjectName" />
+        android:id="@+id/et_ProjectSummary"
+        android:layout_width="331dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_ProjectName" />
 
     <AutoCompleteTextView
-      android:id="@+id/actv_PM"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="36dp"
-      app:layout_constraintEnd_toEndOf="@+id/et_ProjectSummary"
-      app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary"
-      app:layout_constraintTop_toBottomOf="@+id/et_ProjectSummary" />
+        android:id="@+id/actv_PM"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/et_ProjectSummary"
+        app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary"
+        app:layout_constraintTop_toBottomOf="@+id/et_ProjectSummary" />
 
     <Button
-      android:id="@+id/btn_addProject"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
-      android:text="@string/AddProject_btn"
-      app:layout_constraintEnd_toEndOf="@+id/actv_PM"
-      app:layout_constraintStart_toStartOf="@+id/actv_PM"
-      app:layout_constraintTop_toBottomOf="@+id/actv_PM" />
+        android:id="@+id/btn_addProject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="#81D4FA"
+        android:text="@string/AddProject_btn"
+        app:layout_constraintEnd_toEndOf="@+id/actv_PM"
+        app:layout_constraintStart_toStartOf="@+id/actv_PM"
+        app:layout_constraintTop_toBottomOf="@+id/actv_PM" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

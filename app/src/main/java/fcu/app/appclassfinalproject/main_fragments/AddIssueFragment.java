@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,9 +47,10 @@ public class AddIssueFragment extends Fragment {
   private Spinner spiStatus;
   private AutoCompleteTextView actvDesignee;
 
-  private ImageButton btnSave;
+  private Button btnSave;
 
   String[] items = {"未開始", "進行中", "已完成"};
+  String[] itemsEN = {"TO-DO", "In progress", "Finished"};
   private static String[] accountList = new String[]{};
   private SqlDataBaseHelper sqlDataBaseHelper;
   private SQLiteDatabase db;
@@ -144,7 +146,7 @@ public class AddIssueFragment extends Fragment {
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
         getContext(), // 或 requireContext()
         android.R.layout.simple_spinner_item,
-        items // String[] 陣列或 List<String>
+        getCurrentLanguage().equals("en")?items:itemsEN // String[] 陣列或 List<String>
     );
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spiStatus.setAdapter(adapter);
@@ -221,5 +223,11 @@ public class AddIssueFragment extends Fragment {
         .commit();
   }
 
+  private String getCurrentLanguage() {
+    return getSharedPrefs().getString("app_language", "zh");
+  }
+  private SharedPreferences getSharedPrefs() {
+    return requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+  }
 
 }

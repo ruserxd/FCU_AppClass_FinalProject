@@ -8,27 +8,27 @@
   tools:context=".EditIssueActivity">
 
   <TextView
-    android:id="@+id/edit_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="16dp"
-    android:text="主旨"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/edit_issue" />
+      android:id="@+id/edit_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="16dp"
+      android:text="@string/EditIssue_Topic"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/edit_issue" />
 
   <TextView
-    android:id="@+id/edit_issue"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="24dp"
-    android:background="#FFDBDB"
-    android:text="編輯議題"
-    android:textSize="34sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/edit_issue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:background="#00FFDBDB"
+      android:text="@string/EditIssue_Title"
+      android:textSize="34sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
   <EditText
     android:id="@+id/ed_name"
@@ -45,15 +45,15 @@
     app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
   <TextView
-    android:id="@+id/edit_summary"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:text="概述"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/ed_name" />
+      android:id="@+id/edit_summary"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/EditIssue_Status"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_name" />
 
   <EditText
     android:id="@+id/ed_summary"
@@ -70,15 +70,15 @@
     app:layout_constraintTop_toBottomOf="@+id/edit_summary" />
 
   <TextView
-    android:id="@+id/edit_stime"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:text="開始時間"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/ed_summary" />
+      android:id="@+id/edit_stime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/EditIssue_StartTime"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_summary" />
 
   <EditText
     android:id="@+id/ed_start_time"
@@ -95,15 +95,15 @@
     app:layout_constraintTop_toBottomOf="@+id/edit_stime" />
 
   <TextView
-    android:id="@+id/edit_etime"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:text="結束時間"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/ed_start_time" />
+      android:id="@+id/edit_etime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/EditIssue_EndTime"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_start_time" />
 
   <EditText
     android:id="@+id/ed_end_time"
@@ -120,15 +120,15 @@
     app:layout_constraintTop_toBottomOf="@+id/edit_etime" />
 
   <TextView
-    android:id="@+id/edit_status"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:text="狀態"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/ed_end_time" />
+      android:id="@+id/edit_status"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/EditIssue_StartTime"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_end_time" />
 
   <Spinner
     android:id="@+id/spin_EditStatus"
@@ -140,15 +140,15 @@
     app:layout_constraintTop_toBottomOf="@+id/edit_status" />
 
   <TextView
-    android:id="@+id/edit_designee"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:text="被指派者"
-    android:textSize="16sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/spin_EditStatus" />
+      android:id="@+id/edit_designee"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/EditIssue_Designee"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/spin_EditStatus" />
 
   <EditText
     android:id="@+id/ed_designee"
@@ -164,28 +164,26 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/edit_designee" />
 
-  <ImageButton
-    android:id="@+id/ed_btn_cancel"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_marginTop="32dp"
-    android:layout_marginEnd="64dp"
-    android:background="@drawable/btn_cancel_shape"
-    android:elevation="4dp"
-    app:layout_constraintEnd_toStartOf="@+id/ed_btn_save"
-    app:layout_constraintTop_toBottomOf="@+id/ed_designee"
-    app:srcCompat="@drawable/cancel" />
+  <Button
+      android:id="@+id/ed_btn_save"
+      android:layout_width="wrap_content"
+      android:layout_height="50dp"
+      android:layout_marginTop="32dp"
+      android:layout_marginEnd="60dp"
+      android:backgroundTint="#81D4FA"
+      android:text="@string/EditIssue_Save"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_designee" />
 
-  <ImageButton
-    android:id="@+id/ed_btn_save"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_marginTop="32dp"
-    android:background="@drawable/btn_save_shape"
-    android:elevation="4dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/ed_designee"
-    app:srcCompat="@drawable/check" />
+  <Button
+      android:id="@+id/ed_btn_cancel"
+      android:layout_width="wrap_content"
+      android:layout_height="50dp"
+      android:layout_marginStart="60dp"
+      android:layout_marginTop="32dp"
+      android:backgroundTint="#F48FB1"
+      android:text="@string/EditIssue_Discard"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ed_designee" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

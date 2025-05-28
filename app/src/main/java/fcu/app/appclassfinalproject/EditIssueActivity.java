@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -29,10 +30,12 @@ public class EditIssueActivity extends AppCompatActivity {
   private EditText edEndTime;
   private Spinner spin_Status;
   private EditText edDesignee;
-  private ImageButton btnSave;
-  private ImageButton btnCancel;
+  private Button btnSave;
+  private Button btnCancel;
   int id;
   String[] items = {"未開始", "進行中", "已完成"};
+  String[] itemsEN = {"TO-DO", "In progress", "Finished"};
+
 
 
   @Override
@@ -55,7 +58,7 @@ public class EditIssueActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
         EditIssueActivity.this, // 或 requireContext()
         android.R.layout.simple_spinner_item,
-        items // String[] 陣列或 List<String>
+            getCurrentLanguage().equals("en")?items:itemsEN // String[] 陣列或 List<String>
     );
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spin_Status.setAdapter(adapter);
@@ -168,5 +171,11 @@ public class EditIssueActivity extends AppCompatActivity {
     edDesignee.setText("");
   }
 
+  private String getCurrentLanguage() {
+    return getSharedPrefs().getString("app_language", "zh");
+  }
+  private SharedPreferences getSharedPrefs() {
+    return this.getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+  }
   ;
 }

@@ -78,7 +78,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="已建立_個專案" />
+        android:text="@string/setting_countporject" />
 
       <Button
         android:id="@+id/btn_delAccount"

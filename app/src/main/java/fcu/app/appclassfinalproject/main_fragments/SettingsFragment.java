@@ -2,6 +2,7 @@ package fcu.app.appclassfinalproject.main_fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -127,6 +128,14 @@ public class SettingsFragment extends Fragment {
     String newLang = currentLang.equals("zh") ? "en" : "zh";
     Log.d(TAG, "切換語言: " + newLang);
 
+    Locale locale = new Locale(newLang);
+    Locale.setDefault(locale);
+
+    Configuration config = new Configuration();
+    config.setLocale(locale);
+    requireActivity().getResources().updateConfiguration(config,
+            requireActivity().getResources().getDisplayMetrics());
+
     saveLanguage(newLang);
     Toast.makeText(requireContext(), R.string.changeLanguage_success, Toast.LENGTH_SHORT).show();
     updateLanguageAndReload(newLang);
@@ -137,8 +146,9 @@ public class SettingsFragment extends Fragment {
     return getSharedPrefs().getString("app_language", "zh");
   }
 
+  @SuppressLint("ApplySharedPref")
   private void saveLanguage(String language) {
-    getSharedPrefs().edit().putString("app_language", language).apply();
+    getSharedPrefs().edit().putString("app_language", language).commit();
   }
 
   private SharedPreferences getSharedPrefs() {
@@ -147,13 +157,22 @@ public class SettingsFragment extends Fragment {
 
   private void updateLanguageAndReload(String language) {
     // 更新語言配置
-    Locale locale = new Locale(language);
-    Locale.setDefault(locale);
+//    Locale locale = new Locale(language);
+//    Locale.setDefault(locale);
+//
+//    Configuration config = new Configuration();
+//    config.setLocale(locale);
+//    requireActivity().getResources().updateConfiguration(config,
+//        requireActivity().getResources().getDisplayMetrics());
 
-    Configuration config = new Configuration();
-    config.setLocale(locale);
-    requireActivity().getResources().updateConfiguration(config,
-        requireActivity().getResources().getDisplayMetrics());
+
+    //在saveLanguage()中改用commit立即改變本地變數，不用等待
+//    Intent intent = new Intent(requireActivity(), requireActivity().getClass());
+//    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//    startActivity(intent);
+//    requireActivity().finish();
+
+
 
     // 整個 activity 重來，延遲避免未更新就跳轉頁面
     new android.os.Handler().postDelayed(() -> {
@@ -161,6 +180,7 @@ public class SettingsFragment extends Fragment {
       intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
       startActivity(intent);
       requireActivity().finish();
-    }, 1000);
+    }, 500);
   }
+
 }

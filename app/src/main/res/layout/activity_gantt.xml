@@ -73,20 +73,20 @@
           android:padding="2dp">
 
           <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="月份"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+              android:id="@+id/textView27"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/Gantt_Month"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
 
           <TextView
-            android:id="@+id/textView28"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="議題"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+              android:id="@+id/textView28"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/Gantt_Issue"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,124 +117,124 @@
             android:orientation="horizontal">
 
             <TextView
-              android:id="@+id/textView22"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="一月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView22"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month1"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView23"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="二月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView23"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month2"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView24"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="三月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView24"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month3"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView25"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="四月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView25"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month4"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView26"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="五月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView26"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month5"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView15"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="六月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView15"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month6"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView16"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="七月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView16"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month7"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView17"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="八月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView17"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month8"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView18"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="九月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView18"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month9"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView19"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="十月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView19"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month10"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView20"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="十一月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView20"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month11"
+                android:textAlignment="center"
+                android:textSize="11sp" />
 
             <TextView
-              android:id="@+id/textView21"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_weight="1"
-              android:background="@drawable/borderline"
-              android:text="十二月"
-              android:textAlignment="center"
-              android:textSize="11sp" />
+                android:id="@+id/textView21"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/borderline"
+                android:text="@string/Month12"
+                android:textAlignment="center"
+                android:textSize="11sp" />
           </LinearLayout>
 
           <androidx.recyclerview.widget.RecyclerView
