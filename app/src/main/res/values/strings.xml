@@ -10,6 +10,7 @@
   <string name="setting_deleteAccount">Delete Account</string>
   <string name="setting_logOut">Log Out</string>
   <string name="logout_success">Log Out Success!!</string>
+  <string name="item_project_title">ProjectName: %1$s</string>
+  <string name="item_project_summary">Summary: %1$s</string>
   <string name="changeLanguage_success">語言已切換至中文</string>
-
 </resources>

@@ -39,8 +39,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
   @Override
   public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
     Project project = projectList.get(position);
-    String tv_project = "ProjectName: " + project.getName();
-    String tv_summary = "Summary: " + project.getSummary();
+
+    String tv_project = context.getString(R.string.item_project_title, project.getName());
+    String tv_summary = context.getString(R.string.item_project_summary, project.getSummary());
     holder.textViewName.setText(tv_project);
     holder.textViewSummary.setText(tv_summary);
 

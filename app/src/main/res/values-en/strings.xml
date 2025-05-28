@@ -10,6 +10,8 @@
   <string name="setting_deleteAccount">刪除帳號</string>
   <string name="setting_logOut">登出</string>
   <string name="logout_success">登出成功</string>
+  <string name="item_project_title">專案名稱: %1$s</string>
+  <string name="item_project_summary">簡述: %1$s</string>
   <!--這邊要相反-->
   <string name="changeLanguage_success">Language switched to English</string>
 </resources>
