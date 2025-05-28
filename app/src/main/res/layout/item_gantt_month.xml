@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+  android:id="@+id/cardView"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="10">
+  <HorizontalScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="10">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:orientation="horizontal">
 
-            <View
-                android:id="@+id/v_month1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month3"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month4"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month6"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month7"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month8"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month9"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month9"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month10"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month10"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month11"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
+      <View
+        android:id="@+id/v_month11"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
 
-            <View
-                android:id="@+id/v_month12"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/borderline"/>
-        </LinearLayout>
-    </HorizontalScrollView>
+      <View
+        android:id="@+id/v_month12"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/borderline" />
+    </LinearLayout>
+  </HorizontalScrollView>
 </LinearLayout>

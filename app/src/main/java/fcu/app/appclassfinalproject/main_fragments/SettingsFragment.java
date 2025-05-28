@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
+import java.util.Locale;
 
 
 /**
@@ -32,7 +34,7 @@ public class SettingsFragment extends Fragment {
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
-  private Button btn_logout, btn_userfriend, btn_add_friend, btn_export_excel;
+  private Button btn_logout, btn_userfriend, btn_add_friend, btn_export_excel, btnChangeLanguage;
 
   private static final String TAG = "SettingsFragment";
   private SQLiteDatabase db;
@@ -90,6 +92,7 @@ public class SettingsFragment extends Fragment {
     btn_userfriend = view.findViewById(R.id.btn_userFriends);
     btn_add_friend = view.findViewById(R.id.btn_add_friend);
     btn_export_excel = view.findViewById(R.id.btn_excel);
+    btnChangeLanguage = view.findViewById(R.id.btn_changeLanguage);
 
     // 登出按鈕
     btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +145,18 @@ public class SettingsFragment extends Fragment {
         new ExportExcel(getContext(), db).exportToExcel("Project.xlsx");
       }
     });
+
+    // 切換語言按鈕
+    btnChangeLanguage.setOnClickListener(v -> {
+      String currentLang = Locale.getDefault().getLanguage();
+      if (currentLang.equals("zh")) {
+        setLocale("en");
+        Log.i("SettingsFragment", "語言已切換至英文");
+      } else {
+        setLocale("zh");
+        Log.i("SettingsFragment", "語言已切換至中文");
+      }
+    });
   }
 
   // 切換至 "指定" 頁面
@@ -151,5 +166,13 @@ public class SettingsFragment extends Fragment {
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 清除返回堆疊
     startActivity(intent);
     requireActivity().finish();
+  }
+
+  private void setLocale(String lang) {
+    Locale locale = new Locale(lang);
+    Locale.setDefault(locale);
+    Configuration config = new Configuration();
+    config.setLocale(locale);
+    requireActivity().recreate();
   }
 }
