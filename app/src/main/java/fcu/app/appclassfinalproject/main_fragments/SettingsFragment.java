@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,24 +22,15 @@ import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
 import java.util.Locale;
 
-
-/**
- * A simple {@link Fragment} subclass. Use the {@link SettingsFragment#newInstance} factory method
- * to create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment {
 
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
-  private Button btn_logout, btn_userfriend, btn_add_friend, btn_export_excel, btnChangeLanguage;
-
   private static final String TAG = "SettingsFragment";
+  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage;
   private SQLiteDatabase db;
   private FirebaseAuth mAuth;
 
-  // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
 
@@ -48,15 +38,6 @@ public class SettingsFragment extends Fragment {
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of this fragment using the provided
-   * parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment SettingsFragment.
-   */
-  // TODO: Rename and change types and number of parameters
   public static SettingsFragment newInstance(String param1, String param2) {
     SettingsFragment fragment = new SettingsFragment();
     Bundle args = new Bundle();
@@ -69,110 +50,117 @@ public class SettingsFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
-
-    // 初始化 Firebase Auth
     mAuth = FirebaseAuth.getInstance();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_settings, container, false);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    initViews(view);
+
+    // 設定按鈕點擊事件
+    setupClickListeners();
+  }
+
+  private void initViews(View view) {
     btn_logout = view.findViewById(R.id.btn_logout);
-    btn_userfriend = view.findViewById(R.id.btn_userFriends);
+    btn_userFriend = view.findViewById(R.id.btn_userFriends);
     btn_add_friend = view.findViewById(R.id.btn_add_friend);
     btn_export_excel = view.findViewById(R.id.btn_excel);
     btnChangeLanguage = view.findViewById(R.id.btn_changeLanguage);
-
-    // 登出按鈕
-    btn_logout.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        // Firebase 登出
-        mAuth.signOut();
-
-        // 刪除 SharedPreferences 中的登入狀態
-        SharedPreferences prefs = requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
-
-        Log.d(TAG, "用戶已登出");
-
-        // 顯示登出成功提示
-        Toast.makeText(requireContext(), "登出成功", Toast.LENGTH_SHORT).show();
-
-        // 回到登入頁面
-        intentTo(LoginActivity.class);
-      }
-    });
-
-    btn_userfriend.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        FriendFragment fragment = new FriendFragment();
-        requireActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_main, fragment)
-            .addToBackStack(null)
-            .commit();
-      }
-    });
-
-    btn_add_friend.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        AddFriendFragment fragment = new AddFriendFragment();
-        requireActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_main, fragment)
-            .addToBackStack(null)
-            .commit();
-      }
-    });
-
-    btn_export_excel.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        new ExportExcel(getContext(), db).exportToExcel("Project.xlsx");
-      }
-    });
-
-    // 切換語言按鈕
-    btnChangeLanguage.setOnClickListener(v -> {
-      String currentLang = Locale.getDefault().getLanguage();
-      if (currentLang.equals("zh")) {
-        setLocale("en");
-        Log.i("SettingsFragment", "語言已切換至英文");
-      } else {
-        setLocale("zh");
-        Log.i("SettingsFragment", "語言已切換至中文");
-      }
-    });
   }
 
-  // 切換至 "指定" 頁面
-  private void intentTo(Class<?> page) {
-    Intent intent = new Intent();
-    intent.setClass(requireActivity(), page);
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 清除返回堆疊
+  private void setupClickListeners() {
+    // 登出按鈕
+    btn_logout.setOnClickListener(v -> logout());
+
+    // 好友列表
+    btn_userFriend.setOnClickListener(v -> navigateToFragment(new FriendFragment()));
+
+    // 新增好友
+    btn_add_friend.setOnClickListener(v -> navigateToFragment(new AddFriendFragment()));
+
+    // 匯出 Excel
+    btn_export_excel.setOnClickListener(v -> exportExcel());
+
+    // 切換語言
+    btnChangeLanguage.setOnClickListener(v -> changeLanguageSetting());
+  }
+
+  private void logout() {
+    mAuth.signOut();
+
+    getSharedPrefs().edit().clear().apply();
+
+    Log.d(TAG, "用戶已登出");
+    Toast.makeText(requireContext(), getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
+
+    // 回到登入頁面
+    Intent intent = new Intent(requireActivity(), LoginActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     startActivity(intent);
     requireActivity().finish();
   }
 
-  private void setLocale(String lang) {
-    Locale locale = new Locale(lang);
+  private void navigateToFragment(Fragment fragment) {
+    requireActivity().getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.fragment_main, fragment)
+        .addToBackStack(null)
+        .commit();
+  }
+
+  private void exportExcel() {
+    new ExportExcel(getContext(), db).exportToExcel("Project.xlsx");
+  }
+
+  private void changeLanguageSetting() {
+    String currentLang = getCurrentLanguage();
+    String newLang = currentLang.equals("zh") ? "en" : "zh";
+
+    saveLanguage(newLang);
+
+    Toast.makeText(requireContext(), R.string.changeLanguage_success, Toast.LENGTH_SHORT).show();
+    updateLanguageAndReload(newLang);
+  }
+
+  // 預設中文
+  private String getCurrentLanguage() {
+    return getSharedPrefs().getString("app_language", "zh");
+  }
+
+  private void saveLanguage(String language) {
+    getSharedPrefs().edit().putString("app_language", language).apply();
+  }
+
+  private SharedPreferences getSharedPrefs() {
+    return requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+  }
+
+  private void updateLanguageAndReload(String language) {
+    // 更新語言配置
+    Locale locale = new Locale(language);
     Locale.setDefault(locale);
+
     Configuration config = new Configuration();
     config.setLocale(locale);
-    requireActivity().recreate();
+    requireActivity().getResources().updateConfiguration(config,
+        requireActivity().getResources().getDisplayMetrics());
+
+    // 延遲重新載入 Fragment
+    new android.os.Handler().postDelayed(() -> {
+      SettingsFragment newFragment = new SettingsFragment();
+      requireActivity().getSupportFragmentManager()
+          .beginTransaction()
+          .replace(R.id.fragment_main, newFragment)
+          .commit();
+    }, 100);
   }
 }

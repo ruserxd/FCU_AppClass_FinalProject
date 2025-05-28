@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">App Name</string>
+  <string name="setting_excelExport">📊 Excel 匯出</string>
+  <string name="setting_githubExport">💻 GitHub 匯出</string>
+  <string name="setting_friend">朋友</string>
+  <string name="setting_addFriend">新增朋友</string>
+  <string name="setting_about">關於我們</string>
+  <string name="setting_changeLanguage">切換語言</string>
+  <string name="setting_deleteAccount">刪除帳號</string>
+  <string name="setting_logOut">登出</string>
+  <string name="logout_success">登出成功</string>
+  <!--這邊要相反-->
+  <string name="changeLanguage_success">Language switched to English</string>
 </resources>

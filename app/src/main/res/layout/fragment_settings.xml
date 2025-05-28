@@ -25,7 +25,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="📊 Excel 匯出" />
+        android:text="@string/setting_excelExport" />
 
       <Button
         android:id="@+id/btn_userFriends"
@@ -34,7 +34,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="👥 朋友" />
+        android:text="@string/setting_friend" />
 
       <Button
         android:id="@+id/btn_add_friend"
@@ -43,7 +43,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="➕ 加朋友" />
+        android:text="@string/setting_addFriend" />
 
       <Button
         android:id="@+id/btn_github"
@@ -52,7 +52,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="💻 GitHub 匯出" />
+        android:text="@string/setting_githubExport" />
 
       <Button
         android:id="@+id/btn_about"
@@ -61,7 +61,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="📖 關於我們" />
+        android:text="@string/setting_about" />
 
       <Button
         android:id="@+id/btn_changeLanguage"
@@ -70,7 +70,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="切換語言" />
+        android:text="@string/setting_changeLanguage" />
       <Button
         android:id="@+id/btn_projectNumber"
         style="@style/MyButton"
@@ -87,7 +87,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
-        android:text="刪除帳號"
+        android:text="@string/setting_deleteAccount"
         android:textColor="@color/design_default_color_error"
         app:rippleColor="#BF1919"
         app:strokeColor="#8D4848" />
@@ -99,7 +99,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:elevation="2dp"
-        android:text="🚪 登出"
+        android:text="@string/setting_logOut"
         android:textColor="#F44336" />
 
     </LinearLayout>
