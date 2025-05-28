@@ -16,7 +16,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
@@ -146,7 +145,7 @@ public class AddIssueFragment extends Fragment {
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
         getContext(), // 或 requireContext()
         android.R.layout.simple_spinner_item,
-        getCurrentLanguage().equals("en")?items:itemsEN // String[] 陣列或 List<String>
+        getCurrentLanguage().equals("en") ? items : itemsEN // String[] 陣列或 List<String>
     );
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spiStatus.setAdapter(adapter);
@@ -226,6 +225,7 @@ public class AddIssueFragment extends Fragment {
   private String getCurrentLanguage() {
     return getSharedPrefs().getString("app_language", "zh");
   }
+
   private SharedPreferences getSharedPrefs() {
     return requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
   }

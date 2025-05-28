@@ -51,15 +51,27 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
     holder.tvSummary.setText(issue.getSummary());
     holder.tvStatus.setText(issue.getStatus());
     String lang = getCurrentLanguage();
-    if(lang.equals("en")) {
-      if(issue.getStatus().equals("TO-DO")) holder.tvStatus.setText("未開始");
-      if(issue.getStatus().equals("In progress")) holder.tvStatus.setText("進行中");
-      if(issue.getStatus().equals("Finished")) holder.tvStatus.setText("已完成");
+    if (lang.equals("en")) {
+      if (issue.getStatus().equals("TO-DO")) {
+        holder.tvStatus.setText("未開始");
+      }
+      if (issue.getStatus().equals("In progress")) {
+        holder.tvStatus.setText("進行中");
+      }
+      if (issue.getStatus().equals("Finished")) {
+        holder.tvStatus.setText("已完成");
+      }
     }
-    if(lang.equals("zh")) {
-      if(issue.getStatus().equals("未開始")) holder.tvStatus.setText("TO-DO");
-      if(issue.getStatus().equals("進行中")) holder.tvStatus.setText("In progress");
-      if(issue.getStatus().equals("已完成")) holder.tvStatus.setText("Finished");
+    if (lang.equals("zh")) {
+      if (issue.getStatus().equals("未開始")) {
+        holder.tvStatus.setText("TO-DO");
+      }
+      if (issue.getStatus().equals("進行中")) {
+        holder.tvStatus.setText("In progress");
+      }
+      if (issue.getStatus().equals("已完成")) {
+        holder.tvStatus.setText("Finished");
+      }
     }
 
     // 處理負責人顯示
@@ -78,8 +90,8 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
       Log.d(TAG, "Designee value: " + designeeValue);
 
       if (designeeValue == null || designeeValue.trim().isEmpty()) {
-        String nodesignee = getCurrentLanguage().equals("zh")?" 未指派":" No Designee";
-        holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe)+nodesignee);
+        String nodesignee = getCurrentLanguage().equals("zh") ? " 未指派" : " No Designee";
+        holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe) + nodesignee);
         return;
       }
 
@@ -92,17 +104,19 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
       }
 
       if (designeeName != null) {
-        holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe)+" " + designeeName);
+        holder.tvDesignee.setText(
+            context.getString(R.string.IssueList_Designe) + " " + designeeName);
       } else {
         // 如果都找不到，直接顯示原始值
-        holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe)+" " + designeeValue);
+        holder.tvDesignee.setText(
+            context.getString(R.string.IssueList_Designe) + " " + designeeValue);
         Log.w(TAG, "找不到負責人資訊: " + designeeValue);
       }
 
     } catch (Exception e) {
       Log.e(TAG, "查詢負責人時發生錯誤: " + e.getMessage(), e);
-      String nodesignee = getCurrentLanguage().equals("zh")?" 查詢失敗":" Failed";
-      holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe)+nodesignee);
+      String nodesignee = getCurrentLanguage().equals("zh") ? " 查詢失敗" : " Failed";
+      holder.tvDesignee.setText(context.getString(R.string.IssueList_Designe) + nodesignee);
     }
   }
 
@@ -226,6 +240,7 @@ public class IssueAdapter extends RecyclerView.Adapter<IssueAdapter.ViewHolder> 
   private String getCurrentLanguage() {
     return getSharedPrefs().getString("app_language", "zh");
   }
+
   private SharedPreferences getSharedPrefs() {
     return context.getSharedPreferences("FCUPrefs", MODE_PRIVATE);
   }

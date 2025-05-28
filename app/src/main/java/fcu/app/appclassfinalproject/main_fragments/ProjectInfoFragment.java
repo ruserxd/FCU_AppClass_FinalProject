@@ -128,7 +128,8 @@ public class ProjectInfoFragment extends Fragment {
     } catch (Exception e) {
       tv_projectName.setText("加載時發生錯誤");
       Log.e("ProjectInfoFragment", "加載時發生錯誤: " + e.getMessage(), e);
-      Toast.makeText(requireContext(), R.string.IssueList_Error + e.getMessage(), Toast.LENGTH_SHORT)
+      Toast.makeText(requireContext(), R.string.IssueList_Error + e.getMessage(),
+              Toast.LENGTH_SHORT)
           .show();
     } finally {
       if (cursor != null) {

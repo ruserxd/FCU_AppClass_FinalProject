@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
+import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import java.util.Locale;
 
 public class SettingsFragment extends Fragment {
@@ -28,7 +30,7 @@ public class SettingsFragment extends Fragment {
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
   private static final String TAG = "SettingsFragment";
-  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage;
+  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage, btnProjectNumber;
   private SQLiteDatabase db;
   private FirebaseAuth mAuth;
 
@@ -76,6 +78,8 @@ public class SettingsFragment extends Fragment {
     btn_add_friend = view.findViewById(R.id.btn_add_friend);
     btn_export_excel = view.findViewById(R.id.btn_excel);
     btnChangeLanguage = view.findViewById(R.id.btn_changeLanguage);
+    btnProjectNumber = view.findViewById(R.id.btn_projectNumber);
+    btnProjectNumber.setText(getString(R.string.setting_countporject, getCurrentProjectCount()));
   }
 
   private void setupClickListeners() {
@@ -134,7 +138,7 @@ public class SettingsFragment extends Fragment {
     Configuration config = new Configuration();
     config.setLocale(locale);
     requireActivity().getResources().updateConfiguration(config,
-            requireActivity().getResources().getDisplayMetrics());
+        requireActivity().getResources().getDisplayMetrics());
 
     saveLanguage(newLang);
     Toast.makeText(requireContext(), R.string.changeLanguage_success, Toast.LENGTH_SHORT).show();
@@ -156,24 +160,6 @@ public class SettingsFragment extends Fragment {
   }
 
   private void updateLanguageAndReload(String language) {
-    // 更新語言配置
-//    Locale locale = new Locale(language);
-//    Locale.setDefault(locale);
-//
-//    Configuration config = new Configuration();
-//    config.setLocale(locale);
-//    requireActivity().getResources().updateConfiguration(config,
-//        requireActivity().getResources().getDisplayMetrics());
-
-
-    //在saveLanguage()中改用commit立即改變本地變數，不用等待
-//    Intent intent = new Intent(requireActivity(), requireActivity().getClass());
-//    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//    startActivity(intent);
-//    requireActivity().finish();
-
-
-
     // 整個 activity 重來，延遲避免未更新就跳轉頁面
     new android.os.Handler().postDelayed(() -> {
       Intent intent = new Intent(requireActivity(), requireActivity().getClass());
@@ -183,4 +169,25 @@ public class SettingsFragment extends Fragment {
     }, 500);
   }
 
+  private String getCurrentProjectCount() {
+    int userId = getSharedPrefs().getInt("user_id", -1);
+    long count = 0;
+    try {
+      SqlDataBaseHelper dbHelper = new SqlDataBaseHelper(getContext());
+      db = dbHelper.getReadableDatabase();
+
+      if (db != null && userId != -1) {
+        count = DatabaseUtils.queryNumEntries(db, "Projects", "manager_id = ?",
+            new String[]{String.valueOf(userId)});
+      }
+      Log.i("SettingsFragment", "查詢用戶 ID " + userId + " 有多少 project : " + count);
+    } catch (Exception e) {
+      Log.e("SettingsFragment", "獲取專案數量失敗: " + e.getMessage());
+    } finally {
+      if (db != null) {
+        db.close();
+      }
+    }
+    return String.valueOf(count);
+  }
 }
