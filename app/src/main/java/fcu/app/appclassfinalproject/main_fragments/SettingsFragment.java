@@ -23,27 +23,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
+import org.json.JSONArray;
 
 public class SettingsFragment extends Fragment {
 
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
   private static final String TAG = "SettingsFragment";
-  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage, btnProjectNumber,btnGithub;
+  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage, btnProjectNumber, btnGithub;
   private SQLiteDatabase db;
 
   private SqlDataBaseHelper sqlDataBaseHelper;
@@ -231,49 +228,72 @@ public class SettingsFragment extends Fragment {
     builder.show();
   }
 
+
+  // 抓取 GitHub API 上的資訊透過獲取 JSON -> name 的資訊
   private void fetchGithub(String username) {
-    new Thread(() -> {
-      try {
-        URL url = new URL("https://api.github.com/users/" + username + "/repos");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder jsonBuilder = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-          jsonBuilder.append(line);
-        }
-        in.close();
-
-        JSONArray repos = new JSONArray(jsonBuilder.toString());
-        for (int i = 0; i < repos.length(); i++) {
-          JSONObject repo = repos.getJSONObject(i);
-          String repoName = repo.getString("name");
-          ContentValues values = new ContentValues();
-
-          SharedPreferences prefs = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
-          int user_id = prefs.getInt("user_id", 0);
-          values.put("name", repoName);
-          values.put("summary", " "); // 或可設定為空字串 ""
-          values.put("manager_id", user_id); // 可改成目前登入使用者 ID
-
-          db.insert("Projects", null, values);
-        }
-
-        requireActivity().runOnUiThread(() ->
-                Toast.makeText(requireContext(), "導入成功", Toast.LENGTH_SHORT).show());
-
-      } catch (Exception e) {
-        requireActivity().runOnUiThread(() ->
-                Toast.makeText(requireContext(), "發生錯誤：" + e.getMessage(), Toast.LENGTH_LONG).show());
-      }
-    }).start();
+    CompletableFuture
+        .supplyAsync(() -> {
+          try {
+            return fetchGithubRepos(username);
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        })
+        .thenAccept(this::saveReposToDatabase)
+        .thenRun(() -> showToast("導入成功"))
+        .exceptionally(throwable -> {
+          showToast("發生錯誤：" + throwable.getMessage());
+          return null;
+        });
   }
 
+  // 從 GitHub API 獲取使用者的所有專案
+  private JSONArray fetchGithubRepos(String username) throws Exception {
+    URL url = new URL("https://api.github.com/users/" + username + "/repos");
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    StringBuilder json = new StringBuilder();
+    String line;
+    while ((line = reader.readLine()) != null) {
+      json.append(line);
+    }
+    reader.close();
 
+    return new JSONArray(json.toString());
+  }
 
+  // 將 user 的 GitHub 資訊存入 db
+  private void saveReposToDatabase(JSONArray repos) {
+    try {
+      int userId = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE)
+          .getInt("user_id", 0);
 
+      for (int i = 0; i < repos.length(); i++) {
+        String repoName = repos.getJSONObject(i).getString("name");
 
+        // 新增專案
+        ContentValues project = new ContentValues();
+        project.put("name", repoName);
+        project.put("summary", "");
+        project.put("manager_id", userId);
+        long projectId = db.insert("Projects", null, project);
+
+        if (projectId != -1) {
+          ContentValues relation = new ContentValues();
+          relation.put("user_id", userId);
+          relation.put("project_id", projectId);
+          db.insert("UserProject", null, relation);
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  // 顯示 Toast 訊息
+  private void showToast(String message) {
+    requireActivity().runOnUiThread(() ->
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show());
+  }
 }

@@ -31,7 +31,6 @@ public class ProjectActivity extends AppCompatActivity {
     });
 
     BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_project);
-    Fragment homeFragment = HomeFragment.newInstance("", "");
     Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
     Fragment settingsFragment = SettingsFragment.newInstance("", "");
     Fragment addIssueFragment = AddIssueFragment.newInstance("", "");
