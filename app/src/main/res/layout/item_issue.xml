@@ -1,56 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_margin="8dp"
-  app:cardCornerRadius="12dp"
-  android:elevation="4dp"
-  app:cardBackgroundColor="#F8C5C5">
-
-  <LinearLayout
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/surface_color"
+    app:strokeWidth="0dp">
 
-
-    <LinearLayout
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_weight="1"
-      android:orientation="horizontal">
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="16dp">
 
-      <TextView
-        android:id="@+id/tv_issuename"
-        android:layout_width="wrap_content"
+    <!-- 頂部資訊區域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
 
+      <!-- Issue 標題 -->
       <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+          android:id="@+id/tv_issuename"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="Issue 標題"
+          android:textColor="@color/text_primary"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          android:maxLines="2"
+          android:ellipsize="end" />
 
+      <!-- 狀態標籤 -->
       <TextView
-        android:id="@+id/tv_designee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+          android:id="@+id/tv_status"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:background="@drawable/status_badge_background"
+          android:text="進行中"
+          android:textColor="#FFFFFF"
+          android:textSize="11sp"
+          android:textStyle="bold"
+          android:paddingHorizontal="8dp"
+          android:paddingVertical="4dp" />
+
     </LinearLayout>
 
+    <!-- Issue 描述 -->
     <TextView
-      android:id="@+id/tv_issuesummary"
-      android:layout_width="wrap_content"
-      android:layout_height="50dp"
-      android:layout_weight="1"
-      android:text="TextView" />
+        android:id="@+id/tv_issuesummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="Issue 描述內容..."
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="3"
+        android:ellipsize="end" />
+
+    <!-- 底部資訊區域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+      <!-- 指派人員 -->
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:orientation="horizontal"
+          android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_hint"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_designee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用者名稱"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+      </LinearLayout>
+
+      <!-- 優先級或其他資訊 -->
+      <TextView
+          android:id="@+id/tv_priority"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="@drawable/priority_badge_background"
+          android:text="高"
+          android:textColor="@color/text_secondary"
+          android:textSize="10sp"
+          android:paddingHorizontal="6dp"
+          android:paddingVertical="2dp"
+          android:visibility="gone" />
+
+    </LinearLayout>
 
   </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

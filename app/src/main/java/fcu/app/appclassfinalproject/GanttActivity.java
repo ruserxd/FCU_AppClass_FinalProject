@@ -17,6 +17,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+
 import fcu.app.appclassfinalproject.adapter.IssueMonthAdapter;
 import fcu.app.appclassfinalproject.adapter.IssueNameAdapter;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
@@ -36,7 +39,7 @@ public class GanttActivity extends AppCompatActivity {
   private IssueMonthAdapter issueMonthAdapter;
   private List<IssueName> issueNameList;
   private List<IssueMonth> issueMonthList;
-  private ImageButton btnBackToIssueList;
+  private MaterialButton btnBackToIssueList;
   private TextView tvIssueName;
   private TextView tvToday;
 

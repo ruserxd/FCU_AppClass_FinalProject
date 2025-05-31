@@ -1,173 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/main"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".CreateIssueActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:scrollbars="none">
 
-  <TextView
-      android:id="@+id/textView6"
-      android:layout_width="wrap_content"
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/main"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="16dp"
-      android:text="@string/AddIssue_Name"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView5" />
+      android:padding="16dp"
+      tools:context=".CreateIssueActivity">
 
-  <TextView
-      android:id="@+id/textView5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
-      android:background="#00000000"
-      android:text="@string/AddIssue_Title"
-      android:textSize="34sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <!-- 頁面標題 -->
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/AddIssue_Title"
+        android:textColor="@color/text_primary"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <EditText
-    android:id="@+id/et_purpose"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="32dp"
-    android:ems="10"
-    android:inputType="text"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+    <!-- 表單卡片 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/form_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/surface_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-  <TextView
-      android:id="@+id/textView7"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/AddIssue_Summary"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_purpose" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:padding="20dp">
 
-  <EditText
-    android:id="@+id/et_overview"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="32dp"
-    android:ems="10"
-    android:inputType="text"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        <!-- Issue 名稱 -->
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_Name"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-  <TextView
-      android:id="@+id/textView8"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/AddIssue_StartTime"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_overview" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-  <TextView
-      android:id="@+id/textView9"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/AddIssue_EndTime"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_start_time" />
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/et_purpose"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/hint_create_issue_name"
+              android:inputType="text"
+              android:textSize="16sp" />
 
-  <TextView
-      android:id="@+id/textView10"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="8dp"
-      android:text="@string/AddIssue_Status"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/et_endtime" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-  <TextView
-      android:id="@+id/textView11"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="16dp"
-      android:text="@string/AddIssue_Designee"
-      android:textSize="20sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/spin_status" />
+        <!-- Issue 摘要 -->
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_Summary"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-  <EditText
-    android:id="@+id/et_start_time"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="32dp"
-    android:ems="10"
-    android:inputType="none"
-    android:focusable="false"
-    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-  <EditText
-    android:id="@+id/et_endtime"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="32dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="32dp"
-    android:ems="10"
-    android:inputType="none"
-    android:focusable="false"
-    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/et_overview"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/hint_create_issue_summary"
+              android:inputType="textMultiLine"
+              android:maxLines="3"
+              android:textSize="16sp" />
 
-  <Spinner
-    android:id="@+id/spin_status"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    app:layout_constraintEnd_toEndOf="@+id/et_endtime"
-    app:layout_constraintStart_toStartOf="@+id/et_endtime"
-    app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-  <AutoCompleteTextView
-    android:id="@+id/actv_designee"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    app:layout_constraintEnd_toEndOf="@+id/spin_status"
-    app:layout_constraintStart_toStartOf="@+id/spin_status"
-    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        <!-- 開始時間 -->
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_StartTime"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-  <Button
-      android:id="@+id/btn_save"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
-      android:backgroundTint="#81D4FA"
-      android:text="@string/AddIssue_btn"
-      app:layout_constraintEnd_toEndOf="@+id/actv_designee"
-      app:layout_constraintStart_toStartOf="@+id/actv_designee"
-      app:layout_constraintTop_toBottomOf="@+id/actv_designee" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            app:endIconMode="custom"
+            app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/et_start_time"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/hint_create_start_date"
+              android:inputType="none"
+              android:focusable="false"
+              android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 結束時間 -->
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_EndTime"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            app:endIconMode="custom"
+            app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/et_endtime"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/hint_create_end_date"
+              android:inputType="none"
+              android:focusable="false"
+              android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 狀態選擇 -->
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_Status"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spin_status"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/spinner_background"
+            android:padding="12dp" />
+
+        <!-- 指派人員 -->
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddIssue_Designee"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            app:endIconMode="dropdown_menu"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+          <AutoCompleteTextView
+              android:id="@+id/actv_designee"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/hint_create_assignee"
+              android:inputType="none"
+              android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 儲存按鈕 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/AddIssue_btn"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/primary_color"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/form_card"
+        app:layout_constraintStart_toStartOf="@+id/form_card"
+        app:layout_constraintTop_toBottomOf="@+id/form_card"
+        style="@style/Widget.Material3.Button" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

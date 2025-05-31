@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">App Name</string>
+  <string name="home_welcome">Welcome</string>
+  <string name="setting_title">📊 Setting</string>
   <string name="setting_excelExport">📊 Excel Export</string>
   <string name="setting_githubExport">💻 GitHub Export</string>
   <string name="setting_friend">Friend</string>
@@ -10,7 +12,15 @@
   <string name="setting_countporject">There are %1$s projects</string>
   <string name="setting_deleteAccount">Delete Account</string>
   <string name="setting_logOut">Log Out</string>
+  <string name="setting_titleFunc">Feature</string>
+  <string name="setting_titleSocial">Social</string>
+  <string name="setting_titleApplication">Application</string>
+  <string name="setting_titleDangerous">Warring</string>
   <string name="logout_success">Log Out Success!!</string>
+  <string name="AddProject_enterName">Input the name of the project</string>
+  <string name="AddProject_enterSummary">Input the summary of the project</string>
+  <string name="AddProject_enterManager">Select the manager</string>
+  <string name="AddProject_hint">Please fill in the complete information to create the project</string>
   <string name="AddProject_Title">NEW PROJECT</string>
   <string name="AddProject_Name">Project Name</string>
   <string name="AddProject_Summary">Project Summary</string>
@@ -36,6 +46,11 @@
   <string name="AddIssue_Status">Status</string>
   <string name="AddIssue_Designee">Designee</string>
   <string name="AddIssue_btn">Save</string>
+  <string name="hint_create_issue_name">Enter issue name</string>
+  <string name="hint_create_issue_summary">Enter issue summary</string>
+  <string name="hint_create_start_date">Select start date</string>
+  <string name="hint_create_end_date">Select end date</string>
+  <string name="hint_create_assignee">Select assignee</string>
   <string name="EditIssue_Title">Edit Issue</string>
   <string name="EditIssue_Topic">Topic</string>
   <string name="EditIssue_Summary">Summary</string>
@@ -45,6 +60,11 @@
   <string name="EditIssue_Designee">Designee</string>
   <string name="EditIssue_Save">Save</string>
   <string name="EditIssue_Discard">Discard</string>
+  <string name="hint_issue_name">Enter issue name</string>
+  <string name="hint_status_description">Enter status description</string>
+  <string name="hint_start_date">Select start date</string>
+  <string name="hint_end_date">Select end date</string>
+  <string name="hint_assignee">Enter assignee</string>
   <string name="Month1">Jan</string>
   <string name="Month2">Feb</string>
   <string name="Month3">Mar</string>

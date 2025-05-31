@@ -1,37 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_margin="8dp"
-  app:cardCornerRadius="12dp"
-  android:elevation="4dp"
-  app:cardBackgroundColor="#F8C5C5">
-
-  <LinearLayout
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/surface_color"
+    app:strokeWidth="0dp">
 
-    <TextView
-      android:id="@+id/textViewName"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/item_project_title"
-      android:textSize="20sp"
-      android:textStyle="bold"
-      android:textColor="#000000" />
+    <LinearLayout
+        android:id="@+id/hor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-      android:id="@+id/textViewSummary"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/item_project_summary"
-      android:textSize="16sp"
-      android:textColor="#000000"
-      android:layout_marginTop="8dp"
-      android:background="@android:drawable/divider_horizontal_dark"
-      android:paddingBottom="4dp" />
-  </LinearLayout>
-</androidx.cardview.widget.CardView>
+        <!-- 專案標題區塊 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <!-- 狀態指示器 -->
+            <View
+                android:id="@+id/statusIndicator"
+                android:layout_width="4dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/primary_color"
+                android:backgroundTint="@color/primary_color" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/item_project_title"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+        <!-- 專案摘要 -->
+        <TextView
+            android:id="@+id/textViewSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/item_project_summary"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <!-- 底部資訊區塊 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical">
+
+            <!-- 時間標籤 -->
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2025-05-31"
+                android:textColor="@color/text_hint"
+                android:textSize="12sp" />
+
+            <!-- 狀態標籤 -->
+            <TextView
+                android:id="@+id/textViewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/status_badge_background"
+                android:text="進行中"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,106 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="#F5F5F5"
-  tools:context=".main_fragments.SettingsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".main_fragments.SettingsFragment">
 
   <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="none">
 
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:padding="24dp"
-      android:gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-      <Button
-        android:id="@+id/btn_excel"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_excelExport" />
+      <!-- 頁面標題 -->
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="32dp"
+          android:layout_marginTop="16dp"
+          android:gravity="center"
+          android:text="@string/setting_title"
+          android:textColor="@color/text_primary"
+          android:textSize="28sp"
+          android:textStyle="bold" />
 
-      <Button
-        android:id="@+id/btn_userFriends"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_friend" />
+      <!-- 功能區塊 -->
+      <com.google.android.material.card.MaterialCardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="16dp"
+          app:cardCornerRadius="16dp"
+          app:cardElevation="4dp"
+          app:cardBackgroundColor="@color/surface_color">
 
-      <Button
-        android:id="@+id/btn_add_friend"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_addFriend" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-      <Button
-        android:id="@+id/btn_github"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_githubExport" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="12dp"
+              android:text="@string/setting_titleFunc"
+              android:textColor="@color/text_primary"
+              android:textSize="18sp"
+              android:textStyle="bold" />
 
-      <Button
-        android:id="@+id/btn_about"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_about" />
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_excel"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:layout_marginBottom="8dp"
+              android:text="@string/setting_excelExport"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
 
-      <Button
-        android:id="@+id/btn_changeLanguage"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_changeLanguage" />
-      <Button
-        android:id="@+id/btn_projectNumber"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_countporject" />
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_github"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:layout_marginBottom="8dp"
+              android:text="@string/setting_githubExport"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
 
-      <Button
-        android:id="@+id/btn_delAccount"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"
-        android:text="@string/setting_deleteAccount"
-        android:textColor="@color/design_default_color_error"
-        app:rippleColor="#BF1919"
-        app:strokeColor="#8D4848" />
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_projectNumber"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="@string/setting_countporject"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
 
-      <Button
-        android:id="@+id/btn_logout"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:elevation="2dp"
-        android:text="@string/setting_logOut"
-        android:textColor="#F44336" />
+        </LinearLayout>
+      </com.google.android.material.card.MaterialCardView>
+
+      <!-- 社交區塊 -->
+      <com.google.android.material.card.MaterialCardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="16dp"
+          app:cardCornerRadius="16dp"
+          app:cardElevation="4dp"
+          app:cardBackgroundColor="@color/surface_color">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="12dp"
+              android:text="@string/setting_titleSocial"
+              android:textColor="@color/text_primary"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_userFriends"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:layout_marginBottom="8dp"
+              android:text="@string/setting_friend"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
+
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_add_friend"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="@string/setting_addFriend"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
+
+        </LinearLayout>
+      </com.google.android.material.card.MaterialCardView>
+
+      <!-- 應用設定區塊 -->
+      <com.google.android.material.card.MaterialCardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="24dp"
+          app:cardCornerRadius="16dp"
+          app:cardElevation="4dp"
+          app:cardBackgroundColor="@color/surface_color">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="12dp"
+              android:text="@string/setting_titleApplication"
+              android:textColor="@color/text_primary"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_changeLanguage"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:layout_marginBottom="8dp"
+              android:text="@string/setting_changeLanguage"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
+
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_about"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="@string/setting_about"
+              android:textSize="16sp"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              style="@style/Widget.Material3.Button.TextButton" />
+
+        </LinearLayout>
+      </com.google.android.material.card.MaterialCardView>
+
+      <!-- 危險操作區塊 -->
+      <com.google.android.material.card.MaterialCardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="16dp"
+          app:cardCornerRadius="16dp"
+          app:cardElevation="4dp"
+          app:strokeColor="#FFEBEE"
+          app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="12dp"
+              android:text="@string/setting_titleDangerous"
+              android:textColor="#D32F2F"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_delAccount"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="@string/setting_deleteAccount"
+              android:textSize="16sp"
+              app:backgroundTint="#FFEBEE"
+              app:cornerRadius="12dp"
+              app:iconGravity="textStart"
+              app:iconPadding="12dp"
+              app:iconTint="#D32F2F"
+              android:textColor="#D32F2F"
+              style="@style/Widget.Material3.Button.TextButton" />
+
+        </LinearLayout>
+      </com.google.android.material.card.MaterialCardView>
+
+      <!-- 登出按鈕 -->
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/btn_logout"
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="32dp"
+          android:text="@string/setting_logOut"
+          android:textColor="#FFFFFF"
+          android:textSize="16sp"
+          app:backgroundTint="#FF5722"
+          app:cornerRadius="12dp"
+          app:iconGravity="textStart"
+          app:iconPadding="12dp"
+          app:iconTint="#FFFFFF"
+          style="@style/Widget.Material3.Button" />
 
     </LinearLayout>
   </ScrollView>

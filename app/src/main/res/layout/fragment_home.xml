@@ -1,45 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".main_fragments.HomeFragment">
-
-  <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background_light"
+    tools:context=".main_fragments.HomeFragment">
 
-    <!-- 上方橫向區域：圖片與名字 -->
-    <LinearLayout
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:gravity="center_vertical">
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:padding="16dp">
 
-      <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="64dp"
-        android:layout_height="63dp"
-        android:src="@drawable/circle_user_svgrepo_com" />
-
-      <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+    <!-- 頂部用戶資訊卡片 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="使用者名稱"
-        android:textSize="18sp" />
-    </LinearLayout>
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/surface_color">
 
-    <!-- 下方 RecyclerView -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/circle_user_svgrepo_com" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/home_welcome"
+              android:textColor="@color/text_secondary"
+              android:textSize="14sp" />
+
+          <TextView
+              android:id="@+id/tv_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="4dp"
+              android:text="使用者名稱"
+              android:textColor="@color/text_primary"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/recycle"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:layout_marginTop="16dp" />
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
   </LinearLayout>
 
 </FrameLayout>

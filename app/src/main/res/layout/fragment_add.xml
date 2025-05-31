@@ -1,102 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".main_fragments.AddFragment">
-
-  <!-- TODO: Update blank fragment layout -->
-
-  <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".main_fragments.AddFragment">
 
-    <TextView
-      android:id="@+id/textView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
-      android:text="@string/AddProject_Title"
-      android:textSize="48sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/AddProject_Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/et_ProjectName"
-        app:layout_constraintStart_toStartOf="@+id/et_ProjectName" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/AddProject_Summary"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/et_ProjectSummary"
-        app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary" />
+      <!-- 頁面標題 -->
+      <TextView
+          android:id="@+id/textView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:layout_marginBottom="32dp"
+          android:gravity="center"
+          android:text="@string/AddProject_Title"
+          android:textColor="@color/text_primary"
+          android:textSize="28sp"
+          android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/AddProject_Manager"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/actv_PM"
-        app:layout_constraintStart_toStartOf="@+id/actv_PM" />
+      <!-- 表單卡片 -->
+      <com.google.android.material.card.MaterialCardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="24dp"
+          app:cardCornerRadius="16dp"
+          app:cardElevation="4dp"
+          app:cardBackgroundColor="@color/surface_color">
 
-    <EditText
-        android:id="@+id/et_ProjectName"
-        android:layout_width="331dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="70dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
 
-    <EditText
-        android:id="@+id/et_ProjectSummary"
-        android:layout_width="331dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="70dp"
-        android:ems="10"
-        android:inputType="text"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_ProjectName" />
+          <!-- 專案名稱區塊 -->
+          <TextView
+              android:id="@+id/textView2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="8dp"
+              android:text="@string/AddProject_Name"
+              android:textColor="@color/text_primary"
+              android:textSize="16sp"
+              android:textStyle="bold" />
 
-    <AutoCompleteTextView
-        android:id="@+id/actv_PM"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/et_ProjectSummary"
-        app:layout_constraintStart_toStartOf="@+id/et_ProjectSummary"
-        app:layout_constraintTop_toBottomOf="@+id/et_ProjectSummary" />
+          <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="24dp"
+              app:boxCornerRadiusBottomEnd="12dp"
+              app:boxCornerRadiusBottomStart="12dp"
+              app:boxCornerRadiusTopEnd="12dp"
+              app:boxCornerRadiusTopStart="12dp"
+              app:boxStrokeColor="@color/primary_color"
+              style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-    <Button
-        android:id="@+id/btn_addProject"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:backgroundTint="#81D4FA"
-        android:text="@string/AddProject_btn"
-        app:layout_constraintEnd_toEndOf="@+id/actv_PM"
-        app:layout_constraintStart_toStartOf="@+id/actv_PM"
-        app:layout_constraintTop_toBottomOf="@+id/actv_PM" />
-  </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_ProjectName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/AddProject_enterName"
+                android:inputType="text"
+                android:textSize="16sp" />
 
+          </com.google.android.material.textfield.TextInputLayout>
+
+          <!-- 專案摘要區塊 -->
+          <TextView
+              android:id="@+id/textView3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="8dp"
+              android:text="@string/AddProject_Summary"
+              android:textColor="@color/text_primary"
+              android:textSize="16sp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="24dp"
+              app:boxCornerRadiusBottomEnd="12dp"
+              app:boxCornerRadiusBottomStart="12dp"
+              app:boxCornerRadiusTopEnd="12dp"
+              app:boxCornerRadiusTopStart="12dp"
+              app:boxStrokeColor="@color/primary_color"
+              style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_ProjectSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/AddProject_enterSummary"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textSize="16sp" />
+
+          </com.google.android.material.textfield.TextInputLayout>
+
+          <!-- 專案經理區塊 -->
+          <TextView
+              android:id="@+id/textView4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="8dp"
+              android:text="@string/AddProject_Manager"
+              android:textColor="@color/text_primary"
+              android:textSize="16sp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="32dp"
+              app:boxCornerRadiusBottomEnd="12dp"
+              app:boxCornerRadiusBottomStart="12dp"
+              app:boxCornerRadiusTopEnd="12dp"
+              app:boxCornerRadiusTopStart="12dp"
+              app:boxStrokeColor="@color/primary_color"
+              app:endIconMode="dropdown_menu"
+              style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_PM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/AddProject_enterManager"
+                android:inputType="none"
+                android:textSize="16sp" />
+
+          </com.google.android.material.textfield.TextInputLayout>
+
+          <!-- 提交按鈕 -->
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_addProject"
+              android:layout_width="match_parent"
+              android:layout_height="56dp"
+              android:text="@string/AddProject_btn"
+              android:textColor="#FFFFFF"
+              android:textSize="16sp"
+              android:textStyle="bold"
+              app:backgroundTint="@color/primary_color"
+              app:cornerRadius="12dp"
+              style="@style/Widget.Material3.Button" />
+
+        </LinearLayout>
+      </com.google.android.material.card.MaterialCardView>
+
+      <!-- 底部說明文字 -->
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:gravity="center"
+          android:text="@string/AddProject_hint"
+          android:textColor="@color/text_secondary"
+          android:textSize="14sp" />
+
+    </LinearLayout>
+  </ScrollView>
 </FrameLayout>

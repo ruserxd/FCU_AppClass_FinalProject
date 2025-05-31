@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">App Name</string>
+  <string name="home_welcome">歡迎回來</string>
+  <string name="setting_title">📊 設定</string>
   <string name="setting_excelExport">📊 Excel 匯出</string>
   <string name="setting_githubExport">💻 GitHub 匯出</string>
   <string name="setting_friend">朋友</string>
@@ -10,7 +12,15 @@
   <string name="setting_countporject">已建立%1$s個專案</string>
   <string name="setting_deleteAccount">刪除帳號</string>
   <string name="setting_logOut">登出</string>
+  <string name="setting_titleFunc">功能</string>
+  <string name="setting_titleSocial">社交</string>
+  <string name="setting_titleApplication">應用</string>
+  <string name="setting_titleDangerous">警告</string>
   <string name="logout_success">登出成功</string>
+  <string name="AddProject_enterName">請輸入專案名稱</string>
+  <string name="AddProject_enterSummary">請輸入專案概述</string>
+  <string name="AddProject_enterManager">請選擇專案經理</string>
+  <string name="AddProject_hint">請填寫完整資訊以建立專案</string>
   <string name="AddProject_Manager">專案管理者</string>
   <string name="AddProject_btn">新增</string>
   <string name="AddProject_success">新增成功</string>
@@ -37,6 +47,11 @@
   <string name="AddIssue_Status">狀態</string>
   <string name="AddIssue_Designee">被指派者</string>
   <string name="AddIssue_btn">儲存</string>
+  <string name="hint_create_issue_name">請輸入 Issue 名稱</string>
+  <string name="hint_create_issue_summary">請輸入 Issue 摘要</string>
+  <string name="hint_create_start_date">選擇開始日期</string>
+  <string name="hint_create_end_date">選擇結束日期</string>
+  <string name="hint_create_assignee">選擇指派人員</string>
   <string name="EditIssue_Title">編輯議題</string>
   <string name="EditIssue_Topic">主旨</string>
   <string name="EditIssue_Summary">概述</string>
@@ -46,6 +61,11 @@
   <string name="EditIssue_Designee">負責人</string>
   <string name="EditIssue_Save">儲存</string>
   <string name="EditIssue_Discard">丟棄</string>
+  <string name="hint_issue_name">請輸入 Issue 名稱</string>
+  <string name="hint_status_description">請輸入狀態說明</string>
+  <string name="hint_start_date">選擇開始日期</string>
+  <string name="hint_end_date">選擇結束日期</string>
+  <string name="hint_assignee">請輸入指派人員</string>
   <string name="Month1">一月</string>
   <string name="Month2">二月</string>
   <string name="Month3">三月</string>
