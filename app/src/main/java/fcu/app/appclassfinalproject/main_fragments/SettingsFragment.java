@@ -22,7 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
@@ -40,7 +43,7 @@ public class SettingsFragment extends Fragment {
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
   private static final String TAG = "SettingsFragment";
-  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage, btnProjectNumber, btnGithub;
+  private Button btn_logout, btn_userFriend, btn_add_friend, btn_export_excel, btnChangeLanguage, btnProjectNumber, btnGithub, btn_del_account;
   private SQLiteDatabase db;
 
   private SqlDataBaseHelper sqlDataBaseHelper;
@@ -93,6 +96,7 @@ public class SettingsFragment extends Fragment {
     btnProjectNumber = view.findViewById(R.id.btn_projectNumber);
     btnProjectNumber.setText(getString(R.string.setting_countporject, getCurrentProjectCount()));
     btnGithub = view.findViewById(R.id.btn_github);
+    btn_del_account = view.findViewById(R.id.btn_delAccount);
   }
 
   private void setupClickListeners() {
@@ -113,6 +117,9 @@ public class SettingsFragment extends Fragment {
 
     //匯入GitHub專案
     btnGithub.setOnClickListener(v -> GithubInsert());
+
+    // 刪除帳號
+    btn_del_account.setOnClickListener(v -> showDeleteAccountConfirmDialog());
   }
 
   private void logout() {
@@ -121,7 +128,7 @@ public class SettingsFragment extends Fragment {
     getSharedPrefs().edit().clear().apply();
 
     Log.d(TAG, "用戶已登出");
-    Toast.makeText(requireContext(), getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
+    showToast(getString(R.string.logout_success));
 
     // 回到登入頁面
     Intent intent = new Intent(requireActivity(), LoginActivity.class);
@@ -157,7 +164,7 @@ public class SettingsFragment extends Fragment {
         requireActivity().getResources().getDisplayMetrics());
 
     saveLanguage(newLang);
-    Toast.makeText(requireContext(), R.string.changeLanguage_success, Toast.LENGTH_SHORT).show();
+    showToast(String.valueOf(R.string.changeLanguage_success));
     updateLanguageAndReload(newLang);
   }
 
@@ -295,5 +302,203 @@ public class SettingsFragment extends Fragment {
   private void showToast(String message) {
     requireActivity().runOnUiThread(() ->
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show());
+  }
+
+  // 顯示刪除帳號確認對話框
+  private void showDeleteAccountConfirmDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+    builder.setTitle("刪除帳號");
+    builder.setMessage("確定要刪除您的帳號嗎？\n\n此操作將會：\n• 刪除您的所有專案資料\n• 刪除您的好友關係\n• 永久刪除您的帳號\n\n此操作無法復原！");
+    builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+    builder.setPositiveButton("確定刪除", (dialog, which) -> {
+      showPasswordConfirmDialog();
+    });
+
+    builder.setNegativeButton("取消", (dialog, which) -> {
+      dialog.dismiss();
+    });
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+
+    // 設定確定按鈕為紅色，表示危險操作
+    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+        requireContext().getResources().getColor(android.R.color.holo_red_dark));
+  }
+
+  // 顯示密碼確認對話框
+  private void showPasswordConfirmDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+    builder.setTitle("確認密碼");
+    builder.setMessage("請輸入您的密碼以確認刪除帳號：");
+
+    final EditText passwordInput = new EditText(requireContext());
+    passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    passwordInput.setHint("請輸入密碼");
+    builder.setView(passwordInput);
+
+    builder.setPositiveButton("確認刪除", (dialog, which) -> {
+      String password = passwordInput.getText().toString().trim();
+      if (password.isEmpty()) {
+        showToast("請輸入密碼");
+        showPasswordConfirmDialog(); // 重新顯示對話框
+      } else {
+        deleteAccount(password);
+      }
+    });
+
+    builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+
+    // 設定確定按鈕為紅色
+    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+        requireContext().getResources().getColor(android.R.color.holo_red_dark));
+  }
+
+  // 刪除帳號主要方法
+  private void deleteAccount(String password) {
+    // 顯示進度提示
+    showToast("正在刪除帳號...");
+
+    // 禁用刪除按鈕，避免重複點擊
+    btn_del_account.setEnabled(false);
+
+    // 獲取當前用戶
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    if (currentUser == null) {
+      showToast("用戶驗證失敗");
+      btn_del_account.setEnabled(true);
+      return;
+    }
+
+    String email = currentUser.getEmail();
+    if (email == null) {
+      showToast("無法獲取用戶信箱");
+      btn_del_account.setEnabled(true);
+      return;
+    }
+
+    // 重新驗證用戶身份
+    AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+    currentUser.reauthenticate(credential)
+        .addOnCompleteListener(task -> {
+          if (task.isSuccessful()) {
+            Log.d(TAG, "用戶重新驗證成功");
+            // 先刪除本地資料，再刪除 Firebase 帳號
+            deleteLocalUserData();
+          } else {
+            Log.w(TAG, "用戶重新驗證失敗", task.getException());
+            String errorMessage = "密碼驗證失敗";
+            if (task.getException() != null) {
+              String error = task.getException().getMessage();
+              if (error != null && error.contains("password")) {
+                errorMessage = "密碼錯誤，請重新輸入";
+              }
+            }
+            showToast(errorMessage);
+            btn_del_account.setEnabled(true);
+          }
+        });
+  }
+
+  // 刪除本地用戶資料
+  private void deleteLocalUserData() {
+    int userId = getSharedPrefs().getInt("user_id", -1);
+    if (userId == -1) {
+      Log.e(TAG, "無法獲取用戶 ID");
+      deleteFirebaseAccount(); // 直接刪除 Firebase 帳號
+      return;
+    }
+
+    SqlDataBaseHelper dbHelper = new SqlDataBaseHelper(requireContext());
+    SQLiteDatabase database = null;
+
+    try {
+      database = dbHelper.getWritableDatabase();
+      database.beginTransaction();
+
+      // 刪除使用者與專案關聯
+      int deletedUserProjects = database.delete("UserProject", "user_id = ?",
+          new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶專案關聯：" + deletedUserProjects + " 筆");
+
+      // 刪除使用者管理的專案
+      int deletedProjects = database.delete("Projects", "manager_id = ?",
+          new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶管理的專案：" + deletedProjects + " 筆");
+
+      // 刪除使用者的好友關係
+      int deletedFriends1 = database.delete("Friends", "user_id = ?",
+          new String[]{String.valueOf(userId)});
+      int deletedFriends2 = database.delete("Friends", "friend_id = ?",
+          new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除好友關係：" + (deletedFriends1 + deletedFriends2) + " 筆");
+
+      // 刪除使用者本身
+      int deletedUser = database.delete("Users", "id = ?",
+          new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶：" + deletedUser + " 筆");
+
+      database.setTransactionSuccessful();
+      Log.d(TAG, "本地資料刪除成功");
+
+      // 刪除 Firebase 帳號
+      deleteFirebaseAccount();
+
+    } catch (Exception e) {
+      Log.e(TAG, "刪除本地資料時發生錯誤: " + e.getMessage());
+      showToast("刪除本地資料失敗：" + e.getMessage());
+
+      btn_del_account.setEnabled(true);
+    } finally {
+      if (database != null) {
+        if (database.inTransaction()) {
+          database.endTransaction();
+        }
+        database.close();
+      }
+    }
+  }
+
+  // 刪除 Firebase 帳號
+  private void deleteFirebaseAccount() {
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    if (currentUser != null) {
+      currentUser.delete()
+          .addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+              Log.d(TAG, "Firebase 帳號刪除成功");
+
+              // 清除 SharedPreferences
+              getSharedPrefs().edit().clear().apply();
+
+              // 顯示成功訊息
+              showToast("帳號已成功刪除");
+
+              // 回到登入頁面
+              navigateToLogin();
+
+            } else {
+              Log.w(TAG, "Firebase 帳號刪除失敗", task.getException());
+              showToast("帳號刪除失敗，請稍後重試");
+
+              btn_del_account.setEnabled(true);
+            }
+          });
+    } else {
+      getSharedPrefs().edit().clear().apply();
+      showToast("帳號資料已清除");
+      navigateToLogin();
+    }
+  }
+
+  private void navigateToLogin() {
+    Intent intent = new Intent(requireActivity(), LoginActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    startActivity(intent);
+    requireActivity().finish();
   }
 }

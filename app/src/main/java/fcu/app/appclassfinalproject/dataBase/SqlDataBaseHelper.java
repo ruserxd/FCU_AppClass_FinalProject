@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
   private static final String DataBaseName = "FCU_FinalProjectDataBase";
-  private static final int DataBaseVersion = 8;
+  private static final int DataBaseVersion = 12;
 
   public SqlDataBaseHelper(@Nullable Context context) {
     super(context, DataBaseName, null, DataBaseVersion);
@@ -19,7 +19,6 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
     String createUsersTable = "CREATE TABLE IF NOT EXISTS Users (" +
         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
         "account TEXT NOT NULL UNIQUE," +
-        "password TEXT NOT NULL," +
         "email TEXT NOT NULL UNIQUE," +
         "firebase_uid TEXT UNIQUE" +
         ")";
@@ -81,11 +80,10 @@ public class SqlDataBaseHelper extends SQLiteOpenHelper {
 
   @Override
   public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-    if (oldVersion < 8) {
+    if (oldVersion < 15) {
       try {
         sqLiteDatabase.execSQL("ALTER TABLE Users ADD COLUMN firebase_uid TEXT UNIQUE");
       } catch (Exception e) {
-        // 如果欄位已存在或其他錯誤，重建表
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserIssue");
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS UserProject");
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Issues");
