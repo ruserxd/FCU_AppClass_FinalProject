@@ -1,7 +1,10 @@
 package fcu.app.appclassfinalproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +19,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
@@ -64,93 +66,25 @@ public class RegisterActivity extends AppCompatActivity {
         String password = et_password.getText().toString();
         String email = et_email.getText().toString().trim();
 
-        // 檢查輸入不為空
+        // 基本驗證
         if (account.isEmpty() || password.isEmpty() || email.isEmpty()) {
           Toast.makeText(RegisterActivity.this, "所有欄位不能為空", Toast.LENGTH_SHORT).show();
           return;
         }
 
-        // 基本的密碼強度檢查
         if (password.length() < 6) {
           Toast.makeText(RegisterActivity.this, "密碼至少需要6個字元", Toast.LENGTH_SHORT).show();
           return;
         }
 
-        // 與 Firebase 進行註冊
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-              @Override
-              public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                  // Firebase 註冊成功
-                  FirebaseUser user = mAuth.getCurrentUser();
-                  Log.d(TAG, "Firebase 註冊成功: " + user.getEmail());
+        // 檢查網路
+        if (!isNetworkAvailable()) {
+          Toast.makeText(RegisterActivity.this, "請檢查網路連線", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                  // 同步到本地數據庫
-                  int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
-                      RegisterActivity.this,
-                      user.getUid(),
-                      user.getEmail(),
-                      account
-                  );
-
-                  if (localUserId != -1) {
-                    // 註冊成功，保存登入狀態
-                    SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("email", email);
-                    editor.putString("uid", user.getUid());
-                    editor.putInt("user_id", localUserId);
-                    editor.apply();
-
-                    Log.d(TAG, "本地數據庫同步成功，用戶 ID: " + localUserId);
-                    Toast.makeText(RegisterActivity.this, "註冊成功！", Toast.LENGTH_SHORT).show();
-
-                    // 直接進入主頁面，不需要再次登入
-                    intentTo(HomeActivity.class);
-                  } else {
-                    // 本地數據庫同步失敗
-                    Log.e(TAG, "本地數據庫同步失敗");
-                    Toast.makeText(RegisterActivity.this, "註冊成功，但資料同步失敗，請重新登入",
-                        Toast.LENGTH_LONG).show();
-
-                    // 登出 Firebase 用戶，讓用戶重新登入
-                    mAuth.signOut();
-                    intentTo(LoginActivity.class);
-                  }
-                } else {
-                  // Firebase 註冊失敗
-                  String errorMessage = "註冊失敗";
-                  Log.w(TAG, "Firebase 註冊失敗", task.getException());
-
-                  if (task.getException() != null) {
-                    String error = task.getException().getMessage();
-                    if (error != null) {
-                      if (error.contains("email address is already in use")) {
-                        errorMessage = "此電子郵件已被註冊";
-                      } else if (error.contains("badly formatted")) {
-                        errorMessage = "電子郵件格式不正確";
-                      } else if (error.contains("weak password")) {
-                        errorMessage = "密碼強度不足";
-                      } else if (error.contains("network error")) {
-                        errorMessage = "網路連接錯誤";
-                      }
-                    }
-                  }
-
-                  Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                }
-              }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-              @Override
-              public void onFailure(@NonNull Exception e) {
-                // 捕獲任何可能發生的異常
-                String errorMessage = "註冊過程發生錯誤: " + e.getMessage();
-                Log.e(TAG, errorMessage, e);
-                Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-              }
-            });
+        // 開始註冊
+        registerUser(email, password, account);
       }
     });
 
@@ -158,16 +92,88 @@ public class RegisterActivity extends AppCompatActivity {
     tv_to_login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        // 切換至 Login 頁面
         intentTo(LoginActivity.class);
       }
     });
   }
 
-  // 切換至 "指定" 頁面
+  // 檢查網路連線
+  private boolean isNetworkAvailable() {
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    if (cm != null) {
+      NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+      return networkInfo != null && networkInfo.isConnected();
+    }
+    return false;
+  }
+
+  // 註冊用戶
+  private void registerUser(String email, String password, String account) {
+    btn_register.setEnabled(false);
+    Toast.makeText(this, "註冊中...", Toast.LENGTH_SHORT).show();
+
+    mAuth.createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+          @Override
+          public void onComplete(@NonNull Task<AuthResult> task) {
+            btn_register.setEnabled(true);
+
+            if (task.isSuccessful()) {
+              // 註冊成功
+              FirebaseUser user = mAuth.getCurrentUser();
+              Log.d(TAG, "Firebase 註冊成功: " + user.getEmail());
+
+              // 同步到本地數據庫
+              int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
+                  RegisterActivity.this,
+                  user.getUid(),
+                  user.getEmail(),
+                  account
+              );
+
+              if (localUserId != -1) {
+                // 保存登入狀態
+                SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("email", email);
+                editor.putString("uid", user.getUid());
+                editor.putInt("user_id", localUserId);
+                editor.apply();
+
+                Toast.makeText(RegisterActivity.this, "註冊成功！", Toast.LENGTH_SHORT).show();
+                intentTo(HomeActivity.class);
+              } else {
+                Toast.makeText(RegisterActivity.this, "資料同步失敗，請重新登入", Toast.LENGTH_LONG).show();
+                mAuth.signOut();
+                intentTo(LoginActivity.class);
+              }
+            } else {
+              String errorMessage = "註冊失敗";
+              if (task.getException() != null) {
+                String error = task.getException().getMessage();
+                if (error != null) {
+                  if (error.contains("email address is already in use")) {
+                    errorMessage = "此電子郵件已被註冊";
+                  } else if (error.contains("badly formatted")) {
+                    errorMessage = "電子郵件格式不正確";
+                  } else if (error.contains("weak password")) {
+                    errorMessage = "密碼強度不足";
+                  } else if (error.contains("network")) {
+                    errorMessage = "網路連接錯誤，請稍後重試";
+                  }
+                }
+              }
+
+              Log.w(TAG, "註冊失敗", task.getException());
+              Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+            }
+          }
+        });
+  }
+
+  // 切換頁面
   private void intentTo(Class<?> page) {
-    Intent intent = new Intent();
-    intent.setClass(RegisterActivity.this, page);
+    Intent intent = new Intent(RegisterActivity.this, page);
     startActivity(intent);
     finish();
   }

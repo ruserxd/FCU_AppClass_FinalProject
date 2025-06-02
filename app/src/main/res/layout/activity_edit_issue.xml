@@ -1,232 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_light"
-    android:scrollbars="none">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/background_light"
+  android:scrollbars="none">
 
   <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/main"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="16dp"
-      tools:context=".EditIssueActivity">
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    tools:context=".EditIssueActivity">
 
     <!-- 頁面標題 -->
     <TextView
-        android:id="@+id/edit_issue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/EditIssue_Title"
-        android:textColor="@color/text_primary"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/edit_issue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_marginBottom="24dp"
+      android:text="@string/EditIssue_Title"
+      android:textColor="@color/text_primary"
+      android:textSize="28sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 表單卡片 -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/form_card"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/surface_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_issue">
+      android:id="@+id/form_card"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      app:cardBackgroundColor="@color/surface_color"
+      app:cardCornerRadius="16dp"
+      app:cardElevation="4dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/edit_issue">
 
       <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:orientation="vertical">
+
+        <!-- 狀態選擇下拉選單 -->
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_Status"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+
+        <Spinner
+          android:id="@+id/spin_EditStatus"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:padding="20dp">
+          android:layout_marginBottom="24dp"
+          android:padding="12dp" />
 
         <!-- Issue 名稱 -->
         <TextView
-            android:id="@+id/edit_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_Topic"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+          android:id="@+id/edit_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_Topic"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/primary_color"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+          style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxStrokeColor="@color/primary_color">
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/ed_name"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_issue_name"
-              android:inputType="text"
-              android:text="null"
-              android:textSize="16sp" />
+            android:id="@+id/ed_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_issue_name"
+            android:inputType="text"
+            android:text="null"
+            android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Issue 狀態 -->
+        <!-- Issue 狀態描述 -->
         <TextView
-            android:id="@+id/edit_summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_Status"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+          android:id="@+id/edit_summary"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_Summary"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/primary_color"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+          style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxStrokeColor="@color/primary_color">
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/ed_summary"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_status_description"
-              android:inputType="text"
-              android:text="null"
-              android:textSize="16sp" />
+            android:id="@+id/ed_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_status_description"
+            android:inputType="textMultiLine"
+            android:text="null"
+            android:textSize="16sp"
+            android:maxLines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 開始時間 -->
         <TextView
-            android:id="@+id/edit_stime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_StartTime"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+          android:id="@+id/edit_stime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_StartTime"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/primary_color"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+          style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxStrokeColor="@color/primary_color">
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/ed_start_time"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_start_date"
-              android:inputType="date"
-              android:text="null"
-              android:textSize="16sp" />
+            android:id="@+id/ed_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_start_date"
+            android:inputType="date"
+            android:text="null"
+            android:textSize="16sp"
+            android:focusable="false"
+            android:clickable="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 結束時間 -->
         <TextView
-            android:id="@+id/edit_etime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_EndTime"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+          android:id="@+id/edit_etime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_EndTime"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/primary_color"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+          style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxStrokeColor="@color/primary_color">
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/ed_end_time"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_end_date"
-              android:inputType="date"
-              android:text="null"
-              android:textSize="16sp" />
+            android:id="@+id/ed_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_end_date"
+            android:inputType="date"
+            android:text="null"
+            android:textSize="16sp"
+            android:focusable="false"
+            android:clickable="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- 狀態選擇 -->
-        <TextView
-            android:id="@+id/edit_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_StartTime"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spin_EditStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
         <!-- 指派人員 -->
         <TextView
-            android:id="@+id/edit_designee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/EditIssue_Designee"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+          android:id="@+id/edit_designee"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:text="@string/EditIssue_Designee"
+          android:textColor="@color/text_primary"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/primary_color"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+          style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          app:boxCornerRadiusBottomEnd="12dp"
+          app:boxCornerRadiusBottomStart="12dp"
+          app:boxCornerRadiusTopEnd="12dp"
+          app:boxCornerRadiusTopStart="12dp"
+          app:boxStrokeColor="@color/primary_color">
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/ed_designee"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/hint_assignee"
-              android:inputType="text"
-              android:text="null"
-              android:textSize="16sp" />
+            android:id="@+id/ed_designee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_assignee"
+            android:inputType="text"
+            android:text="null"
+            android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -236,41 +243,43 @@
 
     <!-- 按鈕區域 -->
     <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:layout_marginBottom="16dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:orientation="horizontal"
+      android:gravity="center"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/form_card">
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/ed_btn_cancel"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_card">
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="12dp"
+        android:text="@string/EditIssue_Discard"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:backgroundTint="#F48FB1"
+        app:cornerRadius="12dp"
+        style="@style/Widget.Material3.Button" />
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/ed_btn_cancel"
-          android:layout_width="0dp"
-          android:layout_height="50dp"
-          android:layout_weight="1"
-          android:layout_marginEnd="8dp"
-          android:text="@string/EditIssue_Discard"
-          android:textColor="#FFFFFF"
-          android:textSize="16sp"
-          app:backgroundTint="#F48FB1"
-          app:cornerRadius="12dp"
-          style="@style/Widget.Material3.Button" />
-
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/ed_btn_save"
-          android:layout_width="0dp"
-          android:layout_height="50dp"
-          android:layout_weight="1"
-          android:layout_marginStart="8dp"
-          android:text="@string/EditIssue_Save"
-          android:textColor="#FFFFFF"
-          android:textSize="16sp"
-          app:backgroundTint="@color/primary_color"
-          app:cornerRadius="12dp"
-          style="@style/Widget.Material3.Button" />
+        android:id="@+id/ed_btn_save"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:text="@string/EditIssue_Save"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:backgroundTint="@color/primary_color"
+        app:cornerRadius="12dp"
+        style="@style/Widget.Material3.Button" />
 
     </LinearLayout>
 
