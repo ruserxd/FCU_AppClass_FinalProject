@@ -94,6 +94,13 @@
   <string name="register_network_error">Network connection error, please try again later</string>
   <string name="register_email_invalid_format">Please enter a valid email format</string>
 
+<!--  登入頁面的-->
+  <string name="please_enter_email_password">Please enter email and password</string>
+  <string name="login_success">Login successful</string>
+  <string name="login_failed">Login failed</string>
+  <string name="email_not_registered">This email is not registered</string>
+  <string name="email_format_incorrect">Email format is incorrect</string>
+
   <!-- 設定頁面 -->
   <string name="github_input_title">Enter GitHub Username</string>
   <string name="github_confirm">Confirm</string>
@@ -130,4 +137,5 @@
   <string name="Register_Email">Email</string>
   <string name="Register_btn">Register</string>
   <string name="Register_HaveAccount">Have Account?</string>
+  <string name="Login_translate">translate</string>
 </resources>

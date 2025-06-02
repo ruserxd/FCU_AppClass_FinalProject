@@ -2,6 +2,7 @@ package fcu.app.appclassfinalproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,13 +22,14 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
   // 元件
   private EditText et_login_email;
   private EditText et_login_password;
-  private Button btn_login;
+  private Button btn_login, btn_translate;
   private TextView tv_to_register;
 
   // Firebase
@@ -39,6 +41,10 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // 設定語言 - 必須在 setContentView 之前
+    setLocale();
+
     EdgeToEdge.enable(this);
     setContentView(R.layout.activity_login);
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_login), (v, insets) -> {
@@ -56,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     et_login_password = findViewById(R.id.et_login_password);
     btn_login = findViewById(R.id.btn_login);
     tv_to_register = findViewById(R.id.tv_to_register);
+    btn_translate = findViewById(R.id.btn_translate);
 
     // 在 home 按下返回鍵，firebase的使用者確定有登入過，不會回到此頁面
     if (mAuth.getCurrentUser() != null) {
@@ -70,6 +77,14 @@ public class LoginActivity extends AppCompatActivity {
       }
     });
 
+    // 語言切換按鈕
+    btn_translate.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        toggleLanguage();
+      }
+    });
+
     // 登入檢測
     btn_login.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -79,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // 檢查輸入是否為空
         if (email.isEmpty() || password.isEmpty()) {
-          Toast.makeText(LoginActivity.this, "請輸入電子郵件和密碼", Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, getString(R.string.register_all_fields_required), Toast.LENGTH_SHORT).show();
           return;
         }
 
@@ -109,25 +124,25 @@ public class LoginActivity extends AppCompatActivity {
                   editor.putInt("user_id", localUserId);
                   editor.apply();
 
-                  Toast.makeText(LoginActivity.this, "登入成功", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
                   // 切換至主頁面
                   intentTo(HomeActivity.class);
                   finish();
                 } else {
                   // 登入失敗
-                  String errorMessage = "登入失敗";
+                  String errorMessage = getString(R.string.login_failed);
                   Log.w(TAG, "signInWithEmail:failure", task.getException());
                   if (task.getException() != null) {
 
                     String error = task.getException().getMessage();
                     if (error != null) {
                       if (error.contains("password is invalid")) {
-                        errorMessage = "密碼錯誤";
+                        errorMessage = getString(R.string.password_incorrect);
                       } else if (error.contains("no user record")) {
-                        errorMessage = "此電子郵件尚未註冊";
+                        errorMessage = getString(R.string.email_not_registered);
                       } else if (error.contains("badly formatted")) {
-                        errorMessage = "電子郵件格式不正確";
+                        errorMessage = getString(R.string.email_format_incorrect);
                       }
                     }
                   }
@@ -174,5 +189,35 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent = new Intent();
     intent.setClass(LoginActivity.this, page);
     startActivity(intent);
+  }
+
+  // 設定語言
+  private void setLocale() {
+    prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+    String language = prefs.getString("language", "zh");
+
+    Locale locale = new Locale(language);
+    Locale.setDefault(locale);
+
+    Configuration config = new Configuration();
+    config.setLocale(locale);
+    getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+  }
+
+  // 切換語言
+  private void toggleLanguage() {
+    prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+    String currentLang = prefs.getString("language", "zh");
+    Log.d(TAG, "Current language: " + currentLang);
+
+    String newLang = currentLang.equals("zh") ? "en" : "zh";
+    Log.d(TAG, "Switching to language: " + newLang);
+
+    SharedPreferences.Editor editor = prefs.edit();
+    editor.putString("language", newLang);
+    editor.apply();
+
+    // 重新啟動 Activity 以套用新語言
+    recreate();
   }
 }
