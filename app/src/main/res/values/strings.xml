@@ -119,4 +119,15 @@
   <string name="account_delete_failed">Account deletion failed, please try again later</string>
   <string name="account_data_cleared">Account data cleared</string>
   <string name="project_count_query_failed">Failed to get project count: %1$s</string>
+  <string name="Login_Title">Welcome</string>
+  <string name="Login_Email">Email</string>
+  <string name="Login_Password">Password</string>
+  <string name="Login_Btn">Login</string>
+  <string name="Login_unregister">didn\'t register?</string>
+  <string name="Register_Title">Register</string>
+  <string name="Register_Account">Account</string>
+  <string name="Register_Password">Password</string>
+  <string name="Register_Email">Email</string>
+  <string name="Register_btn">Register</string>
+  <string name="Register_HaveAccount">Have Account?</string>
 </resources>

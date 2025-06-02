@@ -119,4 +119,15 @@
   <string name="account_delete_failed">帳號刪除失敗，請稍後重試</string>
   <string name="account_data_cleared">帳號資料已清除</string>
   <string name="project_count_query_failed">獲取專案數量失敗: %1$s</string>
+  <string name="Login_Title">歡迎</string>
+  <string name="Login_Email">電子信箱</string>
+  <string name="Login_Password">密碼</string>
+  <string name="Login_Btn">登入</string>
+  <string name="Login_unregister">尚未註冊?</string>
+  <string name="Register_Title">註冊</string>
+  <string name="Register_Account">帳號</string>
+  <string name="Register_Password">密碼</string>
+  <string name="Register_Email">電子信箱</string>
+  <string name="Register_btn">註冊</string>
+  <string name="Register_HaveAccount">已有帳號?</string>
 </resources>
