@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import fcu.app.appclassfinalproject.R;
@@ -24,6 +24,7 @@ import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass. Use the {@link AddIssueFragment#newInstance} factory method
@@ -43,17 +44,15 @@ public class AddIssueFragment extends Fragment {
   private EditText etOverview;
   private EditText etStartTime;
   private EditText etEndTime;
-  private Spinner spiStatus;
+  private AutoCompleteTextView spiStatus;
   private AutoCompleteTextView actvDesignee;
 
   private Button btnSave;
 
   String[] items = {"未開始", "進行中", "已完成"};
   String[] itemsEN = {"TO-DO", "In progress", "Finished"};
-  private static String[] accountList = new String[]{};
   private SqlDataBaseHelper sqlDataBaseHelper;
   private SQLiteDatabase db;
-
 
   public AddIssueFragment() {
     // Required empty public constructor
@@ -95,13 +94,12 @@ public class AddIssueFragment extends Fragment {
 
     // 創建DatePickerDialog
     DatePickerDialog datePickerDialog = new DatePickerDialog(
-        getContext(),
+        requireContext(),
         new DatePickerDialog.OnDateSetListener() {
           @Override
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             // 格式化日期為 yyyy-MM-dd
-            String selectedDate = String.format("%04d-%02d-%02d", year, monthOfYear + 1,
-                dayOfMonth);
+            String selectedDate = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
             editText.setText(selectedDate);
           }
         },
@@ -111,8 +109,7 @@ public class AddIssueFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_add_issue, container, false);
 
@@ -142,15 +139,25 @@ public class AddIssueFragment extends Fragment {
       }
     });
 
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-        requireContext(), // 或 requireContext()
-        android.R.layout.simple_spinner_item,
-        getCurrentLanguage().equals("en") ? items : itemsEN // String[] 陣列或 List<String>
+    // 設定狀態選擇的適配器
+    String[] statusItems = getCurrentLanguage().equals("zh") ? items : itemsEN;
+    ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(
+        requireContext(),
+        android.R.layout.simple_dropdown_item_1line,
+        statusItems
     );
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spiStatus.setAdapter(adapter);
+    spiStatus.setAdapter(statusAdapter);
 
-    accountList = getAccountList();
+    // 設定狀態選擇的點擊事件
+    spiStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedStatus = statusItems[position];
+      }
+    });
+
+    // 設定指派人員
+    String[] accountList = getAccountList();
     ArrayAdapter<String> userAdapter = new ArrayAdapter<>(requireContext(),
         android.R.layout.simple_dropdown_item_1line, accountList);
     actvDesignee.setAdapter(userAdapter);
@@ -159,16 +166,22 @@ public class AddIssueFragment extends Fragment {
     btnSave.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
         String name = etPurpose.getText().toString().trim();
         String summary = etOverview.getText().toString().trim();
         String start_time = etStartTime.getText().toString().trim();
         String end_time = etEndTime.getText().toString().trim();
-        String status = spiStatus.getSelectedItem().toString().trim();
+        String status = spiStatus.getText().toString().trim();
         String designee = actvDesignee.getText().toString().trim();
         SharedPreferences prefs = view.getContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
         int project_id = prefs.getInt("project_id", 0);
         Fragment projectInfoFragment = ProjectInfoFragment.newInstance("", "");
+
+        // 驗證必填欄位
+        if (name.isEmpty() || summary.isEmpty() || start_time.isEmpty() ||
+            end_time.isEmpty() || status.isEmpty() || designee.isEmpty()) {
+          Toast.makeText(getContext(), "請填寫所有必填欄位", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
         ContentValues values = new ContentValues();
         values.put("name", name);
@@ -178,9 +191,11 @@ public class AddIssueFragment extends Fragment {
         values.put("status", status);
         values.put("designee", designee);
         values.put("project_id", project_id);
+
         long rowId = db.insert("Issues", null, values);
         if (rowId != -1) {
           Toast.makeText(getContext(), "資料插入成功", Toast.LENGTH_SHORT).show();
+          clearFields();  // 清除表單
           setCurrentFragment(projectInfoFragment);
         } else {
           Toast.makeText(getContext(), "資料插入失敗", Toast.LENGTH_SHORT).show();
@@ -196,6 +211,8 @@ public class AddIssueFragment extends Fragment {
     etOverview.setText("");
     etStartTime.setText("");
     etEndTime.setText("");
+    spiStatus.setText("");
+    actvDesignee.setText("");
   }
 
   public String[] getAccountList() {
@@ -229,5 +246,4 @@ public class AddIssueFragment extends Fragment {
   private SharedPreferences getSharedPrefs() {
     return requireActivity().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
   }
-
 }
