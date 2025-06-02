@@ -58,35 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseApp.initializeApp(this);
     mAuth = FirebaseAuth.getInstance();
 
-    // 註冊按鈕
-    btn_register.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        String account = et_account.getText().toString().trim();
-        String password = et_password.getText().toString();
-        String email = et_email.getText().toString().trim();
-
-        // 基本驗證
-        if (account.isEmpty() || password.isEmpty() || email.isEmpty()) {
-          Toast.makeText(RegisterActivity.this, "所有欄位不能為空", Toast.LENGTH_SHORT).show();
-          return;
-        }
-
-        if (password.length() < 6) {
-          Toast.makeText(RegisterActivity.this, "密碼至少需要6個字元", Toast.LENGTH_SHORT).show();
-          return;
-        }
-
-        // 檢查網路
-        if (!isNetworkAvailable()) {
-          Toast.makeText(RegisterActivity.this, "請檢查網路連線", Toast.LENGTH_SHORT).show();
-          return;
-        }
-
-        // 開始註冊
-        registerUser(email, password, account);
-      }
-    });
+    // 設定註冊按鈕
+    setupRegisterButton();
 
     // 切換至登入頁面
     tv_to_login.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +68,56 @@ public class RegisterActivity extends AppCompatActivity {
         intentTo(LoginActivity.class);
       }
     });
+  }
+
+  // 設定註冊按鈕點擊事件
+  private void setupRegisterButton() {
+    btn_register.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        String account = et_account.getText().toString().trim();
+        String password = et_password.getText().toString();
+        String email = et_email.getText().toString().trim();
+
+        // 基本驗證
+        if (!validateInput(account, password, email)) {
+          return;
+        }
+
+        // 檢查網路
+        if (!isNetworkAvailable()) {
+          Toast.makeText(RegisterActivity.this,
+              getString(R.string.register_check_network), Toast.LENGTH_SHORT).show();
+          return;
+        }
+
+        // 開始註冊
+        registerUser(email, password, account);
+      }
+    });
+  }
+
+  // 輸入驗證方法
+  private boolean validateInput(String account, String password, String email) {
+    if (account.isEmpty() || password.isEmpty() || email.isEmpty()) {
+      Toast.makeText(this, getString(R.string.register_all_fields_required),
+          Toast.LENGTH_SHORT).show();
+      return false;
+    }
+
+    if (password.length() < 6) {
+      Toast.makeText(this, getString(R.string.register_password_min_length),
+          Toast.LENGTH_SHORT).show();
+      return false;
+    }
+
+    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+      Toast.makeText(this, getString(R.string.register_email_invalid_format),
+          Toast.LENGTH_SHORT).show();
+      return false;
+    }
+
+    return true;
   }
 
   // 檢查網路連線
@@ -110,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
   // 註冊用戶
   private void registerUser(String email, String password, String account) {
     btn_register.setEnabled(false);
-    Toast.makeText(this, "註冊中...", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, getString(R.string.register_registering), Toast.LENGTH_SHORT).show();
 
     mAuth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -121,54 +144,72 @@ public class RegisterActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
               // 註冊成功
               FirebaseUser user = mAuth.getCurrentUser();
-              Log.d(TAG, "Firebase 註冊成功: " + user.getEmail());
+              if (user != null) {
+                Log.d(TAG, "Firebase 註冊成功: " + user.getEmail());
 
-              // 同步到本地數據庫
-              int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
-                  RegisterActivity.this,
-                  user.getUid(),
-                  user.getEmail(),
-                  account
-              );
+                // 同步到本地數據庫
+                int localUserId = UserSyncHelper.syncFirebaseUserWithLocalDB(
+                    RegisterActivity.this,
+                    user.getUid(),
+                    user.getEmail(),
+                    account
+                );
 
-              if (localUserId != -1) {
-                // 保存登入狀態
-                SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("email", email);
-                editor.putString("uid", user.getUid());
-                editor.putInt("user_id", localUserId);
-                editor.apply();
+                if (localUserId != -1) {
+                  // 保存登入狀態
+                  saveUserToSharedPreferences(email, user.getUid(), localUserId, account);
 
-                Toast.makeText(RegisterActivity.this, "註冊成功！", Toast.LENGTH_SHORT).show();
-                intentTo(HomeActivity.class);
-              } else {
-                Toast.makeText(RegisterActivity.this, "資料同步失敗，請重新登入", Toast.LENGTH_LONG).show();
-                mAuth.signOut();
-                intentTo(LoginActivity.class);
-              }
-            } else {
-              String errorMessage = "註冊失敗";
-              if (task.getException() != null) {
-                String error = task.getException().getMessage();
-                if (error != null) {
-                  if (error.contains("email address is already in use")) {
-                    errorMessage = "此電子郵件已被註冊";
-                  } else if (error.contains("badly formatted")) {
-                    errorMessage = "電子郵件格式不正確";
-                  } else if (error.contains("weak password")) {
-                    errorMessage = "密碼強度不足";
-                  } else if (error.contains("network")) {
-                    errorMessage = "網路連接錯誤，請稍後重試";
-                  }
+                  Toast.makeText(RegisterActivity.this,
+                      getString(R.string.register_success), Toast.LENGTH_SHORT).show();
+                  intentTo(HomeActivity.class);
+                } else {
+                  Toast.makeText(RegisterActivity.this,
+                      getString(R.string.register_sync_failed), Toast.LENGTH_LONG).show();
+                  mAuth.signOut();
+                  intentTo(LoginActivity.class);
                 }
               }
-
-              Log.w(TAG, "註冊失敗", task.getException());
-              Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+            } else {
+              // 註冊失敗，處理錯誤訊息
+              handleRegistrationError(task);
             }
           }
         });
+  }
+
+  // 處理註冊錯誤
+  private void handleRegistrationError(Task<AuthResult> task) {
+    String errorMessage = getString(R.string.register_failed);
+
+    if (task.getException() != null) {
+      String error = task.getException().getMessage();
+      if (error != null) {
+        if (error.contains("email address is already in use")) {
+          errorMessage = getString(R.string.register_email_already_used);
+        } else if (error.contains("badly formatted")) {
+          errorMessage = getString(R.string.register_email_badly_formatted);
+        } else if (error.contains("weak password")) {
+          errorMessage = getString(R.string.register_weak_password);
+        } else if (error.contains("network")) {
+          errorMessage = getString(R.string.register_network_error);
+        }
+      }
+    }
+
+    Log.w(TAG, "註冊失敗", task.getException());
+    Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+  }
+
+  // 儲存用戶資料到 SharedPreferences
+  private void saveUserToSharedPreferences(String email, String firebaseUid, int localUserId, String account) {
+    SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+    SharedPreferences.Editor editor = prefs.edit();
+    editor.putString("email", email);
+    editor.putString("uid", firebaseUid);
+    editor.putInt("user_id", localUserId);
+    editor.putString("user_account", account);
+    editor.putString("user_email", email);
+    editor.apply();
   }
 
   // 切換頁面

@@ -80,4 +80,43 @@
   <string name="Month12">十二月</string>
   <string name="Gantt_Month">月份</string>
   <string name="Gantt_Issue">議題</string>
+
+<!--  註冊頁面的-->
+  <string name="register_all_fields_required">所有欄位不能為空</string>
+  <string name="register_password_min_length">密碼至少需要6個字元</string>
+  <string name="register_check_network">請檢查網路連線</string>
+  <string name="register_registering">註冊中…</string>
+  <string name="register_success">註冊成功！</string>
+  <string name="register_sync_failed">資料同步失敗，請重新登入</string>
+  <string name="register_failed">註冊失敗</string>
+  <string name="register_email_already_used">此電子郵件已被註冊</string>
+  <string name="register_email_badly_formatted">電子郵件格式不正確</string>
+  <string name="register_weak_password">密碼強度不足</string>
+  <string name="register_network_error">網路連接錯誤，請稍後重試</string>
+  <string name="register_email_invalid_format">請輸入有效的電子郵件格式</string>
+<!--  設定頁面的-->
+  <string name="github_input_title">輸入 GitHub 帳號</string>
+  <string name="github_confirm">確定</string>
+  <string name="github_cancel">取消</string>
+  <string name="github_import_success">導入成功</string>
+  <string name="github_import_error">發生錯誤：%1$s</string>
+  <string name="delete_account_title">刪除帳號</string>
+  <string name="delete_account_message">確定要刪除您的帳號嗎？\n\n此操作將會：\n• 刪除您的所有專案資料\n• 刪除您的好友關係\n• 永久刪除您的帳號\n\n此操作無法復原！</string>
+  <string name="delete_account_confirm">確定刪除</string>
+  <string name="delete_account_cancel">取消</string>
+  <string name="password_confirm_title">確認密碼</string>
+  <string name="password_confirm_message">請輸入您的密碼以確認刪除帳號：</string>
+  <string name="password_hint">請輸入密碼</string>
+  <string name="password_confirm_delete">確認刪除</string>
+  <string name="password_required">請輸入密碼</string>
+  <string name="deleting_account">正在刪除帳號…</string>
+  <string name="user_auth_failed">用戶驗證失敗</string>
+  <string name="cannot_get_email">無法獲取用戶信箱</string>
+  <string name="password_verification_failed">密碼驗證失敗</string>
+  <string name="password_incorrect">密碼錯誤，請重新輸入</string>
+  <string name="delete_local_data_failed">刪除本地資料失敗：%1$s</string>
+  <string name="account_deleted_success">帳號已成功刪除</string>
+  <string name="account_delete_failed">帳號刪除失敗，請稍後重試</string>
+  <string name="account_data_cleared">帳號資料已清除</string>
+  <string name="project_count_query_failed">獲取專案數量失敗: %1$s</string>
 </resources>

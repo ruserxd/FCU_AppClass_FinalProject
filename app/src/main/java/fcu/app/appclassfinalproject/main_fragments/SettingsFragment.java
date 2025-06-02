@@ -164,7 +164,7 @@ public class SettingsFragment extends Fragment {
         requireActivity().getResources().getDisplayMetrics());
 
     saveLanguage(newLang);
-    showToast(String.valueOf(R.string.changeLanguage_success));
+    showToast(getString(R.string.changeLanguage_success));
     updateLanguageAndReload(newLang);
   }
 
@@ -205,7 +205,7 @@ public class SettingsFragment extends Fragment {
       }
       Log.i("SettingsFragment", "查詢用戶 ID " + userId + " 有多少 project : " + count);
     } catch (Exception e) {
-      Log.e("SettingsFragment", "獲取專案數量失敗: " + e.getMessage());
+      Log.e("SettingsFragment", getString(R.string.project_count_query_failed, e.getMessage()));
     } finally {
       if (db != null) {
         db.close();
@@ -218,23 +218,22 @@ public class SettingsFragment extends Fragment {
     sqlDataBaseHelper = new SqlDataBaseHelper(this.getContext());
     db = sqlDataBaseHelper.getWritableDatabase();
     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-    builder.setTitle("輸入 GitHub 帳號");
+    builder.setTitle(getString(R.string.github_input_title));
 
     final EditText input = new EditText(requireContext());
     input.setInputType(InputType.TYPE_CLASS_TEXT);
     builder.setView(input);
 
-    builder.setPositiveButton("確定", (dialog, which) -> {
+    builder.setPositiveButton(getString(R.string.github_confirm), (dialog, which) -> {
       String username = input.getText().toString().trim();
       if (!username.isEmpty()) {
         fetchGithub(username);
       }
     });
 
-    builder.setNegativeButton("取消", (dialog, which) -> dialog.cancel());
+    builder.setNegativeButton(getString(R.string.github_cancel), (dialog, which) -> dialog.cancel());
     builder.show();
   }
-
 
   // 抓取 GitHub API 上的資訊透過獲取 JSON -> name 的資訊
   private void fetchGithub(String username) {
@@ -247,9 +246,9 @@ public class SettingsFragment extends Fragment {
           }
         })
         .thenAccept(this::saveReposToDatabase)
-        .thenRun(() -> showToast("導入成功"))
+        .thenRun(() -> showToast(getString(R.string.github_import_success)))
         .exceptionally(throwable -> {
-          showToast("發生錯誤：" + throwable.getMessage());
+          showToast(getString(R.string.github_import_error, throwable.getMessage()));
           return null;
         });
   }
@@ -307,15 +306,15 @@ public class SettingsFragment extends Fragment {
   // 顯示刪除帳號確認對話框
   private void showDeleteAccountConfirmDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-    builder.setTitle("刪除帳號");
-    builder.setMessage("確定要刪除您的帳號嗎？\n\n此操作將會：\n• 刪除您的所有專案資料\n• 刪除您的好友關係\n• 永久刪除您的帳號\n\n此操作無法復原！");
+    builder.setTitle(getString(R.string.delete_account_title));
+    builder.setMessage(getString(R.string.delete_account_message));
     builder.setIcon(android.R.drawable.ic_dialog_alert);
 
-    builder.setPositiveButton("確定刪除", (dialog, which) -> {
+    builder.setPositiveButton(getString(R.string.delete_account_confirm), (dialog, which) -> {
       showPasswordConfirmDialog();
     });
 
-    builder.setNegativeButton("取消", (dialog, which) -> {
+    builder.setNegativeButton(getString(R.string.delete_account_cancel), (dialog, which) -> {
       dialog.dismiss();
     });
 
@@ -330,25 +329,25 @@ public class SettingsFragment extends Fragment {
   // 顯示密碼確認對話框
   private void showPasswordConfirmDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-    builder.setTitle("確認密碼");
-    builder.setMessage("請輸入您的密碼以確認刪除帳號：");
+    builder.setTitle(getString(R.string.password_confirm_title));
+    builder.setMessage(getString(R.string.password_confirm_message));
 
     final EditText passwordInput = new EditText(requireContext());
     passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-    passwordInput.setHint("請輸入密碼");
+    passwordInput.setHint(getString(R.string.password_hint));
     builder.setView(passwordInput);
 
-    builder.setPositiveButton("確認刪除", (dialog, which) -> {
+    builder.setPositiveButton(getString(R.string.password_confirm_delete), (dialog, which) -> {
       String password = passwordInput.getText().toString().trim();
       if (password.isEmpty()) {
-        showToast("請輸入密碼");
+        showToast(getString(R.string.password_required));
         showPasswordConfirmDialog(); // 重新顯示對話框
       } else {
         deleteAccount(password);
       }
     });
 
-    builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
+    builder.setNegativeButton(getString(R.string.delete_account_cancel), (dialog, which) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
     dialog.show();
@@ -361,7 +360,7 @@ public class SettingsFragment extends Fragment {
   // 刪除帳號主要方法
   private void deleteAccount(String password) {
     // 顯示進度提示
-    showToast("正在刪除帳號...");
+    showToast(getString(R.string.deleting_account));
 
     // 禁用刪除按鈕，避免重複點擊
     btn_del_account.setEnabled(false);
@@ -369,14 +368,14 @@ public class SettingsFragment extends Fragment {
     // 獲取當前用戶
     FirebaseUser currentUser = mAuth.getCurrentUser();
     if (currentUser == null) {
-      showToast("用戶驗證失敗");
+      showToast(getString(R.string.user_auth_failed));
       btn_del_account.setEnabled(true);
       return;
     }
 
     String email = currentUser.getEmail();
     if (email == null) {
-      showToast("無法獲取用戶信箱");
+      showToast(getString(R.string.cannot_get_email));
       btn_del_account.setEnabled(true);
       return;
     }
@@ -391,11 +390,11 @@ public class SettingsFragment extends Fragment {
             deleteLocalUserData();
           } else {
             Log.w(TAG, "用戶重新驗證失敗", task.getException());
-            String errorMessage = "密碼驗證失敗";
+            String errorMessage = getString(R.string.password_verification_failed);
             if (task.getException() != null) {
               String error = task.getException().getMessage();
               if (error != null && error.contains("password")) {
-                errorMessage = "密碼錯誤，請重新輸入";
+                errorMessage = getString(R.string.password_incorrect);
               }
             }
             showToast(errorMessage);
@@ -450,8 +449,7 @@ public class SettingsFragment extends Fragment {
 
     } catch (Exception e) {
       Log.e(TAG, "刪除本地資料時發生錯誤: " + e.getMessage());
-      showToast("刪除本地資料失敗：" + e.getMessage());
-
+      showToast(getString(R.string.delete_local_data_failed, e.getMessage()));
       btn_del_account.setEnabled(true);
     } finally {
       if (database != null) {
@@ -476,21 +474,20 @@ public class SettingsFragment extends Fragment {
               getSharedPrefs().edit().clear().apply();
 
               // 顯示成功訊息
-              showToast("帳號已成功刪除");
+              showToast(getString(R.string.account_deleted_success));
 
               // 回到登入頁面
               navigateToLogin();
 
             } else {
               Log.w(TAG, "Firebase 帳號刪除失敗", task.getException());
-              showToast("帳號刪除失敗，請稍後重試");
-
+              showToast(getString(R.string.account_delete_failed));
               btn_del_account.setEnabled(true);
             }
           });
     } else {
       getSharedPrefs().edit().clear().apply();
-      showToast("帳號資料已清除");
+      showToast(getString(R.string.account_data_cleared));
       navigateToLogin();
     }
   }

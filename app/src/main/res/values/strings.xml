@@ -79,4 +79,44 @@
   <string name="Month12">Dec</string>
   <string name="Gantt_Month">Month</string>
   <string name="Gantt_Issue">Issue</string>
+
+  <!-- RegisterActivity related messages -->
+  <string name="register_all_fields_required">All fields are required</string>
+  <string name="register_password_min_length">Password must be at least 6 characters</string>
+  <string name="register_check_network">Please check your network connection</string>
+  <string name="register_registering">Registering…</string>
+  <string name="register_success">Registration successful!</string>
+  <string name="register_sync_failed">Data synchronization failed, please login again</string>
+  <string name="register_failed">Registration failed</string>
+  <string name="register_email_already_used">This email address is already in use</string>
+  <string name="register_email_badly_formatted">Email format is incorrect</string>
+  <string name="register_weak_password">Password is too weak</string>
+  <string name="register_network_error">Network connection error, please try again later</string>
+  <string name="register_email_invalid_format">Please enter a valid email format</string>
+
+  <!-- 設定頁面 -->
+  <string name="github_input_title">Enter GitHub Username</string>
+  <string name="github_confirm">Confirm</string>
+  <string name="github_cancel">Cancel</string>
+  <string name="github_import_success">Import successful</string>
+  <string name="github_import_error">Error occurred: %1$s</string>
+  <string name="delete_account_title">Delete Account</string>
+  <string name="delete_account_message">Are you sure you want to delete your account?\n\nThis operation will:\n• Delete all your project data\n• Delete your friend relationships\n• Permanently delete your account\n\nThis operation cannot be undone!</string>
+  <string name="delete_account_confirm">Confirm Delete</string>
+  <string name="delete_account_cancel">Cancel</string>
+  <string name="password_confirm_title">Confirm Password</string>
+  <string name="password_confirm_message">Please enter your password to confirm account deletion:</string>
+  <string name="password_hint">Please enter password</string>
+  <string name="password_confirm_delete">Confirm Delete</string>
+  <string name="password_required">Please enter password</string>
+  <string name="deleting_account">Deleting account…</string>
+  <string name="user_auth_failed">User authentication failed</string>
+  <string name="cannot_get_email">Cannot get user email</string>
+  <string name="password_verification_failed">Password verification failed</string>
+  <string name="password_incorrect">Incorrect password, please try again</string>
+  <string name="delete_local_data_failed">Failed to delete local data: %1$s</string>
+  <string name="account_deleted_success">Account successfully deleted</string>
+  <string name="account_delete_failed">Account deletion failed, please try again later</string>
+  <string name="account_data_cleared">Account data cleared</string>
+  <string name="project_count_query_failed">Failed to get project count: %1$s</string>
 </resources>
