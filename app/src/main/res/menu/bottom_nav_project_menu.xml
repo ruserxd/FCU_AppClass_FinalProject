@@ -14,6 +14,12 @@
     android:icon="@drawable/add"
     android:title="add" />
   <item
+    android:id="@+id/menu_project_delete"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:icon="@drawable/trash_xmark_svgrepo_com"
+    android:title="delete" />
+  <item
     android:id="@+id/menu_project_setting"
     android:icon="@drawable/settings"
     android:title="setting" />

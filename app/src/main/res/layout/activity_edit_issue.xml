@@ -241,11 +241,31 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/ed_btn_delete"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginEnd="16dp"
+      android:text="@string/EditIssue_Delete"
+      android:textColor="#FFFFFF"
+      android:textSize="14sp"
+      app:backgroundTint="#F44336"
+      app:cornerRadius="12dp"
+      app:icon="@android:drawable/ic_menu_delete"
+      app:iconTint="#FFFFFF"
+      app:iconGravity="textStart"
+      style="@style/Widget.Material3.Button.OutlinedButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/form_card" />
+
     <!-- 按鈕區域 -->
     <LinearLayout
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
+      android:layout_marginTop="16dp"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
       android:layout_marginEnd="16dp"
@@ -253,7 +273,7 @@
       android:gravity="center"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/form_card">
+      app:layout_constraintTop_toBottomOf="@+id/ed_btn_delete">
 
       <com.google.android.material.button.MaterialButton
         android:id="@+id/ed_btn_cancel"

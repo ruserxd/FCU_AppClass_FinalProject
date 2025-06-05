@@ -122,8 +122,6 @@ public class ProjectInfoFragment extends Fragment {
           issueList.add(new Issue(name, summary, start_time, end_time, status, designee));
 
         } while (issueCursor.moveToNext());
-      } else {
-        Toast.makeText(requireContext(), R.string.IssueList_Noti, Toast.LENGTH_SHORT).show();
       }
     } catch (Exception e) {
       tv_projectName.setText("加載時發生錯誤");

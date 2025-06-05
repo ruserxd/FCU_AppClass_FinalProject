@@ -26,7 +26,6 @@
   <string name="AddProject_success">新增成功</string>
   <string name="AddProject_fail">新增失敗</string>
   <string name="AddProject_NoAccount">沒有這個帳號</string>
-  <string name="IssueList_Noti">這個專案沒有任何問題</string>
   <string name="IssueList_Error">加載時發生錯誤: </string>
   <string name="IssueList_Designe">負責人:</string>
   <string name="item_project_title">專案名稱: %1$s</string>
@@ -138,4 +137,21 @@
   <string name="Register_HaveAccount">已有帳號?</string>
   <string name="Login_translate">切換語言</string>
   <string name="setting_deleteProject">刪除專案</string>
+
+  <string name="EditIssue_Delete">刪除 Issue</string>
+  <string name="delete_issue_title">確認刪除</string>
+  <string name="delete_issue_message">您確定要刪除「%s」嗎？\n此操作無法復原。</string>
+  <string name="delete_issue_confirm">確認刪除</string>
+  <string name="delete_issue_cancel">取消</string>
+  <string name="delete_issue_success">刪除成功</string>
+  <string name="delete_issue_failed">刪除失敗：%s</string>
+
+  <string name="delete_project_title">確認刪除專案</string>
+  <string name="delete_project_message">您確定要刪除專案「%s」嗎？</string>
+  <string name="delete_project_message_with_issues">您確定要刪除專案「%s」嗎？\n\n此專案包含 %d 個 Issue，刪除專案將同時刪除 Issue</string>
+  <string name="delete_project_confirm">確認刪除</string>
+  <string name="delete_project_cancel">取消</string>
+  <string name="delete_project_success">專案「%s」刪除成功</string>
+  <string name="delete_project_failed">刪除專案失敗：%s</string>
+  <string name="project_id_not_found">無法獲取專案資訊</string>
 </resources>

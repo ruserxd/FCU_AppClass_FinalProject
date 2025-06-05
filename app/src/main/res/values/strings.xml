@@ -29,7 +29,6 @@
   <string name="AddProject_success">Succeed</string>
   <string name="AddProject_fail">Failed</string>
   <string name="AddProject_NoAccount">The account doesn\'t exist.</string>
-  <string name="IssueList_Noti">There is no any issues in this project.</string>
   <string name="IssueList_Error">Got an error during the process:</string>
   <string name="IssueList_Designe">Designee:</string>
   <string name="item_project_title">ProjectName: %1$s</string>
@@ -94,7 +93,7 @@
   <string name="register_network_error">Network connection error, please try again later</string>
   <string name="register_email_invalid_format">Please enter a valid email format</string>
 
-<!--  登入頁面的-->
+  <!--  登入頁面的-->
   <string name="please_enter_email_password">Please enter email and password</string>
   <string name="login_success">Login successful</string>
   <string name="login_failed">Login failed</string>
@@ -130,7 +129,7 @@
   <string name="Login_Email">Email</string>
   <string name="Login_Password">Password</string>
   <string name="Login_Btn">Login</string>
-  <string name="Login_unregister">didn\'t register?</string>
+  <string name="Login_unregister">Didn\'t register?</string>
   <string name="Register_Title">Register</string>
   <string name="Register_Account">Account</string>
   <string name="Register_Password">Password</string>
@@ -139,4 +138,21 @@
   <string name="Register_HaveAccount">Have Account?</string>
   <string name="Login_translate">translate</string>
   <string name="setting_deleteProject">Delete Project</string>
+
+  <string name="EditIssue_Delete">Delete Issue</string>
+  <string name="delete_issue_title">Confirm Delete</string>
+  <string name="delete_issue_message">Are you want to delete \"%s\"?  This action can not be undone.</string>
+  <string name="delete_issue_confirm">Confirm Delete</string>
+  <string name="delete_issue_cancel">Cancel</string>
+  <string name="delete_issue_success">Deleted successfully</string>
+  <string name="delete_issue_failed">Failed to delete: %s</string>
+
+  <string name="delete_project_title">Confirm Project Deletion</string>
+  <string name="delete_project_message">Are you sure you want to delete project \"%s\"?</string>
+  <string name="delete_project_message_with_issues">Are you sure you want to delete project \"%s\"?\n\nThis project contains %d issues. Deleting the project will also delete these</string>
+  <string name="delete_project_confirm">Confirm Delete</string>
+  <string name="delete_project_cancel">Cancel</string>
+  <string name="delete_project_success">Project \"%s\" deleted successfully</string>
+  <string name="delete_project_failed">Failed to delete project: %s</string>
+  <string name="project_id_not_found">Unable to get project information</string>
 </resources>

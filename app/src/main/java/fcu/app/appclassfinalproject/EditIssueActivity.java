@@ -1,11 +1,13 @@
 package fcu.app.appclassfinalproject;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.google.android.material.button.MaterialButton;
 import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 
 public class EditIssueActivity extends AppCompatActivity {
@@ -29,6 +32,8 @@ public class EditIssueActivity extends AppCompatActivity {
   private EditText edDesignee;
   private Button btnSave;
   private Button btnCancel;
+  private MaterialButton btnDelete;
+
   int id;
   String[] items = {"未開始", "進行中", "已完成"};
   String[] itemsEN = {"TO-DO", "In progress", "Finished"};
@@ -50,6 +55,8 @@ public class EditIssueActivity extends AppCompatActivity {
     edStartTime = findViewById(R.id.ed_start_time);
     edEndTime = findViewById(R.id.ed_end_time);
     spin_Status = findViewById(R.id.spin_EditStatus);
+    btnDelete = findViewById(R.id.ed_btn_delete);
+    btnDelete.setOnClickListener(v -> showDeleteConfirmDialog());
 
     ArrayAdapter<String> adapter = new ArrayAdapter<>(
         EditIssueActivity.this, // 或 requireContext()
@@ -169,5 +176,91 @@ public class EditIssueActivity extends AppCompatActivity {
     return this.getSharedPreferences("FCUPrefs", MODE_PRIVATE);
   }
 
-  ;
+  private void showDeleteConfirmDialog() {
+    String issueName = edName.getText().toString().trim();
+    if (issueName.isEmpty()) {
+      issueName = "_";
+    }
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle(getString(R.string.delete_issue_title));
+    builder.setMessage(getString(R.string.delete_issue_message, issueName));
+    builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+    builder.setPositiveButton(getString(R.string.delete_issue_confirm), (dialog, which) -> {
+      deleteIssue();
+    });
+
+    builder.setNegativeButton(getString(R.string.delete_issue_cancel), (dialog, which) -> {
+      dialog.dismiss();
+    });
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+
+    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+        getResources().getColor(android.R.color.holo_red_dark));
+  }
+
+  // 刪除 Issue 方法
+  private void deleteIssue() {
+    SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
+    int issueId = prefs.getInt("issue_Id", -1);
+
+    Log.d("EditIssueActivity", "準備刪除 Issue ID: " + issueId);
+
+    if (issueId == -1) {
+      Toast.makeText(this, "無法獲取 Issue 資訊", Toast.LENGTH_SHORT).show();
+      return;
+    }
+
+    // 禁用刪除按鈕，避免重複點擊
+    btnDelete.setEnabled(false);
+
+    SqlDataBaseHelper dbHelper = new SqlDataBaseHelper(this);
+    SQLiteDatabase db = null;
+
+    try {
+      db = dbHelper.getWritableDatabase();
+      db.beginTransaction();
+
+      // 刪除 UserIssue 關聯
+      int deletedUserIssues = db.delete("UserIssue", "issue_id = ?",
+          new String[]{String.valueOf(issueId)});
+      Log.d("EditIssueActivity", "刪除的 UserIssue 記錄數: " + deletedUserIssues);
+
+      // 刪除 Issue 本身
+      int deletedIssue = db.delete("Issues", "id = ?",
+          new String[]{String.valueOf(issueId)});
+      Log.d("EditIssueActivity", "刪除的 Issue 記錄數: " + deletedIssue);
+
+      if (deletedIssue > 0) {
+        db.setTransactionSuccessful();
+        Log.d("EditIssueActivity", String.format("刪除 Issue 成功 - Issue: %d, UserIssue: %d",
+            deletedIssue, deletedUserIssues));
+
+        Toast.makeText(this, getString(R.string.delete_issue_success), Toast.LENGTH_SHORT).show();
+
+        back();
+      } else {
+        // 沒有找到要刪除的 Issue
+        Log.w("EditIssueActivity", "沒有找到 ID 為 " + issueId + " 的 Issue");
+        Toast.makeText(this, "找不到要刪除的 Issue", Toast.LENGTH_SHORT).show();
+        btnDelete.setEnabled(true);
+      }
+
+    } catch (Exception e) {
+      Log.e("EditIssueActivity", "刪除 Issue 時發生錯誤: " + e.getMessage(), e);
+      Toast.makeText(this, getString(R.string.delete_issue_failed, e.getMessage()),
+          Toast.LENGTH_LONG).show();
+      btnDelete.setEnabled(true);
+    } finally {
+      if (db != null) {
+        if (db.inTransaction()) {
+          db.endTransaction();
+        }
+        db.close();
+      }
+    }
+  }
 }
