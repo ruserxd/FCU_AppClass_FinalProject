@@ -201,7 +201,8 @@ public class RegisterActivity extends AppCompatActivity {
   }
 
   // 儲存用戶資料到 SharedPreferences
-  private void saveUserToSharedPreferences(String email, String firebaseUid, int localUserId, String account) {
+  private void saveUserToSharedPreferences(String email, String firebaseUid, int localUserId,
+      String account) {
     SharedPreferences prefs = getSharedPreferences("FCUPrefs", MODE_PRIVATE);
     SharedPreferences.Editor editor = prefs.edit();
     editor.putString("email", email);

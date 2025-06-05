@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import fcu.app.appclassfinalproject.main_fragments.AddIssueFragment;
-import fcu.app.appclassfinalproject.main_fragments.HomeFragment;
 import fcu.app.appclassfinalproject.main_fragments.ProjectInfoFragment;
 import fcu.app.appclassfinalproject.main_fragments.SettingsFragment;
 

@@ -2,14 +2,14 @@
 <resources>
   <string name="app_name">App Name</string>
   <string name="home_welcome">Welcome</string>
-  <string name="setting_title">📊 Setting</string>
+  <string name="setting_title">⚙️ Setting</string>
   <string name="setting_excelExport">📊 Excel Export</string>
-  <string name="setting_githubExport">💻 GitHub Export</string>
+  <string name="setting_githubExport">💻 GitHub Import</string>
   <string name="setting_friend">Friend</string>
   <string name="setting_addFriend">Add Friend</string>
   <string name="setting_about">About</string>
   <string name="setting_changeLanguage">Change Language</string>
-  <string name="setting_countporject">There are %1$s projects</string>
+  <string name="setting_countporject">You have %1$s projects</string>
   <string name="setting_deleteAccount">Delete Account</string>
   <string name="setting_logOut">Log Out</string>
   <string name="setting_titleFunc">Feature</string>
@@ -138,4 +138,5 @@
   <string name="Register_btn">Register</string>
   <string name="Register_HaveAccount">Have Account?</string>
   <string name="Login_translate">translate</string>
+  <string name="setting_deleteProject">Delete Project</string>
 </resources>

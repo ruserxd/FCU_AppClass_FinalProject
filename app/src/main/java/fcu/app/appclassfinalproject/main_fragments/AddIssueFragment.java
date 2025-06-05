@@ -24,7 +24,6 @@ import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass. Use the {@link AddIssueFragment#newInstance} factory method
@@ -99,7 +98,8 @@ public class AddIssueFragment extends Fragment {
           @Override
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             // 格式化日期為 yyyy-MM-dd
-            String selectedDate = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+            String selectedDate = String.format("%04d-%02d-%02d", year, monthOfYear + 1,
+                dayOfMonth);
             editText.setText(selectedDate);
           }
         },
@@ -109,7 +109,8 @@ public class AddIssueFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_add_issue, container, false);
 

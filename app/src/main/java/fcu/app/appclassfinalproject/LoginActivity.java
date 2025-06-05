@@ -94,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // 檢查輸入是否為空
         if (email.isEmpty() || password.isEmpty()) {
-          Toast.makeText(LoginActivity.this, getString(R.string.register_all_fields_required), Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, getString(R.string.register_all_fields_required),
+              Toast.LENGTH_SHORT).show();
           return;
         }
 
@@ -124,7 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                   editor.putInt("user_id", localUserId);
                   editor.apply();
 
-                  Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                  Toast.makeText(LoginActivity.this, getString(R.string.login_success),
+                      Toast.LENGTH_SHORT).show();
 
                   // 切換至主頁面
                   intentTo(HomeActivity.class);

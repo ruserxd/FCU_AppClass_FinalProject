@@ -93,8 +93,6 @@ public class FriendFragment extends Fragment {
 
     if (currentUserUid.isEmpty()) {
       Toast.makeText(requireContext(), "請先登入", Toast.LENGTH_SHORT).show();
-      // 顯示測試數據
-      loadTestData();
     } else {
       // 載入真實的朋友列表
       loadFriendsList(currentUserUid);
@@ -126,7 +124,6 @@ public class FriendFragment extends Fragment {
       } else {
         Log.e(TAG, "找不到當前用戶的數據庫記錄");
         Toast.makeText(requireContext(), "用戶資料同步錯誤", Toast.LENGTH_SHORT).show();
-        loadTestData();
         userCursor.close();
         return;
       }
@@ -166,31 +163,17 @@ public class FriendFragment extends Fragment {
       } else {
         Log.d(TAG, "沒有找到朋友");
         Toast.makeText(requireContext(), "你還沒有添加任何朋友", Toast.LENGTH_SHORT).show();
-        loadTestData(); // 如果沒有朋友，顯示測試數據用於調試
       }
 
     } catch (Exception e) {
       Log.e(TAG, "查詢朋友列表時發生錯誤: " + e.getMessage(), e);
       Toast.makeText(requireContext(), "載入朋友列表失敗: " + e.getMessage(),
           Toast.LENGTH_LONG).show();
-      loadTestData();
     } finally {
       if (cursor != null) {
         cursor.close();
       }
       db.close();
-    }
-  }
-
-  private void loadTestData() {
-    Log.d(TAG, "載入測試數據");
-    friendList.clear();
-    friendList.add(new User(1, "測試朋友1", "friend1@example.com"));
-    friendList.add(new User(2, "測試朋友2", "friend2@example.com"));
-    friendList.add(new User(3, "測試朋友3", "friend3@example.com"));
-
-    if (adapter != null) {
-      adapter.notifyDataSetChanged();
     }
   }
 

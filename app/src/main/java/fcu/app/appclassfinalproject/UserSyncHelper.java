@@ -63,8 +63,7 @@ public class UserSyncHelper {
 
       // 創建新用戶
       ContentValues values = new ContentValues();
-      values.put("account", account != null ? account : email.split("@")[0]); // 如果沒有帳號，使用email前綴
-      values.put("password", ""); // Firebase 用戶不需要密碼
+      values.put("account", account != null ? account : email.split("@")[0]);
       values.put("email", email);
       values.put("firebase_uid", firebaseUid);
 

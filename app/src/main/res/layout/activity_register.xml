@@ -7,18 +7,6 @@
   android:layout_height="match_parent"
   tools:context=".RegisterActivity">
 
-  <EditText
-    android:id="@+id/et_register_password"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    android:ems="10"
-    android:hint="@string/Register_Password"
-    android:inputType="text"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/et_register_account" />
-
   <Button
     android:id="@+id/btn_register"
     style="@style/Widget.Material3.Button"
@@ -80,5 +68,17 @@
     app:layout_constraintEnd_toEndOf="@+id/btn_register"
     app:layout_constraintStart_toStartOf="@+id/btn_register"
     app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+  <EditText
+    android:id="@+id/et_register_password"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:ems="10"
+    android:hint="@string/Register_Password"
+    android:inputType="textPassword"
+    app:layout_constraintEnd_toEndOf="@+id/et_register_account"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="@+id/et_register_account"
+    app:layout_constraintTop_toBottomOf="@+id/et_register_account" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

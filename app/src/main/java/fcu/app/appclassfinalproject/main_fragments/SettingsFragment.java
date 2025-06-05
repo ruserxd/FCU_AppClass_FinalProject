@@ -231,7 +231,8 @@ public class SettingsFragment extends Fragment {
       }
     });
 
-    builder.setNegativeButton(getString(R.string.github_cancel), (dialog, which) -> dialog.cancel());
+    builder.setNegativeButton(getString(R.string.github_cancel),
+        (dialog, which) -> dialog.cancel());
     builder.show();
   }
 
@@ -347,7 +348,8 @@ public class SettingsFragment extends Fragment {
       }
     });
 
-    builder.setNegativeButton(getString(R.string.delete_account_cancel), (dialog, which) -> dialog.dismiss());
+    builder.setNegativeButton(getString(R.string.delete_account_cancel),
+        (dialog, which) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
     dialog.show();
