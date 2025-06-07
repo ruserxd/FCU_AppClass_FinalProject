@@ -113,42 +113,42 @@
           app:cardBackgroundColor="@color/surface_color">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="16dp"
+          android:orientation="vertical">
 
           <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="12dp"
-              android:text="@string/setting_titleSocial"
-              android:textColor="@color/text_primary"
-              android:textSize="18sp"
-              android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/setting_titleSocial"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp" />
 
           <com.google.android.material.button.MaterialButton
-              android:id="@+id/btn_userFriends"
-              android:layout_width="match_parent"
-              android:layout_height="56dp"
-              android:layout_marginBottom="8dp"
-              android:text="@string/setting_friend"
-              android:textSize="16sp"
-              app:cornerRadius="12dp"
-              app:iconGravity="textStart"
-              app:iconPadding="12dp"
-              style="@style/Widget.Material3.Button.TextButton" />
+            android:id="@+id/btn_userFriends"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/setting_friend"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp" />
 
           <com.google.android.material.button.MaterialButton
-              android:id="@+id/btn_add_friend"
-              android:layout_width="match_parent"
-              android:layout_height="56dp"
-              android:text="@string/setting_addFriend"
-              android:textSize="16sp"
-              app:cornerRadius="12dp"
-              app:iconGravity="textStart"
-              app:iconPadding="12dp"
-              style="@style/Widget.Material3.Button.TextButton" />
+            android:id="@+id/btn_add_friend"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/setting_addFriend"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp" />
 
         </LinearLayout>
       </com.google.android.material.card.MaterialCardView>
@@ -183,17 +183,6 @@
               android:layout_height="56dp"
               android:layout_marginBottom="8dp"
               android:text="@string/setting_changeLanguage"
-              android:textSize="16sp"
-              app:cornerRadius="12dp"
-              app:iconGravity="textStart"
-              app:iconPadding="12dp"
-              style="@style/Widget.Material3.Button.TextButton" />
-
-          <com.google.android.material.button.MaterialButton
-              android:id="@+id/btn_about"
-              android:layout_width="match_parent"
-              android:layout_height="56dp"
-              android:text="@string/setting_about"
               android:textSize="16sp"
               app:cornerRadius="12dp"
               app:iconGravity="textStart"

@@ -7,7 +7,6 @@
   <string name="setting_githubExport">💻 GitHub 匯入</string>
   <string name="setting_friend">朋友</string>
   <string name="setting_addFriend">新增朋友</string>
-  <string name="setting_about">關於我們</string>
   <string name="setting_changeLanguage">切換語言</string>
   <string name="setting_countporject">已建立%1$s個專案</string>
   <string name="setting_deleteAccount">刪除帳號</string>
