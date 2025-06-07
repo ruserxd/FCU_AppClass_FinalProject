@@ -136,11 +136,6 @@
   <string name="Register_HaveAccount">已有帳號?</string>
   <string name="Login_translate">切換語言</string>
 
-  <string name="Friend_title">好友</string>
-  <string name="Friend_add">新增</string>
-  <string name="Friend_del">刪除</string>
-
-
   <string name="setting_deleteProject">刪除專案</string>
 
   <string name="EditIssue_Delete">刪除 Issue</string>
@@ -159,4 +154,10 @@
   <string name="delete_project_success">專案「%s」刪除成功</string>
   <string name="delete_project_failed">刪除專案失敗：%s</string>
   <string name="project_id_not_found">無法獲取專案資訊</string>
+  <string name="friend">好友</string>
+  <string name="friend_email">信箱:</string>
+  <string name="friend_account">帳號:</string>
+  <string name="friend_id">ID</string>
+  <string name="friend_add">加為好友</string>
+  <string name="friend_delete">刪除好友</string>
 </resources>

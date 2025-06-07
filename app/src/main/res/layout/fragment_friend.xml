@@ -13,11 +13,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_friend_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Friend_title"
-        android:textSize="34sp" />
+      android:id="@+id/tv_friend_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/friend"
+      android:textSize="34sp" />
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rcy_friends"
       android:layout_width="match_parent"

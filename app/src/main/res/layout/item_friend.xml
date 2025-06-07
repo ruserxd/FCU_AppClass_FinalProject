@@ -16,19 +16,19 @@
       android:id="@+id/tv_add_friend_ID"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="ID:"
+      android:text="@string/friend_id"
       android:textSize="24sp" />
     <TextView
       android:id="@+id/tv_add_friend_mail"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="email:"
+      android:text="@string/friend_email"
       android:textSize="24sp" />
     <TextView
       android:id="@+id/tv_add_friend_account"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="帳號:"
+      android:text="@string/friend_account"
       android:textSize="24sp" />
   </LinearLayout>
 

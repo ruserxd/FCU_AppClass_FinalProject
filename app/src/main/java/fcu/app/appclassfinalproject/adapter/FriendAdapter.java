@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.main_fragments.FriendFragment;
 import fcu.app.appclassfinalproject.model.User;
 import java.util.List;
@@ -79,7 +80,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     // 創建刪除按鈕
     Button btnDelete = new Button(context);
     btnDelete.setId(View.generateViewId());
-    btnDelete.setText("刪除好友");
+    btnDelete.setText(R.string.friend_delete);
     btnDelete.setBackgroundColor(Color.parseColor("#F44336"));
     btnDelete.setTextColor(Color.WHITE);
     btnDelete.setTextSize(14);
