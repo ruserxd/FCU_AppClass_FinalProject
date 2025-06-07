@@ -154,4 +154,8 @@
   <string name="delete_project_success">Project \"%s\" deleted successfully</string>
   <string name="delete_project_failed">Failed to delete project: %s</string>
   <string name="project_id_not_found">Unable to get project information</string>
+
+  <string name="Friend_title">Friends</string>
+  <string name="Friend_add">Add</string>
+  <string name="Friend_del">Delete</string>
 </resources>

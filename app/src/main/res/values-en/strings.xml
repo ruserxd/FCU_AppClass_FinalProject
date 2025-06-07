@@ -135,6 +135,12 @@
   <string name="Register_btn">註冊</string>
   <string name="Register_HaveAccount">已有帳號?</string>
   <string name="Login_translate">切換語言</string>
+
+  <string name="Friend_title">好友</string>
+  <string name="Friend_add">新增</string>
+  <string name="Friend_del">刪除</string>
+
+
   <string name="setting_deleteProject">刪除專案</string>
 
   <string name="EditIssue_Delete">刪除 Issue</string>
