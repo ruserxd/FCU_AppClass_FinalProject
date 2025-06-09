@@ -283,7 +283,7 @@ public class SettingsFragment extends Fragment {
         ContentValues project = new ContentValues();
         project.put("name", repoName);
         project.put("summary", "");
-        project.put("manager_id", userId);
+        project.put("manager_id", userId);  
         long projectId = db.insert("Projects", null, project);
 
         if (projectId != -1) {
