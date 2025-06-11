@@ -32,6 +32,11 @@ public class ExportExcel {
   private SqlDataBaseHelper dbHelper;
   private int currentUserId;
 
+  // 字體大小常數 - 超大字體
+  private static final short HEADER_FONT_SIZE = 68; // 標題字體
+  private static final short PROJECT_INFO_FONT_SIZE = 48; // 專案資訊字體
+  private static final short CONTENT_FONT_SIZE = 32; // 內容字體
+
   public ExportExcel(Context context, SQLiteDatabase database) {
     this.context = context;
     this.db = database;
@@ -92,6 +97,57 @@ public class ExportExcel {
   }
 
   /**
+   * 建立標題樣式
+   */
+  private CellStyle createHeaderStyle(Workbook workbook) {
+    CellStyle headerStyle = workbook.createCellStyle();
+    Font headerFont = workbook.createFont();
+    headerFont.setBold(true);
+    headerFont.setFontHeightInPoints(HEADER_FONT_SIZE); // 放大標題字體
+    headerStyle.setFont(headerFont);
+    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    return headerStyle;
+  }
+
+  /**
+   * 建立專案資訊樣式
+   */
+  private CellStyle createProjectInfoStyle(Workbook workbook) {
+    CellStyle projectInfoStyle = workbook.createCellStyle();
+    Font projectInfoFont = workbook.createFont();
+    projectInfoFont.setBold(true);
+    projectInfoFont.setFontHeightInPoints(PROJECT_INFO_FONT_SIZE); // 放大專案資訊字體
+    projectInfoStyle.setFont(projectInfoFont);
+    return projectInfoStyle;
+  }
+
+  /**
+   * 建立內容樣式
+   */
+  private CellStyle createContentStyle(Workbook workbook) {
+    CellStyle contentStyle = workbook.createCellStyle();
+    Font contentFont = workbook.createFont();
+    contentFont.setFontHeightInPoints(CONTENT_FONT_SIZE); // 放大內容字體
+    contentStyle.setFont(contentFont);
+    return contentStyle;
+  }
+
+  /**
+   * 建立議題標題樣式
+   */
+  private CellStyle createIssueHeaderStyle(Workbook workbook) {
+    CellStyle headerStyle = workbook.createCellStyle();
+    Font headerFont = workbook.createFont();
+    headerFont.setBold(true);
+    headerFont.setFontHeightInPoints(HEADER_FONT_SIZE); // 放大議題標題字體
+    headerStyle.setFont(headerFont);
+    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    return headerStyle;
+  }
+
+  /**
    * 建立專案列表工作表
    */
   private void createProjectSheet(Workbook workbook, List<Project> projects) {
@@ -100,13 +156,7 @@ public class ExportExcel {
     Sheet sheet = workbook.createSheet(sheetName);
 
     // 建立標題樣式
-    CellStyle headerStyle = workbook.createCellStyle();
-    Font headerFont = workbook.createFont();
-    headerFont.setBold(true);
-    headerFont.setFontHeightInPoints((short) 16);
-    headerStyle.setFont(headerFont);
-    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    CellStyle headerStyle = createHeaderStyle(workbook);
 
     // 建立標題行
     Row headerRow = sheet.createRow(0);
@@ -123,15 +173,26 @@ public class ExportExcel {
       cell.setCellStyle(headerStyle);
     }
 
+    // 建立內容樣式
+    CellStyle contentStyle = createContentStyle(workbook);
+
     // 填入專案資料
     for (int i = 0; i < projects.size(); i++) {
       Row row = sheet.createRow(i + 1);
       Project project = projects.get(i);
 
-      // 專案基本資訊
-      row.createCell(0).setCellValue(project.getId());
-      row.createCell(1).setCellValue(project.getName());
-      row.createCell(2).setCellValue(project.getSummary());
+      // 專案基本資訊 - 使用放大字體
+      Cell idCell = row.createCell(0);
+      idCell.setCellValue(project.getId());
+      idCell.setCellStyle(contentStyle);
+
+      Cell nameCell = row.createCell(1);
+      nameCell.setCellValue(project.getName());
+      nameCell.setCellStyle(contentStyle);
+
+      Cell summaryCell = row.createCell(2);
+      summaryCell.setCellValue(project.getSummary());
+      summaryCell.setCellStyle(contentStyle);
 
       // 組合所有成員名稱
       String membersText = "";
@@ -140,12 +201,31 @@ public class ExportExcel {
       } else {
         membersText = "zh".equals(currentLang) ? "無成員" : "No Members";
       }
-      row.createCell(3).setCellValue(membersText);
+      Cell membersCell = row.createCell(3);
+      membersCell.setCellValue(membersText);
+      membersCell.setCellStyle(contentStyle);
     }
 
-    // 手動調整欄寬
+    // 手動調整欄寬 - 超大字體需要更寬的欄位
     for (int i = 0; i < headers.length; i++) {
-      sheet.setColumnWidth(i, 25 * 256); // 增加欄寬以容納多個成員名稱
+      if (i == 1) { // 專案名稱欄位
+        sheet.setColumnWidth(i, 80 * 256);
+      } else if (i == 2) { // 專案概述欄位
+        sheet.setColumnWidth(i, 100 * 256);
+      } else if (i == 3) { // 專案成員欄位
+        sheet.setColumnWidth(i, 120 * 256);
+      } else { // 專案ID欄位
+        sheet.setColumnWidth(i, 60 * 256);
+      }
+    }
+
+    // 調整行高以容納超大字體
+    headerRow.setHeightInPoints(80); // 標題行高度
+    for (int i = 1; i <= projects.size(); i++) {
+      Row row = sheet.getRow(i);
+      if (row != null) {
+        row.setHeightInPoints(60); // 內容行高度
+      }
     }
   }
 
@@ -163,14 +243,10 @@ public class ExportExcel {
 
     Sheet sheet = workbook.createSheet(sheetName);
 
-    // 標題樣式
-    CellStyle headerStyle = workbook.createCellStyle();
-    Font headerFont = workbook.createFont();
-    headerFont.setBold(true);
-    headerFont.setFontHeightInPoints((short) 16);
-    headerStyle.setFont(headerFont);
-    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    // 建立樣式
+    CellStyle projectInfoStyle = createProjectInfoStyle(workbook);
+    CellStyle headerStyle = createIssueHeaderStyle(workbook);
+    CellStyle contentStyle = createContentStyle(workbook);
 
     // 專案資訊行
     Row projectInfoRow = sheet.createRow(0);
@@ -179,19 +255,13 @@ public class ExportExcel {
         "專案: " + project.getName() + " (ID: " + project.getId() + ")" :
         "Project: " + project.getName() + " (ID: " + project.getId() + ")";
     projectInfoCell.setCellValue(projectInfo);
-
-    CellStyle projectInfoStyle = workbook.createCellStyle();
-    Font projectInfoFont = workbook.createFont();
-    projectInfoFont.setBold(true);
-    projectInfoFont.setFontHeightInPoints((short) 14);
-    projectInfoStyle.setFont(projectInfoFont);
     projectInfoCell.setCellStyle(projectInfoStyle);
+    projectInfoRow.setHeightInPoints(70); // 設定行高適應超大字體
 
     // 專案成員資訊行
     Row membersInfoRow = sheet.createRow(1);
     Cell membersInfoCell = membersInfoRow.createCell(0);
-    String membersPrefix = "zh".equals(currentLang) ? "專案成員: " : "Project Members: ";
-    String membersText = membersPrefix;
+    String membersText = "zh".equals(currentLang) ? "專案成員: " : "Project Members: ";
     if (project.getMemberNames() != null && !project.getMemberNames().isEmpty()) {
       membersText += String.join(", ", project.getMemberNames());
     } else {
@@ -199,6 +269,7 @@ public class ExportExcel {
     }
     membersInfoCell.setCellValue(membersText);
     membersInfoCell.setCellStyle(projectInfoStyle);
+    membersInfoRow.setHeightInPoints(70); // 設定行高適應超大字體
 
     // 空白行
     sheet.createRow(2);
@@ -218,12 +289,7 @@ public class ExportExcel {
       cell.setCellValue(headers[i]);
       cell.setCellStyle(headerStyle);
     }
-
-    // 內容樣式
-    CellStyle contentStyle = workbook.createCellStyle();
-    Font contentFont = workbook.createFont();
-    contentFont.setFontHeightInPoints((short) 14);
-    contentStyle.setFont(contentFont);
+    headerRow.setHeightInPoints(80); // 標題行高度適應超大字體
 
     // 填入議題資料
     for (int i = 0; i < issues.size(); i++) {
@@ -257,11 +323,26 @@ public class ExportExcel {
       Cell cell6 = row.createCell(6);
       cell6.setCellValue(issue.getDesignee());
       cell6.setCellStyle(contentStyle);
+
+      // 設定行高以容納超大字體
+      row.setHeightInPoints(60);
     }
 
-    // 手動調整欄寬
+    // 手動調整欄寬 - 超大字體需要更寬的欄位
     for (int i = 0; i < headers.length; i++) {
-      sheet.setColumnWidth(i, 20 * 256);
+      if (i == 0) { // 議題ID
+        sheet.setColumnWidth(i, 50 * 256);
+      } else if (i == 1) { // 主旨
+        sheet.setColumnWidth(i, 120 * 256);
+      } else if (i == 2) { // 概述
+        sheet.setColumnWidth(i, 150 * 256);
+      } else if (i == 3 || i == 4) { // 開始時間、結束時間
+        sheet.setColumnWidth(i, 80 * 256);
+      } else if (i == 5) { // 狀態
+        sheet.setColumnWidth(i, 60 * 256);
+      } else if (i == 6) { // 被指派者
+        sheet.setColumnWidth(i, 80 * 256);
+      }
     }
   }
 
@@ -332,14 +413,5 @@ public class ExportExcel {
    */
   private void showToast(String message) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-  }
-
-  /**
-   * 清理資源
-   */
-  public void cleanup() {
-    if (db != null && db.isOpen()) {
-      db.close();
-    }
   }
 }
