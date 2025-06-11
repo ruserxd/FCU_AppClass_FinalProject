@@ -32,6 +32,7 @@ public class HomeFragment extends Fragment {
 
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
+  private static final String TAG = "HomeFragment";
 
   private String mParam1;
   private String mParam2;
@@ -91,22 +92,27 @@ public class HomeFragment extends Fragment {
     // 獲取當前用戶資訊
     SharedPreferences prefs = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
     String email = prefs.getString("email", "使用者");
-    tvName.setText(email);
+
+    // 轉換為小寫以確保查找一致性
+    String normalizedEmail = email.toLowerCase().trim();
+    Log.d(TAG, "Original email: '" + email + "', Normalized email: '" + normalizedEmail + "'");
+
+    tvName.setText(email); // 顯示原始 email
 
     // 初始化資料庫
     dbHelper = new SqlDataBaseHelper(requireContext());
     SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-    // 查詢使用者 ID
-    int userId = getUserIdByEmail(db, email);
+    // 查詢使用者 ID（使用小寫 email）
+    int userId = getUserIdByEmail(db, normalizedEmail);
 
     if (userId != -1) {
-      Log.d("HomeFragment", "查到 user_id: " + userId + " for email: " + email);
+      Log.d(TAG, "查到 user_id: " + userId + " for email: " + normalizedEmail);
       // 使用 ProjectHelper 來獲取用戶相關的專案
       projectList = ProjectHelper.getProjectsByUser(db, userId);
-      Log.d("HomeFragment", "找到 " + projectList.size() + " 個專案");
+      Log.d(TAG, "找到 " + projectList.size() + " 個專案");
     } else {
-      Log.e("HomeFragment", "找不到對應的 email user_id: " + email);
+      Log.e(TAG, "找不到對應的 email user_id: " + normalizedEmail);
       projectList = new ArrayList<>();
     }
 
@@ -118,18 +124,24 @@ public class HomeFragment extends Fragment {
   }
 
   /**
-   * 根據 email 獲取用戶 ID
+   * 根據 email 獲取用戶 ID（使用小寫比較）
    */
   private int getUserIdByEmail(SQLiteDatabase db, String email) {
     int userId = -1;
 
-    try (Cursor userCursor = db.rawQuery("SELECT id FROM Users WHERE email = ?",
-        new String[]{email})) {
+    // 確保傳入的 email 是小寫
+    String normalizedEmail = email.toLowerCase().trim();
+
+    try (Cursor userCursor = db.rawQuery("SELECT id FROM Users WHERE LOWER(TRIM(email)) = ?",
+        new String[]{normalizedEmail})) {
       if (userCursor.moveToFirst()) {
         userId = userCursor.getInt(0);
+        Log.d(TAG, "成功找到用戶 ID: " + userId + " for email: " + normalizedEmail);
+      } else {
+        Log.w(TAG, "未找到用戶 email: " + normalizedEmail);
       }
     } catch (Exception e) {
-      Log.e("HomeFragment", "Error getting user ID: " + e.getMessage());
+      Log.e(TAG, "Error getting user ID: " + e.getMessage());
     }
 
     return userId;
@@ -143,8 +155,11 @@ public class HomeFragment extends Fragment {
       SharedPreferences prefs = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE);
       String email = prefs.getString("email", "使用者");
 
+      // email 轉換為小寫
+      String normalizedEmail = email.toLowerCase().trim();
+
       SQLiteDatabase db = dbHelper.getReadableDatabase();
-      int userId = getUserIdByEmail(db, email);
+      int userId = getUserIdByEmail(db, normalizedEmail);
 
       if (userId != -1) {
         projectList.clear();
@@ -152,6 +167,9 @@ public class HomeFragment extends Fragment {
         if (adapter != null) {
           adapter.notifyDataSetChanged();
         }
+        Log.d(TAG, "專案列表已刷新，共 " + projectList.size() + " 個專案");
+      } else {
+        Log.w(TAG, "刷新時找不到用戶 ID for email: " + normalizedEmail);
       }
       db.close();
     }
