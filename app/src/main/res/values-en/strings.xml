@@ -18,9 +18,9 @@
   <string name="logout_success">登出成功</string>
   <string name="AddProject_enterName">請輸入專案名稱</string>
   <string name="AddProject_enterSummary">請輸入專案概述</string>
-  <string name="AddProject_enterManager">請選擇專案經理</string>
-  <string name="AddProject_hint">請填寫完整資訊以建立專案</string>
-  <string name="AddProject_Manager">專案管理者</string>
+  <string name="AddProject_enterManager">請選擇專案成員</string>
+  <string name="AddProject_hint">可以選擇多個專案成員來管理專案</string>
+  <string name="AddProject_Manager">專案成員</string>
   <string name="AddProject_btn">新增</string>
   <string name="AddProject_success">新增成功</string>
   <string name="AddProject_fail">新增失敗</string>
@@ -79,7 +79,7 @@
   <string name="Gantt_Month">月份</string>
   <string name="Gantt_Issue">議題</string>
 
-<!--  註冊頁面的-->
+  <!--  註冊頁面的-->
   <string name="register_all_fields_required">所有欄位不能為空</string>
   <string name="register_password_min_length">密碼至少需要6個字元</string>
   <string name="register_check_network">請檢查網路連線</string>
@@ -92,13 +92,13 @@
   <string name="register_weak_password">密碼強度不足</string>
   <string name="register_network_error">網路連接錯誤，請稍後重試</string>
   <string name="register_email_invalid_format">請輸入有效的電子郵件格式</string>
-<!--  登入頁面的-->
+  <!--  登入頁面的-->
   <string name="please_enter_email_password">請輸入電子郵件和密碼</string>
   <string name="login_success">登入成功</string>
   <string name="login_failed">登入失敗</string>
   <string name="email_not_registered">此電子郵件尚未註冊</string>
   <string name="email_format_incorrect">電子郵件格式不正確</string>
-<!--  設定頁面的-->
+  <!--  設定頁面的-->
   <string name="github_input_title">輸入 GitHub 帳號</string>
   <string name="github_confirm">確定</string>
   <string name="github_cancel">取消</string>
@@ -160,4 +160,65 @@
   <string name="friend_id">ID</string>
   <string name="friend_add">加為好友</string>
   <string name="friend_delete">刪除好友</string>
+
+  <!-- 新增的成員相關字串 -->
+  <string name="add_member_button">新增</string>
+  <string name="select_member">選擇成員</string>
+  <string name="project_members">專案成員</string>
+  <string name="remove_member">移除</string>
+  <string name="member_already_selected">此成員已經被選擇</string>
+  <string name="member_added_success">已新增成員：%s</string>
+  <string name="member_removed_success">已移除成員：%s</string>
+  <string name="please_select_member">請先選擇或輸入一個成員帳號</string>
+  <string name="at_least_one_member">請至少選擇一個專案成員</string>
+  <string name="only_members_can_delete">只有專案成員才能刪除專案</string>
+  <string name="issue_can_only_assign_to_members">議題只能指派給專案成員</string>
+  <string name="available_members_count">議題只能指派給專案成員（共 %d 位）</string>
+  <string name="no_project_members">警告：此專案沒有成員，無法建立議題</string>
+  <string name="add_project_delbtn">刪除</string>
+
+  <string name="delete_project_members_info">此操作也會移除 %d 位專案成員的關聯</string>
+  <string name="delete_project_not_found">專案刪除失敗：找不到指定的專案</string>
+  <string name="database_init_failed">資料庫初始化失敗：%s</string>
+  <string name="views_init_failed">介面元件載入失敗，請檢查佈局檔案</string>
+  <string name="data_setup_failed">資料設定失敗：%s</string>
+  <string name="member_account_required">請先選擇或輸入一個成員帳號</string>
+  <string name="member_account_not_found">找不到帳號「%s」，請確認帳號是否正確</string>
+  <string name="loading_accounts_error">載入用戶列表時發生錯誤：%s</string>
+  <string name="project_name_required">請輸入專案名稱</string>
+  <string name="project_summary_required">請輸入專案摘要</string>
+  <string name="project_member_required">請至少選擇一個專案成員</string>
+  <string name="project_create_success">專案「%s」建立成功！</string>
+  <string name="project_create_failed">專案建立失敗，請重試</string>
+  <string name="project_create_partial_success">專案建立成功，但部分成員新增失敗</string>
+  <string name="form_cleared">表單已清空</string>
+  <string name="operation_completed">操作完成</string>
+  <string name="warning_no_accounts">警告：資料庫中沒有找到任何用戶帳號</string>
+  <string name="manager_name">管理者名稱</string>
+
+
+  <string name="excel_no_projects_to_export">沒有專案可以匯出</string>
+  <string name="excel_user_projects">用戶專案</string>
+  <string name="excel_export_success">%s Excel檔案匯出成功：%s</string>
+  <string name="excel_export_io_error">匯出Excel時發生IO錯誤：%s</string>
+  <string name="excel_export_unexpected_error">匯出過程中發生未預期的錯誤：%s</string>
+  <string name="excel_project_list_sheet">專案列表</string>
+  <string name="excel_project_id">專案ID</string>
+  <string name="excel_project_name">專案名稱</string>
+  <string name="excel_project_summary">專案概述</string>
+  <string name="excel_project_members">專案成員</string>
+  <string name="excel_no_members">無成員</string>
+  <string name="excel_issues_suffix">專案的議題</string>
+  <string name="excel_project_label">專案：%s (ID: %d)</string>
+  <string name="excel_members_label">專案成員：%s</string>
+  <string name="excel_issue_id">議題ID</string>
+  <string name="excel_issue_subject">主旨</string>
+  <string name="excel_issue_summary">概述</string>
+  <string name="excel_issue_start_time">開始時間</string>
+  <string name="excel_issue_end_time">結束時間</string>
+  <string name="excel_issue_status">狀態</string>
+  <string name="excel_issue_assignee">被指派者</string>
+  <string name="excel_creating_workbook">正在建立Excel工作簿...</string>
+  <string name="excel_saving_file">正在儲存檔案...</string>
+  <string name="excel_file_saved">檔案已儲存至：%s</string>
 </resources>

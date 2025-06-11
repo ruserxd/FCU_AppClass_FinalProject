@@ -6,16 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.widget.Toast;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.helper.ProjectHelper;
+import fcu.app.appclassfinalproject.helper.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.Issue;
 import fcu.app.appclassfinalproject.model.Project;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -43,33 +42,28 @@ public class ExportExcel {
     currentUserId = prefs.getInt("user_id", -1);
   }
 
-  // 從資料庫獲取所有專案
-  private List<Project> getAllProjects() {
+  /**
+   * 獲取當前用戶參與的所有專案
+   */
+  private List<Project> getAllUserProjects() {
     List<Project> projects = new ArrayList<>();
 
-    Cursor cursor = db.rawQuery(
-        "SELECT * FROM Projects WHERE manager_id = ? ORDER BY id",
-        new String[]{String.valueOf(currentUserId)});
-
-    if (cursor.moveToFirst()) {
-      do {
-        Project project = new Project(
-            cursor.getInt(0),           // id
-            cursor.getString(1),        // name
-            cursor.getString(2),        // summary
-            cursor.getInt(3)        // manager
-        );
-        projects.add(project);
-      } while (cursor.moveToNext());
+    if (currentUserId == -1) {
+      return projects;
     }
-    cursor.close();
+
+    // 使用 ProjectHelper 獲取用戶參與的所有專案
+    projects = ProjectHelper.getProjectsByUser(db, currentUserId);
+
     return projects;
   }
 
-  // 根據專案ID獲取議題
+  /**
+   * 根據專案ID獲取議題
+   */
   private List<Issue> getIssuesByProjectId(int projectId) {
     List<Issue> issues = new ArrayList<>();
-    String query = "SELECT * FROM Issues WHERE project_id = ? ";
+    String query = "SELECT * FROM Issues WHERE project_id = ? ORDER BY id";
 
     Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(projectId)});
     if (cursor.moveToFirst()) {
@@ -80,7 +74,7 @@ public class ExportExcel {
             cursor.getString(3),        // start time
             cursor.getString(4),        // end time
             cursor.getString(5),        // status
-            cursor.getString(6)         //designee
+            cursor.getString(6)         // designee
         );
         issues.add(issue);
       } while (cursor.moveToNext());
@@ -89,24 +83,21 @@ public class ExportExcel {
     return issues;
   }
 
-  private Map<Integer, String> getManagerIdAccountMap() {
-    Map<Integer, String> map = new HashMap<>();
-    Cursor cursor = db.rawQuery("SELECT id, account FROM Users", null);
-    if (cursor.moveToFirst()) {
-      do {
-        int id = cursor.getInt(0);
-        String account = cursor.getString(1);
-        map.put(id, account);
-      } while (cursor.moveToNext());
-    }
-    cursor.close();
-    return map;
+  /**
+   * 獲取當前語言設定
+   */
+  private String getCurrentLanguage() {
+    SharedPreferences prefs = context.getSharedPreferences("FCUPrefs", Context.MODE_PRIVATE);
+    return prefs.getString("app_language", "zh"); // 預設中文
   }
 
-
-  // 建立專案列表工作表
+  /**
+   * 建立專案列表工作表
+   */
   private void createProjectSheet(Workbook workbook, List<Project> projects) {
-    Sheet sheet = workbook.createSheet("專案列表");
+    String currentLang = getCurrentLanguage();
+    String sheetName = "zh".equals(currentLang) ? "專案列表" : "Project List";
+    Sheet sheet = workbook.createSheet(sheetName);
 
     // 建立標題樣式
     CellStyle headerStyle = workbook.createCellStyle();
@@ -119,7 +110,12 @@ public class ExportExcel {
 
     // 建立標題行
     Row headerRow = sheet.createRow(0);
-    String[] headers = {"專案ID", "專案名稱", "專案概述", "管理者"};
+    String[] headers;
+    if ("zh".equals(currentLang)) {
+      headers = new String[]{"專案ID", "專案名稱", "專案概述", "專案成員"};
+    } else {
+      headers = new String[]{"Project ID", "Project Name", "Project Summary", "Project Members"};
+    }
 
     for (int i = 0; i < headers.length; i++) {
       Cell cell = headerRow.createCell(i);
@@ -127,32 +123,40 @@ public class ExportExcel {
       cell.setCellStyle(headerStyle);
     }
 
-    // 取得 manager 對照表
-    Map<Integer, String> managerMap = getManagerIdAccountMap();
     // 填入專案資料
     for (int i = 0; i < projects.size(); i++) {
       Row row = sheet.createRow(i + 1);
       Project project = projects.get(i);
-      String managerAccount = managerMap.getOrDefault(project.getManagerId(), "未知");
-      row.createCell(3).setCellValue(managerAccount);
 
+      // 專案基本資訊
       row.createCell(0).setCellValue(project.getId());
       row.createCell(1).setCellValue(project.getName());
       row.createCell(2).setCellValue(project.getSummary());
-      //row.createCell(3).setCellValue(managerName);
 
+      // 組合所有成員名稱
+      String membersText = "";
+      if (project.getMemberNames() != null && !project.getMemberNames().isEmpty()) {
+        membersText = String.join(", ", project.getMemberNames());
+      } else {
+        membersText = "zh".equals(currentLang) ? "無成員" : "No Members";
+      }
+      row.createCell(3).setCellValue(membersText);
     }
 
     // 手動調整欄寬
     for (int i = 0; i < headers.length; i++) {
-      sheet.setColumnWidth(i, 20 * 256); // 這樣設定欄寬為 20 個字符
-
+      sheet.setColumnWidth(i, 25 * 256); // 增加欄寬以容納多個成員名稱
     }
   }
 
-  // 建立專案議題工作表
+  /**
+   * 建立專案議題工作表
+   */
   private void createIssueSheet(Workbook workbook, Project project, List<Issue> issues) {
-    String sheetName = project.getName() + "專案的議題";
+    String currentLang = getCurrentLanguage();
+    String issueSuffix = "zh".equals(currentLang) ? "專案的議題" : " Issues";
+    String sheetName = project.getName() + issueSuffix;
+
     if (sheetName.length() > 31) {
       sheetName = sheetName.substring(0, 28) + "...";
     }
@@ -171,7 +175,11 @@ public class ExportExcel {
     // 專案資訊行
     Row projectInfoRow = sheet.createRow(0);
     Cell projectInfoCell = projectInfoRow.createCell(0);
-    projectInfoCell.setCellValue("專案: " + project.getName() + " (ID: " + project.getId() + ")");
+    String projectInfo = "zh".equals(currentLang) ?
+        "專案: " + project.getName() + " (ID: " + project.getId() + ")" :
+        "Project: " + project.getName() + " (ID: " + project.getId() + ")";
+    projectInfoCell.setCellValue(projectInfo);
+
     CellStyle projectInfoStyle = workbook.createCellStyle();
     Font projectInfoFont = workbook.createFont();
     projectInfoFont.setBold(true);
@@ -179,12 +187,32 @@ public class ExportExcel {
     projectInfoStyle.setFont(projectInfoFont);
     projectInfoCell.setCellStyle(projectInfoStyle);
 
+    // 專案成員資訊行
+    Row membersInfoRow = sheet.createRow(1);
+    Cell membersInfoCell = membersInfoRow.createCell(0);
+    String membersPrefix = "zh".equals(currentLang) ? "專案成員: " : "Project Members: ";
+    String membersText = membersPrefix;
+    if (project.getMemberNames() != null && !project.getMemberNames().isEmpty()) {
+      membersText += String.join(", ", project.getMemberNames());
+    } else {
+      membersText += "zh".equals(currentLang) ? "無成員" : "No Members";
+    }
+    membersInfoCell.setCellValue(membersText);
+    membersInfoCell.setCellStyle(projectInfoStyle);
+
     // 空白行
-    sheet.createRow(1);
+    sheet.createRow(2);
 
     // 標題行
-    Row headerRow = sheet.createRow(2);
-    String[] headers = {"議題ID", "主旨", "概述", "開始時間", "結束時間", "狀態", "被指派者"};
+    Row headerRow = sheet.createRow(3);
+    String[] headers;
+    if ("zh".equals(currentLang)) {
+      headers = new String[]{"議題ID", "主旨", "概述", "開始時間", "結束時間", "狀態", "被指派者"};
+    } else {
+      headers = new String[]{"Issue ID", "Subject", "Summary", "Start Time", "End Time", "Status",
+          "Assignee"};
+    }
+
     for (int i = 0; i < headers.length; i++) {
       Cell cell = headerRow.createCell(i);
       cell.setCellValue(headers[i]);
@@ -199,7 +227,7 @@ public class ExportExcel {
 
     // 填入議題資料
     for (int i = 0; i < issues.size(); i++) {
-      Row row = sheet.createRow(i + 3);
+      Row row = sheet.createRow(i + 4);
       Issue issue = issues.get(i);
 
       Cell cell0 = row.createCell(0);
@@ -237,15 +265,30 @@ public class ExportExcel {
     }
   }
 
-  // 主要匯出方法
-  public void exportToExcel(String fileName) {
+  /**
+   * 匯出用戶參與的專案
+   */
+  public void exportUserProjectsToExcel(String fileName) {
     try {
-      // 獲取資料
-      List<Project> projects = getAllProjects();
+      // 獲取用戶參與的專案
+      List<Project> projects = getAllUserProjects();
       if (projects.isEmpty()) {
-        Toast.makeText(this.context, "沒有專案資料可以匯出", Toast.LENGTH_LONG).show();
+        showToast(context.getString(R.string.excel_no_projects_to_export));
+        return;
       }
 
+      exportProjectsToExcel(projects, fileName, context.getString(R.string.excel_user_projects));
+
+    } catch (Exception e) {
+      showToast(context.getString(R.string.excel_export_unexpected_error, e.getMessage()));
+    }
+  }
+
+  /**
+   * 通用的專案匯出方法
+   */
+  private void exportProjectsToExcel(List<Project> projects, String fileName, String description) {
+    try {
       // 建立Excel工作簿
       Workbook workbook = new XSSFWorkbook();
 
@@ -266,14 +309,37 @@ public class ExportExcel {
       // 關閉資源
       outputStream.close();
       workbook.close();
-      Toast.makeText(this.context, "Excel檔案匯出成功: " + file.getAbsolutePath(),
-          Toast.LENGTH_LONG).show();
+
+      showToast(
+          context.getString(R.string.excel_export_success, description, file.getAbsolutePath()));
 
     } catch (IOException e) {
-      Toast.makeText(this.context, "匯出Excel時發生錯誤" + e, Toast.LENGTH_SHORT).show();
+      showToast(context.getString(R.string.excel_export_io_error, e.getMessage()));
     } catch (Exception e) {
-      Toast.makeText(this.context, "匯出過程中發生未預期的錯誤" + e, Toast.LENGTH_SHORT).show();
+      showToast(context.getString(R.string.excel_export_unexpected_error, e.getMessage()));
     }
   }
 
+  /**
+   * 主要匯出方法（匯出用戶參與的專案）
+   */
+  public void exportToExcel(String fileName) {
+    exportUserProjectsToExcel(fileName);
+  }
+
+  /**
+   * 顯示 Toast 訊息
+   */
+  private void showToast(String message) {
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+  }
+
+  /**
+   * 清理資源
+   */
+  public void cleanup() {
+    if (db != null && db.isOpen()) {
+      db.close();
+    }
+  }
 }

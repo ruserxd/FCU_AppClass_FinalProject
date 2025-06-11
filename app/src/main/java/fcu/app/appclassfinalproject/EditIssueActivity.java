@@ -20,7 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.helper.SqlDataBaseHelper;
 
 public class EditIssueActivity extends AppCompatActivity {
 

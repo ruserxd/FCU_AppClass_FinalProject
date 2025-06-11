@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import fcu.app.appclassfinalproject.adapter.IssueMonthAdapter;
 import fcu.app.appclassfinalproject.adapter.IssueNameAdapter;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.helper.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.IssueMonth;
 import fcu.app.appclassfinalproject.model.IssueName;
 import java.text.SimpleDateFormat;

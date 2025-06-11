@@ -8,7 +8,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.database.DatabaseUtils;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
@@ -29,7 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import fcu.app.appclassfinalproject.ExportExcel;
 import fcu.app.appclassfinalproject.LoginActivity;
 import fcu.app.appclassfinalproject.R;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.helper.SqlDataBaseHelper;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -192,25 +192,49 @@ public class SettingsFragment extends Fragment {
     }, 500);
   }
 
+  /**
+   * 獲取當前用戶參與的專案數量（新版本）
+   */
   private String getCurrentProjectCount() {
     int userId = getSharedPrefs().getInt("user_id", -1);
-    long count = 0;
-    try {
-      SqlDataBaseHelper dbHelper = new SqlDataBaseHelper(getContext());
-      db = dbHelper.getReadableDatabase();
+    int count = 0;
 
-      if (db != null && userId != -1) {
-        count = DatabaseUtils.queryNumEntries(db, "Projects", "manager_id = ?",
-            new String[]{String.valueOf(userId)});
+    if (userId == -1) {
+      Log.w(TAG, "User ID not found");
+      return "0";
+    }
+
+    SqlDataBaseHelper dbHelper = null;
+    SQLiteDatabase database = null;
+    Cursor cursor = null;
+
+    try {
+      dbHelper = new SqlDataBaseHelper(getContext());
+      database = dbHelper.getReadableDatabase();
+
+      if (database != null) {
+        // 查詢用戶參與的專案數量（通過 UserProject 表）
+        String query = "SELECT COUNT(*) FROM UserProject WHERE user_id = ?";
+        cursor = database.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+          count = cursor.getInt(0);
+        }
       }
-      Log.i("SettingsFragment", "查詢用戶 ID " + userId + " 有多少 project : " + count);
+
+      Log.i(TAG, "查詢用戶 ID " + userId + " 參與的專案數量: " + count);
     } catch (Exception e) {
-      Log.e("SettingsFragment", getString(R.string.project_count_query_failed, e.getMessage()));
+      Log.e(TAG, "查詢專案數量失敗: " + e.getMessage());
+      showToast(getString(R.string.project_count_query_failed, e.getMessage()));
     } finally {
-      if (db != null) {
-        db.close();
+      if (cursor != null) {
+        cursor.close();
+      }
+      if (database != null) {
+        database.close();
       }
     }
+
     return String.valueOf(count);
   }
 
@@ -247,7 +271,11 @@ public class SettingsFragment extends Fragment {
           }
         })
         .thenAccept(this::saveReposToDatabase)
-        .thenRun(() -> showToast(getString(R.string.github_import_success)))
+        .thenRun(() -> {
+          showToast(getString(R.string.github_import_success));
+          // 更新專案計數
+          updateProjectCount();
+        })
         .exceptionally(throwable -> {
           showToast(getString(R.string.github_import_error, throwable.getMessage()));
           return null;
@@ -270,32 +298,97 @@ public class SettingsFragment extends Fragment {
     return new JSONArray(json.toString());
   }
 
-  // 將 user 的 GitHub 資訊存入 db
+  /**
+   * 將 GitHub 專案存入資料庫（新版本 - 使用簡化結構）
+   */
   private void saveReposToDatabase(JSONArray repos) {
     try {
       int userId = requireContext().getSharedPreferences("FCUPrefs", MODE_PRIVATE)
           .getInt("user_id", 0);
 
-      for (int i = 0; i < repos.length(); i++) {
-        String repoName = repos.getJSONObject(i).getString("name");
-
-        // 新增專案
-        ContentValues project = new ContentValues();
-        project.put("name", repoName);
-        project.put("summary", "");
-        project.put("manager_id", userId);  
-        long projectId = db.insert("Projects", null, project);
-
-        if (projectId != -1) {
-          ContentValues relation = new ContentValues();
-          relation.put("user_id", userId);
-          relation.put("project_id", projectId);
-          db.insert("UserProject", null, relation);
-        }
+      if (userId == 0) {
+        Log.e(TAG, "User ID not found, cannot import GitHub repos");
+        return;
       }
+
+      int importedCount = 0;
+      db.beginTransaction();
+
+      try {
+        for (int i = 0; i < repos.length(); i++) {
+          String repoName = repos.getJSONObject(i).getString("name");
+          String description = repos.getJSONObject(i).optString("description", "");
+
+          // 檢查專案名稱是否已存在
+          Cursor existingProject = db.rawQuery(
+              "SELECT id FROM Projects WHERE name = ?",
+              new String[]{repoName}
+          );
+
+          if (existingProject.moveToFirst()) {
+            // 專案已存在，檢查用戶是否已是成員
+            int existingProjectId = existingProject.getInt(0);
+            existingProject.close();
+
+            Cursor existingMember = db.rawQuery(
+                "SELECT 1 FROM UserProject WHERE user_id = ? AND project_id = ?",
+                new String[]{String.valueOf(userId), String.valueOf(existingProjectId)}
+            );
+
+            if (!existingMember.moveToFirst()) {
+              // 用戶不是成員，加入專案
+              ContentValues relation = new ContentValues();
+              relation.put("user_id", userId);
+              relation.put("project_id", existingProjectId);
+              db.insert("UserProject", null, relation);
+              importedCount++;
+              Log.d(TAG, "User added to existing project: " + repoName);
+            }
+            existingMember.close();
+          } else {
+            existingProject.close();
+
+            // 新增專案（簡化版本：無 manager_id）
+            ContentValues project = new ContentValues();
+            project.put("name", repoName);
+            project.put("summary", description.isEmpty() ? "Imported from GitHub" : description);
+            long projectId = db.insert("Projects", null, project);
+
+            if (projectId != -1) {
+              // 將用戶加入專案
+              ContentValues relation = new ContentValues();
+              relation.put("user_id", userId);
+              relation.put("project_id", projectId);
+              db.insert("UserProject", null, relation);
+              importedCount++;
+              Log.d(TAG, "New project created and user added: " + repoName);
+            }
+          }
+        }
+
+        db.setTransactionSuccessful();
+        Log.d(TAG, "GitHub import completed. Total imported/joined: " + importedCount);
+
+      } finally {
+        db.endTransaction();
+      }
+
     } catch (Exception e) {
+      Log.e(TAG, "Error saving GitHub repos: " + e.getMessage());
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * 更新專案計數顯示
+   */
+  private void updateProjectCount() {
+    requireActivity().runOnUiThread(() -> {
+      if (btnProjectNumber != null) {
+        btnProjectNumber.setText(
+            getString(R.string.setting_countporject, getCurrentProjectCount()));
+      }
+    });
   }
 
   // 顯示 Toast 訊息
@@ -405,7 +498,9 @@ public class SettingsFragment extends Fragment {
         });
   }
 
-  // 刪除本地用戶資料
+  /**
+   * 刪除本地用戶資料（更新版本 - 適應新資料庫結構）
+   */
   private void deleteLocalUserData() {
     int userId = getSharedPrefs().getInt("user_id", -1);
     if (userId == -1) {
@@ -421,15 +516,29 @@ public class SettingsFragment extends Fragment {
       database = dbHelper.getWritableDatabase();
       database.beginTransaction();
 
+      // 刪除使用者與議題的關聯
+      String deleteUserIssueQuery = "DELETE FROM UserIssue WHERE user_id = ?";
+      database.execSQL(deleteUserIssueQuery, new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶議題關聯");
+
+      // 刪除使用者參與的專案中的議題（如果用戶是唯一成員）
+      String deleteIssuesQuery = "DELETE FROM Issues WHERE project_id IN " +
+          "(SELECT project_id FROM UserProject WHERE user_id = ? " +
+          "GROUP BY project_id HAVING COUNT(*) = 1)";
+      database.execSQL(deleteIssuesQuery, new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶唯一參與專案的議題");
+
+      // 刪除使用者唯一參與的專案
+      String deleteProjectsQuery = "DELETE FROM Projects WHERE id IN " +
+          "(SELECT project_id FROM UserProject WHERE user_id = ? " +
+          "GROUP BY project_id HAVING COUNT(*) = 1)";
+      database.execSQL(deleteProjectsQuery, new String[]{String.valueOf(userId)});
+      Log.d(TAG, "刪除用戶唯一參與的專案");
+
       // 刪除使用者與專案關聯
       int deletedUserProjects = database.delete("UserProject", "user_id = ?",
           new String[]{String.valueOf(userId)});
       Log.d(TAG, "刪除用戶專案關聯：" + deletedUserProjects + " 筆");
-
-      // 刪除使用者管理的專案
-      int deletedProjects = database.delete("Projects", "manager_id = ?",
-          new String[]{String.valueOf(userId)});
-      Log.d(TAG, "刪除用戶管理的專案：" + deletedProjects + " 筆");
 
       // 刪除使用者的好友關係
       int deletedFriends1 = database.delete("Friends", "user_id = ?",

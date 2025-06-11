@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import fcu.app.appclassfinalproject.GanttActivity;
 import fcu.app.appclassfinalproject.R;
 import fcu.app.appclassfinalproject.adapter.IssueAdapter;
-import fcu.app.appclassfinalproject.dataBase.SqlDataBaseHelper;
+import fcu.app.appclassfinalproject.helper.SqlDataBaseHelper;
 import fcu.app.appclassfinalproject.model.Issue;
 import java.util.ArrayList;
 import java.util.List;

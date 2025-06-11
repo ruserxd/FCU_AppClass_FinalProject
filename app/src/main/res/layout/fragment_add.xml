@@ -1,131 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_light"
-    tools:context=".main_fragments.AddFragment">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/background_light"
+  tools:context=".main_fragments.AddFragment">
 
   <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scrollbars="none">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="20dp">
 
       <!-- 頁面標題 -->
       <TextView
-          android:id="@+id/textView"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="16dp"
-          android:layout_marginBottom="32dp"
-          android:gravity="center"
-          android:text="@string/AddProject_Title"
-          android:textColor="@color/text_primary"
-          android:textSize="28sp"
-          android:textStyle="bold" />
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="@string/AddProject_Title"
+        android:textColor="@color/text_primary"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
       <!-- 表單卡片 -->
       <com.google.android.material.card.MaterialCardView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="24dp"
-          app:cardCornerRadius="16dp"
-          app:cardElevation="4dp"
-          app:cardBackgroundColor="@color/surface_color">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/surface_color">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:padding="24dp">
 
           <!-- 專案名稱區塊 -->
           <TextView
-              android:id="@+id/textView2"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="8dp"
-              android:text="@string/AddProject_Name"
-              android:textColor="@color/text_primary"
-              android:textSize="16sp"
-              android:textStyle="bold" />
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddProject_Name"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
           <com.google.android.material.textfield.TextInputLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="24dp"
-              app:boxCornerRadiusBottomEnd="12dp"
-              app:boxCornerRadiusBottomStart="12dp"
-              app:boxCornerRadiusTopEnd="12dp"
-              app:boxCornerRadiusTopStart="12dp"
-              app:boxStrokeColor="@color/primary_color"
-              style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_ProjectName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/AddProject_enterName"
-                android:inputType="text"
-                android:textSize="16sp" />
+              android:id="@+id/et_ProjectName"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/AddProject_enterName"
+              android:inputType="text"
+              android:textSize="16sp" />
 
           </com.google.android.material.textfield.TextInputLayout>
 
           <!-- 專案摘要區塊 -->
           <TextView
-              android:id="@+id/textView3"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="8dp"
-              android:text="@string/AddProject_Summary"
-              android:textColor="@color/text_primary"
-              android:textSize="16sp"
-              android:textStyle="bold" />
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/AddProject_Summary"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
           <com.google.android.material.textfield.TextInputLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="24dp"
-              app:boxCornerRadiusBottomEnd="12dp"
-              app:boxCornerRadiusBottomStart="12dp"
-              app:boxCornerRadiusTopEnd="12dp"
-              app:boxCornerRadiusTopStart="12dp"
-              app:boxStrokeColor="@color/primary_color"
-              style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary_color"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_ProjectSummary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/AddProject_enterSummary"
-                android:inputType="textMultiLine"
-                android:maxLines="3"
-                android:textSize="16sp" />
+              android:id="@+id/et_ProjectSummary"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/AddProject_enterSummary"
+              android:inputType="textMultiLine"
+              android:maxLines="3"
+              android:textSize="16sp" />
 
           </com.google.android.material.textfield.TextInputLayout>
 
-          <!-- 專案經理區塊 -->
+          <!-- 專案成員區塊 -->
           <TextView
-              android:id="@+id/textView4"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="8dp"
-              android:text="@string/AddProject_Manager"
-              android:textColor="@color/text_primary"
-              android:textSize="16sp"
-              android:textStyle="bold" />
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/project_members"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-          <com.google.android.material.textfield.TextInputLayout
-              android:layout_width="match_parent"
+          <!-- 成員選擇輸入框 -->
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:layout_marginBottom="32dp"
+              android:layout_weight="1"
+              android:layout_marginEnd="8dp"
               app:boxCornerRadiusBottomEnd="12dp"
               app:boxCornerRadiusBottomStart="12dp"
               app:boxCornerRadiusTopEnd="12dp"
@@ -134,41 +142,62 @@
               app:endIconMode="dropdown_menu"
               style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-            <AutoCompleteTextView
+              <AutoCompleteTextView
                 android:id="@+id/actv_PM"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/AddProject_enterManager"
+                android:hint="@string/select_member"
                 android:inputType="none"
                 android:textSize="16sp" />
 
-          </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-          <!-- 提交按鈕 -->
-          <com.google.android.material.button.MaterialButton
-              android:id="@+id/btn_addProject"
-              android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+              android:id="@+id/btn_addManager"
+              android:layout_width="wrap_content"
               android:layout_height="56dp"
-              android:text="@string/AddProject_btn"
+              android:text="@string/add_member_button"
               android:textColor="#FFFFFF"
-              android:textSize="16sp"
-              android:textStyle="bold"
+              android:textSize="14sp"
               app:backgroundTint="@color/primary_color"
               app:cornerRadius="12dp"
               style="@style/Widget.Material3.Button" />
+
+          </LinearLayout>
+
+          <!-- 已選擇的成員列表 -->
+          <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_selectedManagers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:nestedScrollingEnabled="false" />
+
+          <!-- 提交按鈕 -->
+          <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_addProject"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/AddProject_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/primary_color"
+            app:cornerRadius="12dp"
+            style="@style/Widget.Material3.Button" />
 
         </LinearLayout>
       </com.google.android.material.card.MaterialCardView>
 
       <!-- 底部說明文字 -->
       <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="16dp"
-          android:gravity="center"
-          android:text="@string/AddProject_hint"
-          android:textColor="@color/text_secondary"
-          android:textSize="14sp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/AddProject_hint"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
 
     </LinearLayout>
   </ScrollView>
